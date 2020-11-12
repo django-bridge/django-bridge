@@ -1,0 +1,12 @@
+*.pyc
+/build
+/dist
+/wagtail_shell.egg-info
+/.coverage
+/htmlcov
+/.tox
+/venv
+/.vscode
+/site
+/test_wagtail_shell.db
+/node_modules
