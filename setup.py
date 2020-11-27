@@ -14,7 +14,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 setup(
     name="wagtail-shell",
     version=__version__,
-    description="New frontend for Wagtail CMS admin powered by React",
+    description="JavaScript powered frontend for Wagtail",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author="Karl Hobley",

@@ -10,3 +10,5 @@
 /site
 /test_wagtail_shell.db
 /node_modules
+/test-static
+/test-media
