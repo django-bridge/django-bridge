@@ -1,0 +1,18 @@
+{% load wagtailadmin_tags wagtailcore_tags i18n wagtailshell_tags %}
+
+<aside id="wagtailshell-sidebar" class="nav-wrapper" data-props="{% shell_props %}" data-nav-primary>
+    <div class="inner">
+        <a href="{% url 'wagtailadmin_home' %}" class="logo" aria-label="{% trans 'Dashboard' %}">
+            {% block branding_logo %}
+                {# Mobile-only logo: #}
+                <div class="wagtail-logo-container__mobile u-hidden@sm">
+                    <img class="wagtail-logo wagtail-logo__full" src="{% versioned_static 'wagtailadmin/images/wagtail-logo.svg' %}" alt="" width="80" />
+                </div>
+
+                {# Desktop logo (animated): #}
+                {% include "wagtailadmin/shared/animated_logo.html" %}
+            {% endblock %}
+            <span class="u-hidden@sm">{% trans "Dashboard" %}</span>
+        </a>
+    </div>
+</aside>

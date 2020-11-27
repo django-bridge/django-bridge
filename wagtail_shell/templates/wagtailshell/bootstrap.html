@@ -1,0 +1,11 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load wagtailadmin_tags wagtailcore_tags i18n wagtailshell_tags %}
+
+{% block furniture %}
+    <div id="wagtailshell-root" data-initial-response="{{ data }}">
+        {% include 'wagtailshell/sidebar.html' %}
+    </div>
+    <script>
+        window.csrfToken = '{{ csrf_token|escapejs }}';
+    </script>
+{% endblock %}
