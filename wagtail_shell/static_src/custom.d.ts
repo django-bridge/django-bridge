@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export {};
 
 // Allows SVG files to be imported and used in TypeScript
@@ -9,6 +11,12 @@ declare module '*.svg' {
 // Declare globals provided by Django's JavaScript Catalog
 // For more information, see: https://docs.djangoproject.com/en/3.1/topics/i18n/translation/#module-django.views.i18n
 declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION__: any;
+        registerShellView(name: string, render: (data: any, csrfToken: string) => ReactNode): void;
+        csrfToken: string;
+    }
+
     // Wagtail globals
 
     interface WagtailConfig {

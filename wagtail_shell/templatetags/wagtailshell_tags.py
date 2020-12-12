@@ -10,6 +10,8 @@ from wagtail.admin.search import admin_search_areas
 from wagtail.admin.staticfiles import versioned_static
 from wagtail.admin.templatetags.wagtailadmin_tags import avatar_url
 
+from wagtail_shell.menu import serialize_admin_menu
+
 
 register = template.Library()
 
@@ -47,7 +49,7 @@ def shell_props(context):
         },
         'searchUrl': search_area.url,
         'explorerStartPageId': explorer_start_page.id if explorer_start_page else None,
-        'menuItems': admin_menu.as_serializable(request),
+        'menuItems': serialize_admin_menu(request, admin_menu),
         'user': {
             'name': request.user.first_name or request.user.get_username(),
             'avatarUrl': avatar_url(request.user, size=50),
