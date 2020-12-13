@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import * as mixins from './common/mixins';
+import {getIcon} from './common/iconfont';
 
 const SearchForm = styled.form`
     position: relative;
@@ -65,7 +66,7 @@ const SearchForm = styled.form`
             font-family: wagtail;
             font-weight: 200;
             text-transform: none;
-            content: map-get($icons, 'search');
+            content: '${getIcon('search') || ""}';
             display: block;
             height: 100%;
             line-height: 3.3em;
