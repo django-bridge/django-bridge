@@ -57,13 +57,23 @@ const SidebarWrapper = styled.aside`
     `)}
 `;
 
+const BrowserWrapper = styled.div`
+    ${smBreakpoint(css`
+        position: absolute;
+        width: calc(100% - 200px);  // 200px = $menu-width;
+        height: 100%
+    `)}
+`;
+
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
     return (
         <>
             <SidebarWrapper>
                 <Sidebar {...props} navigate={props.navigationController.navigate} />
             </SidebarWrapper>
-            <Browser navigationController={props.navigationController} />
+            <BrowserWrapper>
+                <Browser navigationController={props.navigationController} />
+            </BrowserWrapper>
         </>
     );
 }
