@@ -82,38 +82,26 @@ export function initShell() {
     const shellElement = document.getElementById('wagtailshell-root');
     const sidebarElement = document.getElementById('wagtailshell-sidebar');
 
-    if (shellElement instanceof HTMLElement && sidebarElement instanceof HTMLElement && sidebarElement.dataset.props) {
-        if (shellElement.dataset.initialResponse) {
-            const navController = new NavigationController(JSON.parse(shellElement.dataset.initialResponse));
+    if (shellElement instanceof HTMLElement && sidebarElement instanceof HTMLElement && sidebarElement.dataset.props && shellElement.dataset.initialResponse) {
+        const navController = new NavigationController(JSON.parse(shellElement.dataset.initialResponse));
 
-            // Add listener for popState
-            // This event is fired when the user hits the back/forward links in their browser
-            window.addEventListener('popstate', () => {
-                navController.navigate(document.location.pathname, false);
-            });
+        // Add listener for popState
+        // This event is fired when the user hits the back/forward links in their browser
+        window.addEventListener('popstate', () => {
+            navController.navigate(document.location.pathname, false);
+        });
 
-            const props = JSON.parse(sidebarElement.dataset.props);
+        const props = JSON.parse(sidebarElement.dataset.props);
 
-            const renderShell = () => {
-                ReactDOM.render(
-                    <Shell {...props} navigationController={navController} />,
-                    shellElement
-                );
-            };
-
-            renderShell();
-            navController.addNavigationListener(renderShell);
-        } else {
-            // Legacy mode
-            const navigate = (url: string) => {
-                window.location.href = url;
-            };
-
+        const renderShell = () => {
             ReactDOM.render(
-                <Sidebar {...JSON.parse(sidebarElement.dataset.props)} navigate={navigate} />,
-                sidebarElement
+                <Shell {...props} navigationController={navController} />,
+                shellElement
             );
-        }
+        };
+
+        renderShell();
+        navController.addNavigationListener(renderShell);
     }
 }
 

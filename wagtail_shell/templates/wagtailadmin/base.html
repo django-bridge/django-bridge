@@ -4,31 +4,22 @@
 {% block extra_css %}
     {{ block.super }}
 
-    {# if we're going to render the content in an iframe, remove left padding #}
-    {% shell_iframe_safe as iframe_safe %}
-    {% if iframe_safe %}
-        <style>
-            body.explorer-open .wrapper {
-                transform: none;
-            }
+    {# Remove left padding since Wagtail shell always renders in an iframe #}
+    <style>
+        body.explorer-open .wrapper {
+            transform: none;
+        }
 
-            .wrapper, body.nav-open .wrapper {
-                padding-left: 0;
-            }
-        </style>
-    {% endif %}
+        .wrapper, body.nav-open .wrapper {
+            padding-left: 0;
+        }
+    </style>
 {% endblock %}
 
 {% block furniture %}
     {% shell_template_rendered %}
 
     <div id="wagtailshell-root">
-        {# if it's not safe to render this view in an iframe, render the legacy menu in the response #}
-        {% shell_iframe_safe as iframe_safe %}
-        {% if not iframe_safe %}
-            {% include 'wagtailshell/sidebar.html' %}
-        {% endif %}
-
         <main class="content-wrapper" role="main" id="main">
             <div class="content">
                 {# Always show messages div so it can be appended to by JS #}
