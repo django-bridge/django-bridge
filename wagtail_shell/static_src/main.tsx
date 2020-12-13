@@ -32,7 +32,9 @@ export interface ShellProps {
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
     return (
         <>
-            <Sidebar {...props} navigate={props.navigationController.navigate} />
+            <aside className="nav-wrapper" data-nav-primary={true}>
+                <Sidebar {...props} navigate={props.navigationController.navigate} />
+            </aside>
             <Browser navigationController={props.navigationController} />
         </>
     );

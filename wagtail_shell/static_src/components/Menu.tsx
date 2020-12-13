@@ -1,7 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import Button from './common/Button';
 import Icon from './common/Icon';
+import * as mixins from './common/mixins';
+import * as breakpoints from './common/breakpoints';
 import { ExplorerContext, ShellProps } from '../main';
+
+const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 interface MenuItemCommon {
     name: string;
@@ -271,6 +277,343 @@ function menuReducer(state: MenuData, action: MenuAction) {
     return newState;
 }
 
+const MainNav = styled.nav`
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    li {
+        ${mixins.transition('border-color 0.2s ease')}
+        position: relative;
+    }
+
+    a {
+        ${mixins.transition('border-color 0.2s ease')}
+        -webkit-font-smoothing: auto;
+        text-decoration: none;
+        display: block;
+        color: #ccc;  // $color-menu-text;
+        padding: 0.8em 1.7em;
+        font-size: 1em;
+        font-weight: normal;
+        // Note, font-weights lower than normal,
+        // and font-size smaller than 1em (80% ~= 12.8px),
+        // makes the strokes thinner than 1px on non-retina screens
+        // making the text semi-transparent
+        &:hover,
+        &:focus {
+            background-color: rgba(100, 100, 100, 0.15);  // $nav-item-hover-bg;
+            color: #fff;  // $color-white
+            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .menu-item a {
+        position: relative;
+        white-space: nowrap;
+        border-left: 3px solid transparent;
+
+        &:before {
+            font-size: 1rem;
+            vertical-align: -15%;
+            margin-right: 0.5em;
+        }
+
+        // only really used for spinners and settings menu
+        &:after {
+            font-size: 1.5em;
+            margin: 0;
+            position: absolute;
+            right: 0.5em;
+            top: 0.5em;
+            margin-top: 0;
+        }
+
+    }
+
+    .menu-active {
+        background: #1a1a1a;  // $nav-item-active-bg;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+
+        > a {
+            border-left-color: #f37e77;  // $color-salmon;
+            color: #fff;  // $color-white
+        }
+    }
+
+    .footer-submenu {
+        a {
+            border-left: 3px solid transparent;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &:before {
+                font-size: 1rem;
+                margin-right: 0.5em;
+                vertical-align: -10%;
+            }
+        }
+    }
+
+    .account {
+        display: none;
+    }
+
+    *:focus {
+        ${mixins.showFocusOutlineInside()}
+    }
+
+    .icon--menuitem {
+        width: 1.25em;
+        height: 1.25em;
+        margin-right: 0.5em;
+        vertical-align: text-top;
+    }
+
+    .icon--submenu-trigger {
+        // The menus are collapsible on desktop only.
+        display: none;
+
+
+        ${smBreakpoint(`
+            display: block;
+            width: 1.5em;
+            height: 1.5em;
+            position: absolute;
+            top: 0.8125em;
+            right: 0.5em;
+            ${mixins.transition('transform 0.3s ease')}
+
+            .menu-item.submenu-active & {
+                transform-origin: 50% 50%;
+                transform: rotate(180deg);
+            }
+        `)}
+    }
+
+    .icon--submenu-header {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        margin: 0 auto 0.8em;
+        opacity: 0.15;
+    }
+
+    .nav-submenu {
+        background: #262626;  // $nav-submenu-bg;
+
+        h2 {
+            display: none;
+        }
+
+        .menu-item a {
+            white-space: normal;
+            padding: 0.9em 1.7em 0.9em 4.5em;
+
+            &:before {
+                margin-left: -1.5em;
+            }
+
+            .icon--menuitem {
+                margin-left: -1.75em;
+            }
+
+            &:hover {
+                background-color: rgba(100, 100, 100, 0.2);
+            }
+        }
+
+        li {
+            border: 0;
+        }
+
+        &__footer {
+            margin: 0;
+            padding: 0.9em 1.7em;
+            text-align: center;
+            color: #ccc;  // $color-menu-text;
+        }
+    }
+
+    ${smBreakpoint(`
+        overflow: auto;
+        margin-bottom: 50px;  // $nav-footer-closed-height;
+        ${mixins.transition('margin-bottom 0.2s ease')}
+
+        .footer {
+            position: fixed;
+            width: 200px;  // $menu-width;
+            bottom: 0;
+            background-color: #262626;  // $nav-footer-submenu-bg;
+        }
+
+        .footer-submenu {
+            ${mixins.transition('max-height 0.2s ease')}
+
+            max-height: 0;
+        }
+
+        &--open-footer {
+            margin-bottom: 127px;  // $nav-footer-open-height;
+
+            .footer-submenu {
+                max-height: 77px;  // $nav-footer-submenu-height;
+            }
+        }
+
+        .account {
+            ${mixins.clearfix()}
+            background: #1a1a1a;  // $nav-footer-account-bg;
+            color: #ccc;  // $color-menu-text;
+            text-transform: uppercase;
+            display: block;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(100, 100, 100, 0.15);
+                color: #fff;  // $color-white
+                text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+            }
+
+            .avatar {
+                float: left;
+                margin-right: 0.9em;
+
+                &:before {
+                    color: inherit;
+                    border-color: inherit;
+                }
+            }
+
+            em {
+                box-sizing: border-box;
+                padding-right: 1.8em;
+                margin-top: 1.2em;
+                font-style: normal;
+                font-weight: 700;
+                width: 110px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                float: left;
+
+                &:after {
+                    font-size: 1.5em;
+                    position: absolute;
+                    right: 0.25em;
+                }
+            }
+        }
+    }
+
+    .nav-submenu {
+        transform: translate3d(0, 0, 0);
+        position: fixed;
+        height: 100vh;
+        width: 0;
+        padding: 0;
+        top: 0;
+        left: 200px;  // $menu-width;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        h2,
+        &__list {
+            width: 200px;  // $menu-width;
+        }
+
+        h2 {
+            display: block;
+            padding: 0.2em 0;
+            font-size: 1.2em;
+            font-weight: 500;
+            text-transform: none;
+            text-align: center;
+            color: #ccc;  // $color-menu-text;
+
+            &:before {
+                font-size: 4em;
+                display: block;
+                text-align: center;
+                margin: 0 0 0.2em;
+                width: 100%;
+                opacity: 0.15;
+            }
+        }
+
+        &__list {
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        &__footer {
+            line-height: 50px;  // $nav-footer-closed-height;
+            padding: 0;
+        }
+
+    }
+
+    li.submenu-active {
+        background: #262626;  // $nav-submenu-bg;
+
+        > a {
+            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        .nav-submenu {
+            ${mixins.transition('width 0.2s ease')}
+
+            box-shadow: 2px 0 2px rgba(0, 0, 0, 0.35);
+            width: 200px;  // $menu-width;
+
+            a {
+                padding-left: 3.5em;
+            }
+        }
+    `)}
+
+    ///////////////
+    // Z-indexes //
+    ///////////////
+
+    // Avoiding a stacking context for the content-wrapper saves us a world
+    // of pain when dealing with overlays that are appended to the end of
+    // <body>, eg Hallo & calendars. As long as content-wrapper remains floated,
+    // the z-index shouldn't be required.
+
+    .nav-submenu {
+        z-index: 6;
+    }
+
+    footer {
+        z-index: 100;
+    }
+
+    ${smBreakpoint(`
+        .footer {
+            z-index: 2;
+        }
+
+        .nav-submenu {
+            z-index: 500;
+        }
+
+        // footer is z-index: 100, so ensure the navigation sits on top of it.
+        .submenu-active {
+            z-index: 200;
+        }
+    `)}
+`;
+
 interface MenuProps {
     initialState: MenuData;
     user: ShellProps['user'];
@@ -293,7 +636,7 @@ export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, ac
     };
 
     return (
-        <nav className="nav-main">
+        <MainNav>
             <ul>
                 {renderMenuItems(state, dispatch, navigate)}
 
@@ -311,6 +654,6 @@ export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, ac
                     </ul>
                 </li>
             </ul>
-        </nav>
+        </MainNav>
     );
 }
