@@ -277,7 +277,11 @@ function menuReducer(state: MenuData, action: MenuAction) {
     return newState;
 }
 
-const MainNav = styled.nav`
+interface MainNavProps {
+    openFooter: boolean;
+}
+
+const MainNav = styled.nav<MainNavProps>`
     ul,
     li {
         margin: 0;
@@ -441,7 +445,8 @@ const MainNav = styled.nav`
 
     ${smBreakpoint(css`
         overflow: auto;
-        margin-bottom: 50px;  // $nav-footer-closed-height;
+        margin-bottom: ${(props: MainNavProps) => props.openFooter ? '127px' /* $nav-footer-open-height */: '50px' /* $nav-footer-closed-height */};
+
         ${mixins.transition('margin-bottom 0.2s ease')}
 
         .footer {
@@ -454,15 +459,10 @@ const MainNav = styled.nav`
         .footer-submenu {
             ${mixins.transition('max-height 0.2s ease')}
 
-            max-height: 0;
-        }
-
-        &--open-footer {
-            margin-bottom: 127px;  // $nav-footer-open-height;
-
-            .footer-submenu {
-                max-height: 77px;  // $nav-footer-submenu-height;
-            }
+            max-height: ${(props: MainNavProps) => {
+                console.log(props)
+                return props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'
+            }};
         }
 
         .account {
@@ -624,6 +624,7 @@ interface MenuProps {
 
 export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, accountUrl, logoutUrl, navigate}) => {
     const [state, dispatch] = React.useReducer(menuReducer, initialState);
+    const [accountSettingsOpen, setAccountSettingsOpen] = React.useState(false);
 
     const onClickLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (e.target instanceof HTMLAnchorElement) {
@@ -635,17 +636,22 @@ export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, ac
         }
     };
 
+    const onClickAccountSettings = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setAccountSettingsOpen(!accountSettingsOpen);
+    }
+
     return (
-        <MainNav>
+        <MainNav openFooter={accountSettingsOpen}>
             <ul>
                 {renderMenuItems(state, dispatch, navigate)}
 
-                <li className="footer" id="footer">
-                    <div className="account" id="account-settings" title={gettext('Edit your account')}>
+                <li className="footer">
+                    <div className="account" title={gettext('Edit your account')} onClick={onClickAccountSettings}>
                         <span className="avatar square avatar-on-dark">
                             <img src={user.avatarUrl} alt="" />
                         </span>
-                        <em className="icon icon-arrow-up-after">{user.name}</em>
+                        <em className={'icon ' + (accountSettingsOpen ? 'icon-arrow-down-after' : 'icon-arrow-up-after')}>{user.name}</em>
                     </div>
 
                     <ul className="footer-submenu">
