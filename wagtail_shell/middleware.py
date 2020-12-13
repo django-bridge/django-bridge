@@ -126,6 +126,10 @@ class WagtailShellMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
+        if 'wagtailshell_iframe' in request.GET:
+            response['X-Frame-Options'] = 'SAMEORIGIN'
+            return response
+
         # Attempt to convert non-shell response into a shell response
         if not isinstance(response, ShellResponse):
             response = self.convert_to_shell_response(request, response)

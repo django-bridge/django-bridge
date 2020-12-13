@@ -68,6 +68,15 @@ export const ContentWrapper: React.FunctionComponent<ContentWrapperProps> = ({vi
             }
         };
 
+        // Put the URL into an <a> tag appends netloc/scheme to URL, if needed
+        const urlAnchor = document.createElement('a');
+        urlAnchor.href = frame.url;
+
+        // Append `wagtailshell_iframe=true` GET parameter to it
+        // This makes the shell return a clean response without a menu
+        const url = new URL(urlAnchor.href);
+        url.searchParams.set('wagtailshell_iframe', 'true');
+
         return (
             <iframe onLoad={onIframeLoad} style={{
                 display: visible ? 'block' : 'none',
@@ -78,7 +87,7 @@ export const ContentWrapper: React.FunctionComponent<ContentWrapperProps> = ({vi
                 position: 'absolute',
                 top: 0,
                 left: 0,
-            }} srcDoc={frame.context.html} />
+            }} src={url.toString()} />
         );
     } else if (shellViews.has(frame.view)) {
         const viewFunc = shellViews.get(frame.view);
