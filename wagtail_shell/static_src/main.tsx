@@ -1,11 +1,15 @@
 import React, { MutableRefObject } from 'react';
 import ReactDOM from 'react-dom';
+import styled, { css } from 'styled-components';
 
 import {LogoImages} from './components/Logo';
 import {Browser} from './components/Browser';
 import {Sidebar} from './components/Sidebar';
+import * as breakpoints from './components/common/breakpoints';
 
 import {NavigationController} from './navigation';
+
+const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 // A React context to pass some data down to the ExplorerMenuItem component
 interface ExplorerContext {
@@ -29,12 +33,36 @@ export interface ShellProps {
     navigationController: NavigationController
 }
 
+const SidebarWrapper = styled.aside`
+    position: relative;
+    margin-left: -200px;  // $menu-width;
+    width: 200px;  // $menu-width;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #333;  // $nav-grey-1;
+    z-index: 2;
+
+    ${smBreakpoint(css`
+        // height and position necessary to force it to 100% height of screen (with some JS help)
+        position: absolute;
+        left: 0;
+        height: 100%;
+        margin-left: 0;
+
+        // Allows overspill of messages banner onto left menu, but also explorer
+        // to spill over main content
+        z-index: auto;
+    `)}
+`;
+
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
     return (
         <>
-            <aside className="nav-wrapper" data-nav-primary={true}>
+            <SidebarWrapper>
                 <Sidebar {...props} navigate={props.navigationController.navigate} />
-            </aside>
+            </SidebarWrapper>
             <Browser navigationController={props.navigationController} />
         </>
     );
