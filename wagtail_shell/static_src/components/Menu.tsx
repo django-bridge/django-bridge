@@ -459,10 +459,7 @@ const MainNav = styled.nav<MainNavProps>`
         .footer-submenu {
             ${mixins.transition('max-height 0.2s ease')}
 
-            max-height: ${(props: MainNavProps) => {
-                console.log(props)
-                return props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'
-            }};
+            max-height: ${(props: MainNavProps) => props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'};
         }
 
         .account {
