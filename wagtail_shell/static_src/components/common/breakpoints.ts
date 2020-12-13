@@ -1,5 +1,7 @@
 // Replicates Wagtail's builtin SCSS breakpoint mixins
 
+import { css } from "styled-components";
+
 // screen breakpoints
 const breakpoints: {[name: string]: string} = {
     xs: '0',
@@ -39,11 +41,11 @@ export function breakpointMax(name: string): string | null {
 }
 
 export function mediaBreakpointUp(name: string) {
-    return (wrappedCss: string) => {
+    return (wrappedCss: any) => {
         const min = breakpointMin(name);
 
         if (min) {
-            return `
+            return css`
                 @media screen and (min-width: ${min}) {
                     ${wrappedCss}
                 }
@@ -55,11 +57,11 @@ export function mediaBreakpointUp(name: string) {
 }
 
 export function mediaBreakpointDown() {
-    return (wrappedCss: string) => {
+    return (wrappedCss: any) => {
         const max = breakpointMax(name);
 
         if (max) {
-            return `
+            return css`
                 @media screen and (max-width: ${max}) {
                     ${wrappedCss}
                 }

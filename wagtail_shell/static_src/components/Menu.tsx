@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Button from './common/Button';
 import Icon from './common/Icon';
@@ -379,7 +379,7 @@ const MainNav = styled.nav`
         display: none;
 
 
-        ${smBreakpoint(`
+        ${smBreakpoint(css`
             display: block;
             width: 1.5em;
             height: 1.5em;
@@ -439,7 +439,7 @@ const MainNav = styled.nav`
         }
     }
 
-    ${smBreakpoint(`
+    ${smBreakpoint(css`
         overflow: auto;
         margin-bottom: 50px;  // $nav-footer-closed-height;
         ${mixins.transition('margin-bottom 0.2s ease')}
@@ -598,7 +598,7 @@ const MainNav = styled.nav`
         z-index: 100;
     }
 
-    ${smBreakpoint(`
+    ${smBreakpoint(css`
         .footer {
             z-index: 2;
         }

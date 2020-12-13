@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { ExplorerContext, ShellProps } from '../main';
 import * as breakpoints from './common/breakpoints';
@@ -15,7 +15,7 @@ const InnerWrapper = styled.div`
 
     background: #333;  // $nav-grey-1
 
-    ${smBreakpoint(`
+    ${smBreakpoint(css`
         // On medium, make it possible for the nav links to scroll.
         display: flex;
         flex-flow: column nowrap;
