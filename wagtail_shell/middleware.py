@@ -87,15 +87,3 @@ class WagtailShellMiddleware:
                 })
             else:
                 return response
-
-        # FIXME: Find a proper mime type parser
-        is_html = response.get('Content-Type') == 'text/html; charset=utf-8'
-
-        # The request wasn't made by the shell, but it was and rendered using
-        # Wagtail's base admin template, wrap the response with the shell's bootstrap template.
-        if is_html and getattr(request, 'shell_template_rendered', False):
-            return render(request, 'wagtailshell/bootstrap.html', {
-                'content': response.content.decode('utf-8'),
-            })
-
-        return response
