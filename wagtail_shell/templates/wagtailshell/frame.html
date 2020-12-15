@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wagtail Shell Frame</title>
+    </head>
+    <body>
+        <script>
+            window.addEventListener("message", (event) => {
+                const frame = event.data;
+
+                if (event.data.view == 'iframe') {
+                    document.open();
+                    document.write(frame.context.html);
+                    document.close();
+
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Insert a <base target="_parent"> tag into the <head> of the iframe
+                        // This makes it open all links in the main window
+                        const baseElement = document.createElement('base');
+                        baseElement.target = '_parent';
+                        document.head.appendChild(baseElement);
+
+                        // Ajaxify links
+                        Array.from(document.links).forEach(link => {
+                            // Don't ajaxify download links
+                            if (link.hasAttribute('download')) {
+                                return
+                            }
+
+                            // Get href
+                            const href = link.getAttribute('href');
+                            if (!href || href.startsWith('#')) {
+                                return;
+                            }
+
+                            link.addEventListener('click', (e) => {
+                                e.preventDefault();
+
+                                if (href.startsWith('?')) {
+                                    parent.postMessage({
+                                        id: frame.id,
+                                        type: 'navigate',
+                                        url: frame.url + href,
+                                    }, "*");
+                                } else {
+                                    parent.postMessage({
+                                        id: frame.id,
+                                        type: 'navigate',
+                                        url: href,
+                                    }, "*");
+                                }
+                            });
+                        });
+
+                        // Ajaxify 'get' forms
+                        Array.from(document.forms).forEach(form => {
+                            // Don't ajaxify POST forms
+                            if (form.method.toLowerCase() == 'post') {
+                                return;
+                            }
+
+                            // Make sure action is set to something.
+                            // If it's blank, the browser will try to post the data to 'about:srcdoc' which will result in an error.
+                            // Note: Don't use form.action here as some forms have an action field!
+                            const formAction = form.getAttribute('action');
+                            form.action = formAction || frame.url;
+                        });
+
+                        parent.postMessage({
+                            id: frame.id,
+                            type: 'load',
+                            title: document.title,
+                        }, "*");
+                    });
+                }
+            }, false);
+        </script>
+    </body>
+</html>
