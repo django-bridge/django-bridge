@@ -5,6 +5,7 @@ export interface Frame {
     url: string;
     view: string;
     context: any;
+    pushState: boolean;
 }
 
 export class NavigationController {
@@ -24,6 +25,7 @@ export class NavigationController {
                 url: window.location.pathname,
                 view: initialResponse.view,
                 context: initialResponse.context,
+                pushState: false,
             };
         }
     }
@@ -56,15 +58,12 @@ export class NavigationController {
             if (response.status == 'load-it') {
                 window.location.href = url;
             } else if (response.status == 'render') {
-                if (pushState) {
-                    history.pushState({}, "", url);
-                }
-
                 this.nextFrame = {
                     id: this.nextFrameId++,
                     url,
                     view: response.view,
                     context: response.context,
+                    pushState,
                 };
 
                 this.navigationListeners.forEach(func => func());
@@ -76,6 +75,10 @@ export class NavigationController {
         if (this.nextFrame) {
             this.currentFrame = this.nextFrame;
             this.nextFrame = null;
+
+            if (this.currentFrame.pushState) {
+                history.pushState({}, "", this.currentFrame.url);
+            }
 
             this.navigationListeners.forEach(func => func());
         }
