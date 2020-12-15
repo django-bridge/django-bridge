@@ -9,3 +9,8 @@
         window.csrfToken = '{{ csrf_token|escapejs }}';
     </script>
 {% endblock %}
+
+{% block extra_js %}
+    <script src="{% url 'wagtail_shell:javascript_catalog' %}"></script>
+    <script src="{% versioned_static 'wagtail_shell/js/wagtail-shell.js' %}"></script>
+{% endblock %}
