@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Frame } from '../navigation';
 
-interface ContentWrapperProps {
+interface FrameWrapperProps {
     visible: boolean;
     frame: Frame;
     navigate(url: string): void;
@@ -34,7 +34,7 @@ window.addEventListener('message', (event) => {
     }
 });
 
-export const ContentWrapper: React.FunctionComponent<ContentWrapperProps> = ({visible, frame, onLoad, navigate}) => {
+export const FrameWrapper: React.FunctionComponent<FrameWrapperProps> = ({visible, frame, onLoad, navigate}) => {
     const onIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
         if (e.target instanceof HTMLIFrameElement && e.target.contentWindow) {
             e.target.contentWindow.postMessage(frame, "*");

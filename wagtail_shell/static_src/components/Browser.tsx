@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { NavigationController } from "../navigation";
-import { ContentWrapper } from './ContentWrapper';
+import { FrameWrapper } from './Frame';
 
 export interface BrowserProps {
     navigationController: NavigationController;
@@ -25,7 +25,7 @@ export const Browser: React.FunctionComponent<BrowserProps> = ({navigationContro
             top: 0,
             left: 0,
         }}>
-            <ContentWrapper
+            <FrameWrapper
                 visible={true}
                 frame={currentFrame}
                 navigate={navigate}
@@ -36,7 +36,7 @@ export const Browser: React.FunctionComponent<BrowserProps> = ({navigationContro
     if (nextFrame) {
         frames.push(
             <div key={nextFrame.id}>
-                <ContentWrapper
+                <FrameWrapper
                     visible={false}
                     frame={nextFrame}
                     navigate={navigate}
