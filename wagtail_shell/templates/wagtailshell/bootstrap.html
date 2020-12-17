@@ -1,4 +1,4 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "wagtailadmin/skeleton.html" %}
 {% load wagtailadmin_tags wagtailcore_tags i18n wagtailshell_tags %}
 
 {% block furniture %}
@@ -10,7 +10,61 @@
     </script>
 {% endblock %}
 
-{% block extra_js %}
+{% block css %}
+    <link rel="stylesheet" href="{% versioned_static 'wagtailadmin/css/vendor/jquery-ui/jquery-ui-1.10.3.verdant.css' %}" />
+    <link rel="stylesheet" href="{% versioned_static 'wagtailadmin/css/vendor/jquery.tagit.css' %}">
+    <link rel="stylesheet" href="{% versioned_static 'wagtailadmin/css/core.css' %}" type="text/css" />
+    {% hook_output 'insert_global_admin_css' %}
+
+    {% block extra_css %}{% endblock %}
+{% endblock %}
+
+{% block branding_favicon %}
+    <link rel="shortcut icon" href="{% versioned_static 'wagtailadmin/images/favicon.ico' %}" />
+{% endblock %}
+
+{% block js %}
+    <script>
+        (function(document, window) {
+            window.wagtailConfig = window.wagtailConfig || {};
+            wagtailConfig.ADMIN_API = {
+                PAGES: '{% url "wagtailadmin_api:pages:listing" %}',
+                DOCUMENTS: '{% url "wagtailadmin_api:documents:listing" %}',
+                IMAGES: '{% url "wagtailadmin_api:images:listing" %}',
+                {# // Use this to add an extra query string on all API requests. #}
+                {# // Example value: '&order=-id' #}
+                EXTRA_CHILDREN_PARAMETERS: '',
+            };
+
+            {% i18n_enabled as i18n_enabled %}
+            {% locales as locales %}
+            wagtailConfig.I18N_ENABLED = {% if i18n_enabled %}true{% else %}false{% endif %};
+            wagtailConfig.LOCALES = {{ locales|safe }};
+
+            wagtailConfig.STRINGS = {% js_translation_strings %};
+
+            wagtailConfig.ADMIN_URLS = {
+                PAGES: '{% url "wagtailadmin_explore_root" %}'
+            };
+        })(document, window);
+    </script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/jquery-ui-1.12.1.min.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/jquery.datetimepicker.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/jquery.autosize.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/bootstrap-transition.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/bootstrap-modal.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/bootstrap-tab.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor/tag-it.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/core.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/vendor.js' %}"></script>
+    <script src="{% versioned_static 'wagtailadmin/js/wagtailadmin.js' %}"></script>
+    {% hook_output 'insert_global_admin_js' %}
+
+
+
+    {% main_nav_js %}
+
     <script src="{% url 'wagtail_shell:javascript_catalog' %}"></script>
     <script src="{% versioned_static 'wagtail_shell/js/wagtail-shell.js' %}"></script>
 {% endblock %}
