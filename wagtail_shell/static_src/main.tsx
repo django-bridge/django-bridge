@@ -93,14 +93,19 @@ export function initShell() {
 
         const props = JSON.parse(sidebarElement.dataset.props);
 
-        const renderShell = () => {
+        const renderShell = (firstRender?: boolean) => {
             ReactDOM.render(
                 <Shell {...props} navigationController={navController} />,
-                shellElement
+                shellElement,
+                () => {
+                    if (firstRender) {
+                        document.body.classList.add('ready');
+                    }
+                }
             );
         };
 
-        renderShell();
+        renderShell(true);
         navController.addNavigationListener(renderShell);
     }
 }
