@@ -1,4 +1,129 @@
 import React from 'react';
+import styled, { css } from 'styled-components';
+
+import * as breakpoints from './common/breakpoints';
+
+const LogoWrapper = styled.a`
+    display: flex;
+    align-items: center;
+    padding: 0.6em 1.2em;
+    color: #aaa;
+    -webkit-font-smoothing: auto;
+    position: relative;
+
+    &:hover {
+        color: $color-white;
+    }
+
+    ${breakpoints.mediaBreakpointUp('sm')(css`
+        display: block;
+        margin: 2em auto;
+        text-align: center;
+    `)}
+`;
+
+const LogoMobileWrapper = styled.div`
+    margin-right: 10px;
+    background-color: #555;
+    border-radius: 50%;
+    padding: 5px 7.5px;
+
+    .wagtail-logo {
+        width: 20px;
+        float: left;
+        border: 0;
+    }
+`;
+
+interface LogoDesktopWrapperProps {
+    isWagging: boolean;
+}
+
+const LogoDesktopWrapper = styled.div<LogoDesktopWrapperProps>`
+    @keyframes tail-wag {
+        from {
+            transform: rotate(-3deg);
+        }
+
+        to {
+            transform: rotate(7deg);
+        }
+    }
+
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: #555;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: all 0.25s cubic-bezier(0.28, 0.15, 0, 2.1);
+
+    .page404__bg & {
+        background-color: transparent;
+    }
+
+    > div {
+        width: 52px;
+        height: 100px;
+        margin: auto;
+        position: relative;
+
+        .page404__bg & {
+            width: auto;
+            height: auto;
+            position: static;
+        }
+    }
+
+    img {
+        display: block;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transition: inherit;
+
+        &[data-part="eye--open"] {
+            // stylelint-disable-next-line declaration-no-important
+            display: inline !important; // doesn't work without !important, likely a specificity issue
+        }
+
+        &[data-part="eye--closed"] {
+            // stylelint-disable-next-line declaration-no-important
+            display: none !important;
+        }
+    }
+
+    &:hover {
+        ${(props) => props.isWagging ? css`
+            // Wagtail 'playful' animation (tail-wag, triggered by JS in base.html):
+            transform: rotate(8deg);
+            transition: transform 1.2s ease;
+
+            img {
+                // stylelint-disable max-nesting-depth
+                &[data-part="tail"] {
+                    animation: tail-wag 0.09s alternate;
+                    animation-iteration-count: infinite;
+                }
+
+                &[data-part="eye--open"] {
+                    // stylelint-disable-next-line declaration-no-important
+                    display: none !important;
+                }
+
+                &[data-part="eye--closed"]{
+                    // stylelint-disable-next-line declaration-no-important
+                    display: inline !important;
+                }
+            }
+        ` : css`
+            // Wagtail 'serious' animation (nod):
+            transform: rotate(4deg);
+        `}
+    }
+`;
 
 export interface LogoImages {
     mobileLogo: string;
@@ -49,30 +174,23 @@ export const Logo: React.FunctionComponent<LogoProps> = ({images, homeUrl, navig
         dirChangeCount.current = 0;
     };
 
-    const desktopClassNames = ["wagtail-logo-container__desktop", "u-hidden@xs"];
-    if (isWagging) {
-        desktopClassNames.push('logo-playful');
-    } else {
-        desktopClassNames.push('logo-serious');
-    }
-
     return (
-        <a href="#" onClick={onClick} className="logo" aria-label={gettext('Dashboard')}>
+        <LogoWrapper href="#" onClick={onClick} aria-label={gettext('Dashboard')}>
             {/* Mobile */}
-            <div className="wagtail-logo-container__mobile u-hidden@sm">
-                <img className="wagtail-logo wagtail-logo__full" src={images.mobileLogo} alt="" width="80" />
-            </div>
+            <LogoMobileWrapper className="u-hidden@sm">
+                <img src={images.mobileLogo} alt="" width="80" />
+            </LogoMobileWrapper>
 
             {/* Desktop (animated) */}
-            <div className={desktopClassNames.join(' ')} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
-                <div className="wagtail-logo-container-inner">
-                    <img className="wagtail-logo wagtail-logo__body" src={images.desktopLogoBody} alt=""/>
-                    <img className="wagtail-logo wagtail-logo__tail" src={images.desktopLogoTail} alt="" />
-                    <img className="wagtail-logo wagtail-logo__eye--open" src={images.desktopLogoEyeOpen} alt="" />
-                    <img className="wagtail-logo wagtail-logo__eye--closed" src={images.desktopLogoEyeClosed} alt="" />
+            <LogoDesktopWrapper className="u-hidden@xs" isWagging={isWagging} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+                <div>
+                    <img data-part="body" src={images.desktopLogoBody} alt=""/>
+                    <img data-part="tail" src={images.desktopLogoTail} alt="" />
+                    <img data-part="eye--open" src={images.desktopLogoEyeOpen} alt="" />
+                    <img data-part="eye--closed" src={images.desktopLogoEyeClosed} alt="" />
                 </div>
-            </div>
+            </LogoDesktopWrapper>
             <span className="u-hidden@sm">{gettext('Dashboard')}</span>
-        </a>
+        </LogoWrapper>
     );
 }
