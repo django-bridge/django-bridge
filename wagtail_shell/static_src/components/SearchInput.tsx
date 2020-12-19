@@ -24,7 +24,7 @@ const SearchForm = styled.form`
 
     input {
         cursor: pointer;
-        border: 1px solid $nav-search-border;
+        border: 1px solid #999;  // #999 = $nav-search-border;
         background-color: #333;  // $nav-search-bg;
         color: #ccc;  // $nav-search-color;
         padding: 0.8em 2.5em 0.8em 1em;
