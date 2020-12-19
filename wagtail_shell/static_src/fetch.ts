@@ -22,12 +22,6 @@ export type ShellResponse = ShellResponseLoadIt
                           | ShellResponsePermissionDenied;
 
 export async function shellFetch(url: string): Promise<ShellResponse> {
-    if (!url.startsWith('/admin/')) {
-        return Promise.resolve({
-            status: 'load-it',
-        });
-    }
-
     const response = await fetch(url, { headers: { 'X-Requested-With': 'WagtailShell' } });
     if (!response.headers.get('X-WagtailShellStatus')) {
         console.warn("WagtailShell Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?");

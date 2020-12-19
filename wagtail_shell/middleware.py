@@ -56,8 +56,8 @@ class WagtailShellMiddleware:
         # return a "render HTML" response that wraps the response in an iframe on the frontend
 
         # FIXME: Find a proper mime type parser
-        is_html = response.get('Content-Type') == 'text/html; charset=utf-8'
-        if is_html and getattr(request, 'shell_template_rendered', False):
+        is_html = response.get('Content-Type').startswith('text/html')
+        if is_html and getattr(request, 'wagtail_shell_enable', False):
             return ShellResponseRenderHtml(response.content.decode('utf-8'))
 
         # Can't convert the response

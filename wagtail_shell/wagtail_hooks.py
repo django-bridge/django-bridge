@@ -5,12 +5,14 @@ from django.views.i18n import JavaScriptCatalog
 
 from wagtail.core import hooks
 
+from .decorators import shell_disable
+
 
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     urls = [
         path('jsi18n/', JavaScriptCatalog.as_view(packages=['wagtail_shell']), name='javascript_catalog'),
-        path('frame/', xframe_options_sameorigin(TemplateView.as_view(template_name='wagtailshell/frame.html')), name='frame'),
+        path('frame/', xframe_options_sameorigin(shell_disable(TemplateView.as_view(template_name='wagtailshell/frame.html'))), name='frame'),
     ]
 
     return [

@@ -17,13 +17,6 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def shell_template_rendered(context):
-    request = context['request']
-    request.shell_template_rendered = True
-    return ''
-
-
-@register.simple_tag(takes_context=True)
 def shell_props(context):
     request = context['request']
     search_areas = admin_search_areas.search_items_for_request(request)
