@@ -49,8 +49,8 @@ export class NavigationController {
         });
     }
 
-    navigate = (url: string, pushState: boolean = true) => {
-        this.shellFetch(url).then(response => {
+    navigate = (url: string, pushState: boolean = true): Promise<void> => {
+        return this.shellFetch(url).then(response => {
             if (response === null) {
                 return;
             }

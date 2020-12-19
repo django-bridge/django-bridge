@@ -34,7 +34,7 @@ export interface ShellProps {
 }
 
 const SidebarWrapper = styled.aside`
-    position: absolute;
+    position: fixed;
     left: 0;
     margin-left: -200px;  // $menu-width;
     width: 200px;  // $menu-width;
@@ -43,15 +43,11 @@ const SidebarWrapper = styled.aside`
     flex-direction: column;
     height: 100%;
     background: #333;  // $nav-grey-1;
-    z-index: 2;
+    z-index: 1;
 
     ${smBreakpoint(css`
         // height and position necessary to force it to 100% height of screen (with some JS help)
         margin-left: 0;
-
-        // Allows overspill of messages banner onto left menu, but also explorer
-        // to spill over main content
-        z-index: auto;
     `)}
 `;
 

@@ -10,7 +10,7 @@ interface IconProps {
  * Provide a `title` as an accessible label intended for screen readers.
  */
 const Icon: React.FunctionComponent<IconProps> = ({ name, className, title }) => (
-  <span>
+  <>
     <svg className={`icon icon-${name} ${className || ''}`} aria-hidden="true">
       <use href={`#icon-${name}`}></use>
     </svg>
@@ -19,7 +19,7 @@ const Icon: React.FunctionComponent<IconProps> = ({ name, className, title }) =>
         {title}
       </span>
     ) : null}
-  </span>
+  </>
 );
 
 export default Icon;

@@ -9,6 +9,54 @@ import { ExplorerContext, ShellProps } from '../main';
 
 const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
+interface MenuItemWrapperProps {
+    isActive: boolean;
+    isInSubmenu: boolean;
+}
+
+const MenuItemWrapper = styled.li<MenuItemWrapperProps>`
+    a {
+        position: relative;
+        white-space: nowrap;
+        border-left: 3px solid transparent;
+
+        &:before {
+            font-size: 1rem;
+            vertical-align: -15%;
+            margin-right: 0.5em;
+        }
+
+        // only really used for spinners and settings menu
+        &:after {
+            font-size: 1.5em;
+            margin: 0;
+            position: absolute;
+            right: 0.5em;
+            top: 0.5em;
+            margin-top: 0;
+        }
+
+        ${(props) => props.isInSubmenu && css`
+            white-space: normal;
+            padding: 0.9em 1.7em 0.9em 4.5em;
+
+            &:hover {
+                background-color: rgba(100, 100, 100, 0.2);
+            }
+        `}
+    }
+
+    ${(props) => props.isActive && css`
+        background: #1a1a1a;  // $nav-item-active-bg;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+
+        > a {
+            border-left-color: #f37e77;  // $color-salmon;
+            color: #fff;  // $color-white
+        }
+    `}
+`;
+
 interface MenuItemCommon {
     name: string;
     url: string;
@@ -16,8 +64,6 @@ interface MenuItemCommon {
     icon_name: string;
     attr_string: string;
     label: string;
-    active: boolean;
-    open?: boolean;
 }
 
 interface MenuItem {
@@ -34,19 +80,17 @@ interface MenuGroup {
 type MenuData = (MenuItem | MenuGroup)[];
 
 interface MenuItemProps {
+    path: string;
     data: MenuItemCommon;
+    state: MenuState;
     dispatch(action: MenuAction): void;
-    navigate(url: string): void;
+    navigate(url: string): Promise<void>;
 }
 
-const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({data, dispatch}) => {
+const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, dispatch}) => {
     const explorerToggle = React.useRef<((page: number) => void) | null>(null);
-
-    const classNames = ['menu-item'];
-
-    if (data.active) {
-        classNames.push('menu-active');
-    }
+    const isActive = state.activePath.startsWith(path) || state.navigationPath.startsWith(path);
+    const isInSubmenu = path.split('.').length > 2;
 
     const context = React.useContext(ExplorerContext);
     /* TODO
@@ -62,8 +106,8 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({data, dispatc
 
         // Set active menu item
         dispatch({
-            type: 'set-active-menu-item',
-            name: data.name,
+            type: 'set-navigation-path',
+            path: path,
         });
 
         if (explorerToggle.current) {
@@ -72,7 +116,7 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({data, dispatc
     }
 
     return (
-        <li className={classNames.join(' ')}>
+        <MenuItemWrapper isActive={isActive} isInSubmenu={isInSubmenu}>
               <Button
                 dialogTrigger={true}
                 onClick={onClickExplorer}
@@ -81,106 +125,218 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({data, dispatc
                     {data.label}
                 <Icon name="arrow-right" className="icon--submenu-trigger" />
             </Button>
-        </li>
+        </MenuItemWrapper>
     );
 }
 
-const MenuItem: React.FunctionComponent<MenuItemProps> = ({data, dispatch, navigate}) => {
-    const classNames = ['menu-item'];
-
-    if (data.active) {
-        classNames.push('menu-active');
-    }
+const MenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, dispatch, navigate}) => {
+    const isActive = state.activePath.startsWith(path);
+    const isInSubmenu = path.split('.').length > 2;
 
     // Special case: Page explorer
     if (data.name === 'explorer') {
-        return <ExplorerMenuItem data={data} dispatch={dispatch} navigate={navigate} />
+        return <ExplorerMenuItem path={path} data={data} state={state} dispatch={dispatch} navigate={navigate} />
     }
 
     const onClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        // Set active menu item
-        dispatch({
-            type: 'set-active-menu-item',
-            name: data.name,
-        });
+        navigate(data.url).then(() => {
+            // Set active menu item
+            dispatch({
+                type: 'set-active-path',
+                path,
+            });
 
-        navigate(data.url);
+            // Reset navigation path to close any open submenus
+            dispatch({
+                type: 'set-navigation-path',
+                path: '',
+            });
+        });
     }
 
     return (
-        <li className={classNames.join(' ')}>
+        <MenuItemWrapper isActive={isActive} isInSubmenu={isInSubmenu}>
             <a href="#"
                onClick={onClick}
                className={data.classnames}>
                 {data.icon_name && <Icon name={data.icon_name} className="icon--menuitem"/>}
                 {data.label}
             </a>
-        </li>
+        </MenuItemWrapper>
 
     );
 }
 
-interface MenuGroupProps {
-    data: MenuItemCommon;
-    items: MenuData;
-    dispatch(action: MenuAction): void;
-    navigate(url: string): void;
+interface MenuGroupWrapperProps extends MenuItemWrapperProps {
+    isOpen: boolean;
 }
 
-const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({data, items, dispatch, navigate}) => {
-    const classNames = ['menu-item', 'submenu'];
+const MenuGroupWrapper = styled.li<MenuGroupWrapperProps>`
+    .icon--submenu-trigger {
+        // The menus are collapsible on desktop only.
+        display: none;
 
-    if (data.active) {
-        classNames.push('menu-active');
+        ${smBreakpoint(css`
+            display: block;
+            width: 1.5em;
+            height: 1.5em;
+            position: absolute;
+            top: 0.8125em;
+            right: 0.5em;
+            ${mixins.transition('transform 0.3s ease')}
+        `)}
     }
 
-    if (data.open) {
-        classNames.push('submenu-open');
+    ${(props) => props.isOpen && css`
+        background: #262626;  // $nav-submenu-bg;
+
+        .icon--submenu-trigger {
+            ${smBreakpoint(css`
+                transform-origin: 50% 50%;
+                transform: rotate(180deg);
+            `)}
+        }
+
+        > a {
+            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    `}
+`;
+
+interface SubmenuWrapperProps {
+    // isVisible can be true while isOpen is false when the menu is closing
+    isVisible: boolean;
+    isOpen: boolean;
+}
+
+const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
+    visibility: hidden;
+    background: #262626;  // $nav-submenu-bg;
+    z-index: -1;
+
+    h2 {
+        display: none;
     }
 
-    // const activeClass = 'submenu-active';
-    const submenuContainerRef = React.useRef<HTMLLIElement | null>(null);
+    li {
+        border: 0;
+    }
+
+    &__footer {
+        margin: 0;
+        padding: 0.9em 1.7em;
+        text-align: center;
+        color: #ccc;  // $color-menu-text;
+    }
+
+    ${smBreakpoint(css`
+        transform: translate3d(0, 0, 0);
+        position: fixed;
+        height: 100vh;
+        width: 200px;  // $menu-width;
+        padding: 0;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        ${mixins.transition('left 0.2s ease')}
+
+        h2,
+        &__list {
+            width: 200px;  // $menu-width;
+        }
+
+        h2 {
+            display: block;
+            padding: 0.2em 0;
+            font-size: 1.2em;
+            font-weight: 500;
+            text-transform: none;
+            text-align: center;
+            color: #ccc;  // $color-menu-text;
+
+            &:before {
+                font-size: 4em;
+                display: block;
+                text-align: center;
+                margin: 0 0 0.2em;
+                width: 100%;
+                opacity: 0.15;
+            }
+        }
+
+        ul {
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        &__footer {
+            line-height: 50px;  // $nav-footer-closed-height;
+            padding: 0;
+        }
+    `)}
+
+    ${(props) => props.isVisible && css`
+        visibility: visible;
+        box-shadow: 2px 0 2px rgba(0, 0, 0, 0.35);
+
+        a {
+            padding-left: 3.5em;
+        }
+    `}
+
+    ${(props) => props.isOpen && css`
+        ${smBreakpoint(css`
+            left: 200px;  // $menu-width;
+        `)}
+    `}
+`;
+
+interface MenuGroupProps {
+    path: string;
+    data: MenuItemCommon;
+    items: MenuData;
+    state: MenuState;
+    dispatch(action: MenuAction): void;
+    navigate(url: string): Promise<void>;
+}
+
+const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({path, data, items, state, dispatch, navigate}) => {
+    const isOpen = state.navigationPath.startsWith(path);
+    const isActive = isOpen || state.activePath.startsWith(path);
+    const [isVisible, setIsVisible] = React.useState(false);
+
     React.useEffect(() => {
-        // Close submenu when user clicks outside of it
-        // FIXME: Doesn't actually work because outside click events are usually in an iframe.
-        const onMousedown = (e: MouseEvent) => {
-            if (e.target instanceof HTMLElement && submenuContainerRef.current && !submenuContainerRef.current.contains(e.target)) {
-                //dispatch({
-                //    type: 'close-submenu',
-                //});
-            }
-        };
-
-        // Close submenu when user presses escape
-        const onKeydown = (e: KeyboardEvent) => {
-            // IE11 uses "Esc" instead of "Escape"
-            if (e.key === 'Escape' || e.key === 'Esc') {
-                dispatch({
-                    type: 'close-submenu',
-                });
-            }
-        };
-
-        document.addEventListener('mousedown', onMousedown);
-        document.addEventListener('keydown', onKeydown);
-
-        return () => {
-            document.removeEventListener('mousedown', onMousedown);
-            document.removeEventListener('keydown', onKeydown);
-        };
-    }, [submenuContainerRef]);
+        if (isOpen) {
+            // isOpen is set at the moment the user clicks the menu item
+            setIsVisible(true);
+        } else if (!isOpen && isVisible) {
+            // When a submenu is closed, we have to wait for the close animation
+            // to finish before making it invisible
+            setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+        }
+    }, [isOpen]);
 
     const onClick = (e: React.MouseEvent) => {
-        if (data.open) {
+        if (isOpen) {
             dispatch({
-                type: 'close-submenu',
+                type: 'set-navigation-path',
+                path: '',
             });
         } else {
             dispatch({
-                type: 'open-submenu',
-                name: data.name,
+                type: 'set-navigation-path',
+                path,
             });
         }
 
@@ -188,90 +344,64 @@ const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({data, items, dispat
     };
 
     return (
-        <li className={classNames.join(' ')} ref={submenuContainerRef}>
-            <a href="#" onClick={onClick} className={data.classnames}>
+        <MenuGroupWrapper isActive={isActive} isInSubmenu={false} isOpen={isOpen}>
+            <a href="#" onClick={onClick} className={data.classnames} aria-haspopup="true" aria-expanded={isOpen ? 'true' : 'false'}>
                 {data.icon_name && <Icon name={data.icon_name} className="icon--menuitem"/>}
                 {data.label}
                 <Icon name="arrow-right" className="icon--submenu-trigger"/>
             </a>
-            <div className="nav-submenu">
+            <SubmenuWrapper isVisible={isVisible} isOpen={isOpen}>
                 <h2 id={`nav-submenu-${data.name}-title`} className={data.classnames}>
                     {data.icon_name && <Icon name={data.icon_name} className="icon--submenu-header"/>}
                     {data.label}
                 </h2>
-                <ul className="nav-submenu__list" aria-labelledby="nav-submenu-{{ name }}-title">
-                    {renderMenuItems(items, dispatch, navigate)}
+                <ul aria-labelledby="nav-submenu-{{ name }}-title">
+                    {renderMenuItems(path, items, state, dispatch, navigate)}
                 </ul>
-            </div>
-        </li>
+            </SubmenuWrapper>
+        </MenuGroupWrapper>
     );
 }
 
-function renderMenuItems(menuItems: MenuData, dispatch: (action: MenuAction) => void, navigate: (url: string) => void) {
+function renderMenuItems(path: string, menuItems: MenuData, state: MenuState, dispatch: (action: MenuAction) => void, navigate: (url: string) => Promise<void>) {
     return (
         <>
             {menuItems.map(menuItem => {
                 switch (menuItem.type) {
                     case 'group':
-                        return <MenuGroup key={menuItem.data.name} data={menuItem.data} dispatch={dispatch} items={menuItem.items} navigate={navigate} />;
+                        return <MenuGroup key={menuItem.data.name} path={`${path}.${menuItem.data.name}`} data={menuItem.data} state={state} dispatch={dispatch} items={menuItem.items} navigate={navigate} />;
                     case 'item':
-                        return <MenuItem key={menuItem.data.name} data={menuItem.data} dispatch={dispatch} navigate={navigate} />;
+                        return <MenuItem key={menuItem.data.name} path={`${path}.${menuItem.data.name}`} data={menuItem.data} state={state} dispatch={dispatch} navigate={navigate} />;
                 }
             })}
         </>
     )
 }
 
-interface SetActiveMenuItemAction {
-    type: 'set-active-menu-item',
-    name: string,
+interface SetActivePath {
+    type: 'set-active-path',
+    path: string,
 }
 
-interface OpenSubmenuAction {
-    type: 'open-submenu',
-    name: string,
+interface SetNavigationPath {
+    type: 'set-navigation-path',
+    path: string,
 }
 
-interface CloseSubmenuAction {
-    type: 'close-submenu',
+type MenuAction = SetActivePath | SetNavigationPath;
+
+interface MenuState {
+    navigationPath: string;
+    activePath: string;
 }
 
-type MenuAction = SetActiveMenuItemAction | OpenSubmenuAction | CloseSubmenuAction;
+function menuReducer(state: MenuState, action: MenuAction) {
+    let newState = Object.assign({}, state);
 
-function menuReducer(state: MenuData, action: MenuAction) {
-    let newState = state.slice();
-
-    if (action.type === 'set-active-menu-item') {
-        const findAndActivateMenuItem: (menuItems: MenuData) => boolean = (menuItems) => {
-            let containsActiveMenuItem = false;
-
-            menuItems.forEach(menuItem => {
-                menuItem.data.active = action.name == menuItem.data.name;
-                menuItem.data.open = false;
-
-                if (menuItem.type === 'group') {
-                    if (findAndActivateMenuItem(menuItem.items)) {
-                        menuItem.data.active = true;
-                    }
-                }
-
-                if (menuItem.data.active) {
-                    containsActiveMenuItem = true;
-                }
-            });
-
-            return containsActiveMenuItem;
-        };
-
-        findAndActivateMenuItem(newState);
-    } else if (action.type == 'open-submenu') {
-        newState.forEach(menuItem => {
-            menuItem.data.open = action.name == menuItem.data.name;
-        });
-    } else if (action.type == 'close-submenu') {
-        newState.forEach(menuItem => {
-            menuItem.data.open = false;
-        });
+    if (action.type === 'set-active-path') {
+        newState.activePath = action.path;
+    } else if (action.type === 'set-navigation-path') {
+        newState.navigationPath = action.path;
     }
 
     return newState;
@@ -315,39 +445,6 @@ const MainNav = styled.nav<MainNavProps>`
         }
     }
 
-    .menu-item a {
-        position: relative;
-        white-space: nowrap;
-        border-left: 3px solid transparent;
-
-        &:before {
-            font-size: 1rem;
-            vertical-align: -15%;
-            margin-right: 0.5em;
-        }
-
-        // only really used for spinners and settings menu
-        &:after {
-            font-size: 1.5em;
-            margin: 0;
-            position: absolute;
-            right: 0.5em;
-            top: 0.5em;
-            margin-top: 0;
-        }
-
-    }
-
-    .menu-active {
-        background: #1a1a1a;  // $nav-item-active-bg;
-        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-
-        > a {
-            border-left-color: #f37e77;  // $color-salmon;
-            color: #fff;  // $color-white
-        }
-    }
-
     .footer-submenu {
         a {
             border-left: 3px solid transparent;
@@ -378,69 +475,12 @@ const MainNav = styled.nav<MainNavProps>`
         vertical-align: text-top;
     }
 
-    .icon--submenu-trigger {
-        // The menus are collapsible on desktop only.
-        display: none;
-
-
-        ${smBreakpoint(css`
-            display: block;
-            width: 1.5em;
-            height: 1.5em;
-            position: absolute;
-            top: 0.8125em;
-            right: 0.5em;
-            ${mixins.transition('transform 0.3s ease')}
-
-            .menu-item.submenu-active & {
-                transform-origin: 50% 50%;
-                transform: rotate(180deg);
-            }
-        `)}
-    }
-
     .icon--submenu-header {
         display: block;
         width: 4rem;
         height: 4rem;
         margin: 0 auto 0.8em;
         opacity: 0.15;
-    }
-
-    .nav-submenu {
-        background: #262626;  // $nav-submenu-bg;
-
-        h2 {
-            display: none;
-        }
-
-        .menu-item a {
-            white-space: normal;
-            padding: 0.9em 1.7em 0.9em 4.5em;
-
-            &:before {
-                margin-left: -1.5em;
-            }
-
-            .icon--menuitem {
-                margin-left: -1.75em;
-            }
-
-            &:hover {
-                background-color: rgba(100, 100, 100, 0.2);
-            }
-        }
-
-        li {
-            border: 0;
-        }
-
-        &__footer {
-            margin: 0;
-            padding: 0.9em 1.7em;
-            text-align: center;
-            color: #ccc;  // $color-menu-text;
-        }
     }
 
     ${smBreakpoint(css`
@@ -505,123 +545,59 @@ const MainNav = styled.nav<MainNavProps>`
                 }
             }
         }
-    }
-
-    .nav-submenu {
-        transform: translate3d(0, 0, 0);
-        position: fixed;
-        height: 100vh;
-        width: 0;
-        padding: 0;
-        top: 0;
-        left: 200px;  // $menu-width;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-
-        h2,
-        &__list {
-            width: 200px;  // $menu-width;
-        }
-
-        h2 {
-            display: block;
-            padding: 0.2em 0;
-            font-size: 1.2em;
-            font-weight: 500;
-            text-transform: none;
-            text-align: center;
-            color: #ccc;  // $color-menu-text;
-
-            &:before {
-                font-size: 4em;
-                display: block;
-                text-align: center;
-                margin: 0 0 0.2em;
-                width: 100%;
-                opacity: 0.15;
-            }
-        }
-
-        &__list {
-            overflow: auto;
-            flex-grow: 1;
-        }
-
-        &__footer {
-            line-height: 50px;  // $nav-footer-closed-height;
-            padding: 0;
-        }
-
-    }
-
-    li.submenu-active {
-        background: #262626;  // $nav-submenu-bg;
-
-        > a {
-            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-
-            &:hover {
-                background-color: transparent;
-            }
-        }
-
-        .nav-submenu {
-            ${mixins.transition('width 0.2s ease')}
-
-            box-shadow: 2px 0 2px rgba(0, 0, 0, 0.35);
-            width: 200px;  // $menu-width;
-
-            a {
-                padding-left: 3.5em;
-            }
-        }
-    `)}
-
-    ///////////////
-    // Z-indexes //
-    ///////////////
-
-    // Avoiding a stacking context for the content-wrapper saves us a world
-    // of pain when dealing with overlays that are appended to the end of
-    // <body>, eg Hallo & calendars. As long as content-wrapper remains floated,
-    // the z-index shouldn't be required.
-
-    .nav-submenu {
-        z-index: 6;
-    }
-
-    footer {
-        z-index: 100;
-    }
-
-    ${smBreakpoint(css`
-        .footer {
-            z-index: 2;
-        }
-
-        .nav-submenu {
-            z-index: 500;
-        }
-
-        // footer is z-index: 100, so ensure the navigation sits on top of it.
-        .submenu-active {
-            z-index: 200;
-        }
     `)}
 `;
 
 interface MenuProps {
-    initialState: MenuData;
+    menuItems: MenuData;
     user: ShellProps['user'];
     accountUrl: string;
     logoutUrl: string;
-    navigate(url: string): void;
+    navigate(url: string): Promise<void>;
 }
 
-export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, accountUrl, logoutUrl, navigate}) => {
-    const [state, dispatch] = React.useReducer(menuReducer, initialState);
+export const Menu: React.FunctionComponent<MenuProps> = ({menuItems, user, accountUrl, logoutUrl, navigate}) => {
+    const [state, dispatch] = React.useReducer(menuReducer, {
+        navigationPath: '',
+        activePath: '',
+    });
     const [accountSettingsOpen, setAccountSettingsOpen] = React.useState(false);
+
+    // const activeClass = 'submenu-active';
+    //const submenuContainerRef = React.useRef<HTMLLIElement | null>(null);
+    React.useEffect(() => {
+/* TODO
+        // Close submenu when user clicks outside of it
+        // FIXME: Doesn't actually work because outside click events are usually in an iframe.
+        const onMousedown = (e: MouseEvent) => {
+            if (e.target instanceof HTMLElement && submenuContainerRef.current && !submenuContainerRef.current.contains(e.target)) {
+                //dispatch({
+                //    type: 'close-submenu',
+                //});
+            }
+        };
+*/
+
+        // Close submenus when user presses escape
+        const onKeydown = (e: KeyboardEvent) => {
+            // IE11 uses "Esc" instead of "Escape"
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                dispatch({
+                    type: 'set-navigation-path',
+                    path: ''
+                });
+            }
+        };
+
+        // document.addEventListener('mousedown', onMousedown);
+        document.addEventListener('keydown', onKeydown);
+
+        return () => {
+            // document.removeEventListener('mousedown', onMousedown);
+            document.removeEventListener('keydown', onKeydown);
+        };
+    }, []);
+
 
     const onClickLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (e.target instanceof HTMLAnchorElement) {
@@ -641,7 +617,7 @@ export const Menu: React.FunctionComponent<MenuProps> = ({initialState, user, ac
     return (
         <MainNav openFooter={accountSettingsOpen}>
             <ul>
-                {renderMenuItems(state, dispatch, navigate)}
+                {renderMenuItems('', menuItems, state, dispatch, navigate)}
 
                 <li className="footer">
                     <div className="account" title={gettext('Edit your account')} onClick={onClickAccountSettings}>

@@ -10,7 +10,6 @@ import { Logo } from './Logo';
 const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 const InnerWrapper = styled.div`
-    z-index: 100;
     height: 100%;
 
     background: #333;  // $nav-grey-1
@@ -23,7 +22,7 @@ const InnerWrapper = styled.div`
 `;
 
 interface SidebarProps extends ShellProps {
-    navigate(url: string): void;
+    navigate(url: string): Promise<void>;
 }
 
 export const Sidebar: React.FunctionComponent<SidebarProps> =  ({homeUrl, logoImages, explorerStartPageId, searchUrl, menuItems, user, accountUrl, logoutUrl, navigate}) => {
@@ -37,7 +36,7 @@ export const Sidebar: React.FunctionComponent<SidebarProps> =  ({homeUrl, logoIm
                 <SearchInput searchUrl={searchUrl} navigate={navigate} />
 
                 <ExplorerContext.Provider value={{startPageId: explorerStartPageId, wrapperRef: explorerWrapperRef}}>
-                    <Menu user={user} accountUrl={accountUrl} logoutUrl={logoutUrl} initialState={menuItems} navigate={navigate} />
+                    <Menu user={user} accountUrl={accountUrl} logoutUrl={logoutUrl} menuItems={menuItems} navigate={navigate} />
                 </ExplorerContext.Provider>
             </InnerWrapper>
             <div className="explorer__wrapper" ref={explorerWrapperRef}></div>
