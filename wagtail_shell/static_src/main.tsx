@@ -7,7 +7,7 @@ import {Browser} from './components/Browser';
 import {Sidebar} from './components/Sidebar';
 import * as breakpoints from './components/common/breakpoints';
 
-import {NavigationController} from './navigation';
+import {Frame, NavigationController} from './navigation';
 
 const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
@@ -65,7 +65,7 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
     return (
         <>
             <SidebarWrapper>
-                <Sidebar {...props} navigate={props.navigationController.navigate} />
+                <Sidebar {...props} navigationController={props.navigationController} />
             </SidebarWrapper>
             <BrowserWrapper>
                 <Browser navigationController={props.navigationController} />
@@ -89,7 +89,7 @@ export function initShell() {
 
         const props = JSON.parse(sidebarElement.dataset.props);
 
-        const renderShell = (firstRender?: boolean) => {
+        const renderShell = (_frame: Frame | null, firstRender?: boolean) => {
             ReactDOM.render(
                 <Shell {...props} navigationController={navController} />,
                 shellElement,
@@ -101,7 +101,7 @@ export function initShell() {
             );
         };
 
-        renderShell(true);
+        renderShell(null, true);
         navController.addNavigationListener(renderShell);
     }
 }

@@ -173,7 +173,7 @@ interface MenuGroupWrapperProps extends MenuItemWrapperProps {
     isOpen: boolean;
 }
 
-const MenuGroupWrapper = styled.li<MenuGroupWrapperProps>`
+const MenuGroupWrapper = styled(MenuItemWrapper)<MenuGroupWrapperProps>`
     .icon--submenu-trigger {
         // The menus are collapsible on desktop only.
         display: none;
@@ -549,6 +549,7 @@ const MainNav = styled.nav<MainNavProps>`
 `;
 
 interface MenuProps {
+    activeUrl: string;
     menuItems: MenuData;
     user: ShellProps['user'];
     accountUrl: string;
@@ -556,12 +557,47 @@ interface MenuProps {
     navigate(url: string): Promise<void>;
 }
 
-export const Menu: React.FunctionComponent<MenuProps> = ({menuItems, user, accountUrl, logoutUrl, navigate}) => {
+export const Menu: React.FunctionComponent<MenuProps> = ({activeUrl, menuItems, user, accountUrl, logoutUrl, navigate}) => {
     const [state, dispatch] = React.useReducer(menuReducer, {
         navigationPath: '',
         activePath: '',
     });
     const [accountSettingsOpen, setAccountSettingsOpen] = React.useState(false);
+
+    // Whenever activeUrl or menuItems change, work out new activePath
+    React.useEffect(() => {
+        const urlToPaths: [string, string][] = [];
+        const walkMenuItems = (path: string, menuItems: MenuData) => {
+            menuItems.forEach((item) => {
+                const newPath = `${path}.${item.data.name}`;
+                if (item.type == 'group') {
+                    walkMenuItems(newPath, item.items);
+                } else {
+                    urlToPaths.push([item.data.url, newPath]);
+                }
+            });
+        };
+        walkMenuItems('', menuItems);
+
+        let bestMatch: [string, string] | null = null;
+        urlToPaths.forEach(([url, path]) => {
+            if (activeUrl.startsWith(url)) {
+                if (bestMatch == null || url.length > bestMatch[0].length) {
+                    bestMatch = [url, path];
+                }
+            }
+        });
+
+        const newActivePath = bestMatch ? bestMatch[1] : '';
+
+        // TODO: Probably doesn't have to be in state anymore
+        if (newActivePath !== state.activePath) {
+            dispatch({
+                type: 'set-active-path',
+                path: newActivePath,
+            });
+        }
+    }, [activeUrl, menuItems]);
 
     // const activeClass = 'submenu-active';
     //const submenuContainerRef = React.useRef<HTMLLIElement | null>(null);

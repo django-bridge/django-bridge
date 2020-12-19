@@ -16,7 +16,7 @@ export class NavigationController {
     currentFrame: Frame;
     nextFrame: Frame | null = null;
 
-    navigationListeners: (() => void)[] = [];
+    navigationListeners: ((frame: Frame | null) => void)[] = [];
 
     constructor(initialResponse: ShellResponse) {
         if (initialResponse.status == 'render') {
@@ -66,7 +66,7 @@ export class NavigationController {
                     pushState,
                 };
 
-                this.navigationListeners.forEach(func => func());
+                this.navigationListeners.forEach(func => func(null));
             }
         });
     }
@@ -80,11 +80,11 @@ export class NavigationController {
                 history.pushState({}, "", this.currentFrame.url);
             }
 
-            this.navigationListeners.forEach(func => func());
+            this.navigationListeners.forEach(func => func(this.currentFrame));
         }
     }
 
-    addNavigationListener = (func: () => void) => {
+    addNavigationListener = (func: (frame: Frame | null) => void) => {
         this.navigationListeners.push(func);
     }
 }
