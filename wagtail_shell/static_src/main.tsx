@@ -6,6 +6,7 @@ import {LogoImages} from './components/Logo';
 import {Browser} from './components/Browser';
 import {Sidebar} from './components/Sidebar';
 import * as breakpoints from './components/common/breakpoints';
+import './wagtailscss/styles.scss';
 
 import {Frame, NavigationController} from './navigation';
 
