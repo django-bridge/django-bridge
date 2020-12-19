@@ -29,9 +29,31 @@ module.exports = {
         use: ['@svgr/webpack'],
       },
       {
-        test: /\.(woff|woff2|png|jpg|gif)$/,
+        test: /\.(woff|woff2)$/,
         use: [
-          'file-loader'
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: '../fonts/',
+              // FIXME: Make this work when /static is hosted somewhere else
+              publicPath: '/static/wagtail_shell/fonts/'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: '../images/',
+              // FIXME: Make this work when /static is hosted somewhere else
+              publicPath: '/static/wagtail_shell/images/'
+            }
+          }
         ]
       }
     ]
