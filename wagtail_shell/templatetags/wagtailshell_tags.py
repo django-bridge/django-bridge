@@ -17,6 +17,12 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
+def wagtailshell_enabled(context):
+    request = context['request']
+    return getattr(request, 'wagtailshell_enabled', False)
+
+
+@register.simple_tag(takes_context=True)
 def shell_props(context):
     request = context['request']
     search_areas = admin_search_areas.search_items_for_request(request)

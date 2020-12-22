@@ -11,10 +11,11 @@ def shell_enable(fn):
     """
     @functools.wraps(fn)
     def wrapper(request, *args, **kwargs):
+        request.wagtailshell_enabled = True
         response = fn(request, *args, **kwargs)
 
         # Attempt to convert non-shell response into a shell response
-        if response.status_code == 200 and not isinstance(response, ShellResponse) and not getattr(request, 'wagtail_shell_disable', False) and not request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        if response.status_code == 200 and not isinstance(response, ShellResponse) and request.wagtailshell_enabled and not request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             response = convert_to_shell_response(request, response)
 
         # If the request was made by the shell (using `fetch()`, rather than a regular browser request)
@@ -43,7 +44,7 @@ def shell_disable(fn):
     """
     @functools.wraps(fn)
     def wrapper(request, *args, **kwargs):
-        request.wagtail_shell_disable = True
+        request.wagtailshell_enabled = False
         return fn(request, *args, **kwargs)
 
     return wrapper
