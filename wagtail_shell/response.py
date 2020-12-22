@@ -48,12 +48,13 @@ def convert_to_shell_response(request, response):
     """
     Converts a non-shell response into a shell one.
     """
-    # If the response is HTML, and our replacement admin_base.html was used,
-    # return a "render HTML" response that wraps the response in an iframe on the frontend
+    # If the response is HTML and isn't the login view then return a "render HTML
+    # response that wraps the response in an iframe on the frontend
 
     # FIXME: Find a proper mime type parser
+    # FIXME: Find a general solution for password reset views. Maybe go back to detecting whether a known template was used for the response?
     is_html = response.get('Content-Type').startswith('text/html')
-    if is_html:
+    if is_html and not 'wagtailadmin/login.html' in getattr(response, 'template_name', []):
         if hasattr(response, 'render'):
             response.render()
 
