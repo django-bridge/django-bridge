@@ -113,7 +113,7 @@ interface MenuItemProps {
     navigate(url: string): Promise<void>;
 }
 
-const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, dispatch}) => {
+const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, dispatch, navigate}) => {
     const isOpen = state.navigationPath.startsWith(path);
     const isActive = isOpen || state.activePath.startsWith(path);
     const isInSubmenu = path.split('.').length > 2;
@@ -132,12 +132,19 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, s
         }
     }, [isOpen]);
 
+    const closeExplorer = () => {
+        dispatch({
+            type: 'set-navigation-path',
+            path: '',
+        });
+    };
+
     const context = React.useContext(ExplorerContext);
     const explorerManager = React.useRef<any>(null);
     React.useEffect(() => {
         const wrapperElement = context?.wrapperRef;
         if (wrapperElement?.current && !explorerManager.current) {
-            explorerManager.current = initExplorer(wrapperElement.current);
+            explorerManager.current = initExplorer(wrapperElement.current, (url: string) => navigate(url).then(closeExplorer));
         }
     }, [context?.wrapperRef]);
 

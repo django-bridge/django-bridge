@@ -13,7 +13,7 @@ import { openExplorer, closeExplorer } from './actions';
 /**
  * Initialises the explorer component on the given nodes.
  */
-const initExplorer = (explorerNode: HTMLElement) => {
+const initExplorer = (explorerNode: HTMLElement, navigate: (url: string) => Promise<void>) => {
     const rootReducer = combineReducers({
         explorer,
         nodes,
@@ -36,7 +36,7 @@ const initExplorer = (explorerNode: HTMLElement) => {
 
     ReactDOM.render((
         <Provider store={store}>
-            <Explorer />
+            <Explorer navigate={navigate} />
         </Provider>
     ), explorerNode);
 

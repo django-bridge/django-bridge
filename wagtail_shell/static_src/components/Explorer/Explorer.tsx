@@ -18,6 +18,7 @@ interface ExplorerProps {
     nodes: NodeState,
     onClose(): void;
     gotoPage(id: number, transition: number): void;
+    navigate(url: string): Promise<void>;
 }
 
 const Explorer: React.FunctionComponent<ExplorerProps> = ({
@@ -26,6 +27,7 @@ const Explorer: React.FunctionComponent<ExplorerProps> = ({
     currentPageId,
     nodes,
     gotoPage,
+    navigate,
     onClose,
 }) => ((isVisible && currentPageId) ? (
     <ExplorerPanel
@@ -33,6 +35,7 @@ const Explorer: React.FunctionComponent<ExplorerProps> = ({
         page={nodes[currentPageId]}
         nodes={nodes}
         gotoPage={gotoPage}
+        navigate={navigate}
         onClose={onClose}
     />
 ) : null);

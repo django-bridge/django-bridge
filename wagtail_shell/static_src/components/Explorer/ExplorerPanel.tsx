@@ -19,6 +19,7 @@ interface ExplorerPanelProps {
     page: PageState;
     onClose(): void;
     gotoPage(id: number, transition: number): void;
+    navigate(url: string): Promise<void>;
 }
 
 interface ExplorerPanelState {
@@ -117,6 +118,7 @@ class ExplorerPanel extends React.Component<ExplorerPanelProps, ExplorerPanelSta
                             key={id}
                             item={nodes[id]}
                             onClick={this.onItemClick.bind(null, id)}
+                            navigate={this.props.navigate}
                         />
                     ))}
                 </div>

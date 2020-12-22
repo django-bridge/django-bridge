@@ -23,13 +23,14 @@ const childrenIcon = (
 interface ExplorerItemProps {
     item: PageState;
     onClick(): void;
+    navigate(url: string): Promise<void>;
 }
 
 /**
  * One menu item in the page explorer, with different available actions
  * and information depending on the metadata of the page.
  */
-const ExplorerItem: React.FunctionComponent<ExplorerItemProps> = ({ item, onClick }) => {
+const ExplorerItem: React.FunctionComponent<ExplorerItemProps> = ({ item, onClick, navigate }) => {
     const { id, admin_display_title: title, meta } = item;
     const hasChildren = meta.children.count > 0;
     const isPublished = meta.status.live && !meta.status.has_unpublished_changes;
@@ -37,7 +38,7 @@ const ExplorerItem: React.FunctionComponent<ExplorerItemProps> = ({ item, onClic
 
     return (
         <div className="c-explorer__item">
-            <Button href={`${wagtailConfig.ADMIN_URLS.PAGES}${id}/`} className="c-explorer__item__link">
+            <Button href={`${wagtailConfig.ADMIN_URLS.PAGES}${id}/`} className="c-explorer__item__link" navigate={navigate}>
                 {hasChildren ? childrenIcon : null}
 
                 <h3 className="c-explorer__item__title">
@@ -54,6 +55,7 @@ const ExplorerItem: React.FunctionComponent<ExplorerItemProps> = ({ item, onClic
             <Button
                 href={`${wagtailConfig.ADMIN_URLS.PAGES}${id}/edit/`}
                 className="c-explorer__item__action c-explorer__item__action--small"
+                navigate={navigate}
             >
                 <Icon name="edit" title={gettext("Edit '{title}").replace('{title}', title || '')} className="icon--item-action" />
             </Button>
