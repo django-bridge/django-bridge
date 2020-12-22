@@ -52,15 +52,9 @@
                             });
                         });
 
-                        // Ajaxify 'get' forms
+                        // Set action on forms without one.
+                        // (otherwise the form will submit to /admin/shell/frame/)
                         Array.from(document.forms).forEach(form => {
-                            // Don't ajaxify POST forms
-                            if (form.method.toLowerCase() == 'post') {
-                                return;
-                            }
-
-                            // Make sure action is set to something.
-                            // If it's blank, the browser will try to post the data to 'about:srcdoc' which will result in an error.
                             // Note: Don't use form.action here as some forms have an action field!
                             const formAction = form.getAttribute('action');
                             form.action = formAction || frame.url;
