@@ -76,6 +76,7 @@ const SearchForm = styled.form`
 `;
 
 interface SearchInputProps {
+    collapsed: boolean;
     searchUrl: string;
     navigate(url: string): void;
 }

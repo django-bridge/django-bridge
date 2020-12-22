@@ -5,12 +5,10 @@ import styled, { css } from 'styled-components';
 import {LogoImages} from './components/Logo';
 import {Browser} from './components/Browser';
 import {Sidebar} from './components/Sidebar';
-import * as breakpoints from './components/common/breakpoints';
+import * as mixins from './components/common/mixins';
 import './wagtailscss/styles.scss';
 
 import {Frame, NavigationController} from './navigation';
-
-const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 // A React context to pass some data down to the ExplorerMenuItem component
 interface ExplorerContext {
@@ -34,10 +32,23 @@ export interface ShellProps {
     navigationController: NavigationController
 }
 
-const SidebarWrapper = styled.aside`
+interface WrapperProps {
+    collapsed: boolean;
+}
+
+const ShellWrapper = styled.div<WrapperProps>`
+    height: 100vh;
+    padding-left: 200px;  // menu-width
+    ${mixins.transition('padding-left 0.3s ease')}
+
+    ${(props) => props.collapsed && css`
+    padding-left: 50px;
+    `}
+`;
+
+const SidebarWrapper = styled.aside<WrapperProps>`
     position: fixed;
     left: 0;
-    margin-left: -200px;  // $menu-width;
     width: 200px;  // $menu-width;
     float: left;
     display: flex;
@@ -46,32 +57,52 @@ const SidebarWrapper = styled.aside`
     background: #333;  // $nav-grey-1;
     z-index: 1;
 
-    ${smBreakpoint(css`
-        // height and position necessary to force it to 100% height of screen (with some JS help)
-        margin-left: 0;
-    `)}
+    ${mixins.transition('width 0.3s ease')}
+
+    ${(props) => props.collapsed && css`
+        width: 50px;
+    `}
 `;
 
-const BrowserWrapper = styled.div`
+const BrowserWrapper = styled.div<WrapperProps>`
     position: absolute;
     width: 100%;
     height: 100%;
+    width: calc(100% - 200px);  // 200px = $menu-width;
 
-    ${smBreakpoint(css`
-        width: calc(100% - 200px);  // 200px = $menu-width;
-    `)}
+    ${mixins.transition('width 0.3s ease')}
+
+    ${(props) => props.collapsed && css`
+        width: calc(100% - 50px);
+    `}
 `;
 
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
+    const [collapsed, setCollapsed] = React.useState(false);
+
+    React.useEffect(() => {
+        const listener = (e: KeyboardEvent) => {
+            if (e.key == 'Enter') {
+                setCollapsed(!collapsed);
+            }
+        };
+
+        document.addEventListener('keydown', listener);
+
+        return () => {
+            document.removeEventListener('keydown', listener);
+        }
+    });
+
     return (
-        <>
-            <SidebarWrapper>
-                <Sidebar {...props} navigationController={props.navigationController} />
+        <ShellWrapper collapsed={collapsed}>
+            <SidebarWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
+                <Sidebar {...props} collapsed={collapsed} navigationController={props.navigationController} />
             </SidebarWrapper>
-            <BrowserWrapper>
+            <BrowserWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
                 <Browser navigationController={props.navigationController} />
             </BrowserWrapper>
-        </>
+        </ShellWrapper>
     );
 }
 

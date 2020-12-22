@@ -115,14 +115,12 @@
 
     <a class="skiplink button" href="#main" data-skiplink>{% trans 'Skip to main content' %}</a>
 
-    <div class="wrapper">
-        <div id="wagtailshell-root" data-initial-response="{{ data }}">
-            {% include 'wagtailshell/sidebar.html' %}
-        </div>
-        <script>
-            window.csrfToken = '{{ csrf_token|escapejs }}';
-        </script>
+    <div id="wagtailshell-root" data-initial-response="{{ data }}">
+        {% include 'wagtailshell/sidebar.html' %}
     </div>
+    <script>
+        window.csrfToken = '{{ csrf_token|escapejs }}';
+    </script>
 </body>
 </html>
 

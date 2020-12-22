@@ -1,28 +1,32 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import * as breakpoints from './common/breakpoints';
+interface LogoWrapperProps {
+    collapsed: boolean;
+}
 
-const LogoWrapper = styled.a`
-    display: flex;
+const LogoWrapper = styled.a<LogoWrapperProps>`
+    display: block;
     align-items: center;
-    padding: 0.6em 1.2em;
     color: #aaa;
     -webkit-font-smoothing: auto;
     position: relative;
+    display: block;
+    margin: 2em auto;
+    text-align: center;
+    padding: 0.6em 1.2em;
+    transition: padding 0.3s ease;
 
     &:hover {
         color: $color-white;
     }
 
-    ${breakpoints.mediaBreakpointUp('sm')(css`
-        display: block;
-        margin: 2em auto;
-        text-align: center;
-    `)}
+    ${(props) => props.collapsed && css`
+        padding: 1em 0.1em;
+    `}
 `;
 
-const LogoMobileWrapper = styled.div`
+const LogoMobileWrapper = styled.div<LogoWrapperProps>`
     margin-right: 10px;
     background-color: #555;
     border-radius: 50%;
@@ -35,7 +39,7 @@ const LogoMobileWrapper = styled.div`
     }
 `;
 
-interface LogoDesktopWrapperProps {
+interface LogoDesktopWrapperProps extends LogoWrapperProps {
     isWagging: boolean;
 }
 
@@ -56,17 +60,28 @@ const LogoDesktopWrapper = styled.div<LogoDesktopWrapperProps>`
     background-color: #555;
     border-radius: 50%;
     margin: 0 auto;
-    transition: all 0.25s cubic-bezier(0.28, 0.15, 0, 2.1);
+    transition: transform 0.3s cubic-bezier(0.28, 0.15, 0, 2.1), width 0.3s ease, height 0.3s ease;
+
+    ${(props) => props.collapsed && css`
+        width: 40px;
+        height: 40px;
+    `}
 
     .page404__bg & {
         background-color: transparent;
     }
 
     > div {
-        width: 52px;
-        height: 100px;
         margin: auto;
         position: relative;
+        width: 52px;
+        height: 100px;
+        transition: width 0.3s ease, height 0.3s ease;
+
+        ${(props) => props.collapsed && css`
+            width: 20px;
+            height: 40px;
+        `}
 
         .page404__bg & {
             width: auto;
@@ -134,12 +149,13 @@ export interface LogoImages {
 }
 
 interface LogoProps {
+    collapsed: boolean;
     images: LogoImages;
     homeUrl: string;
     navigate(url: string): void;
 }
 
-export const Logo: React.FunctionComponent<LogoProps> = ({images, homeUrl, navigate}) => {
+export const Logo: React.FunctionComponent<LogoProps> = ({collapsed, images, homeUrl, navigate}) => {
     // Tail wagging
     // If the pointer changes direction 8 or more times without leaving, wag the tail!
     const lastMouseX = React.useRef(0);
@@ -175,14 +191,14 @@ export const Logo: React.FunctionComponent<LogoProps> = ({images, homeUrl, navig
     };
 
     return (
-        <LogoWrapper href="#" onClick={onClick} aria-label={gettext('Dashboard')}>
+        <LogoWrapper collapsed={collapsed} href="#" onClick={onClick} aria-label={gettext('Dashboard')}>
             {/* Mobile */}
-            <LogoMobileWrapper className="u-hidden@sm">
+            <LogoMobileWrapper collapsed={collapsed} className="u-hidden@sm">
                 <img src={images.mobileLogo} alt="" width="80" />
             </LogoMobileWrapper>
 
             {/* Desktop (animated) */}
-            <LogoDesktopWrapper className="u-hidden@xs" isWagging={isWagging} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+            <LogoDesktopWrapper collapsed={collapsed} className="u-hidden@xs" isWagging={isWagging} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
                 <div>
                     <img data-part="body" src={images.desktopLogoBody} alt=""/>
                     <img data-part="tail" src={images.desktopLogoTail} alt="" />

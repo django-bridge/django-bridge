@@ -4,34 +4,24 @@ import styled, { css } from 'styled-components';
 import Button from './common/Button';
 import Icon, { IconProps } from './common/Icon';
 import * as mixins from './common/mixins';
-import * as breakpoints from './common/breakpoints';
 import { ExplorerContext, ShellProps } from '../main';
 import { initExplorer } from './Explorer';
-
-const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 interface SubmenuTriggerIconProps extends IconProps {
     isOpen: boolean
 }
 const SubmenuTriggerIcon = styled<React.FunctionComponent<SubmenuTriggerIconProps>>(Icon)`
-    // The menus are collapsible on desktop only.
-    display: none;
-
-    ${smBreakpoint(css`
-        display: block;
-        width: 1.5em;
-        height: 1.5em;
-        position: absolute;
-        top: 0.8125em;
-        right: 0.5em;
-        ${mixins.transition('transform 0.3s ease')}
-    `)}
+    display: block;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    top: 0.8125em;
+    right: 0.5em;
+    ${mixins.transition('transform 0.3s ease, right 0.3s ease')}
 
     ${(props) => props.isOpen && css`
-        ${smBreakpoint(css`
-            transform-origin: 50% 50%;
-            transform: rotate(180deg);
-        `)}
+        transform-origin: 50% 50%;
+        transform: rotate(180deg);
     `}
 `;
 
@@ -185,7 +175,7 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, s
                 onClick={onClick}
             >
                 <Icon name="folder-open-inverse" className="icon--menuitem" />
-                    {data.label}
+                    <span className="menuitem-label">{data.label}</span>
                 <SubmenuTriggerIcon name="arrow-right" isOpen={isOpen} />
             </Button>
         </MenuItemWrapper>
@@ -225,7 +215,7 @@ const MenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, di
                onClick={onClick}
                className={data.classnames}>
                 {data.icon_name && <Icon name={data.icon_name} className="icon--menuitem"/>}
-                {data.label}
+                <span className="menuitem-label">{data.label}</span>
             </a>
         </MenuItemWrapper>
     );
@@ -253,15 +243,53 @@ interface SubmenuWrapperProps {
     // isVisible can be true while isOpen is false when the menu is closing
     isVisible: boolean;
     isOpen: boolean;
+    collapsed: boolean;
 }
 
 const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
     visibility: hidden;
     background: #262626;  // $nav-submenu-bg;
     z-index: -1;
+    transform: translate3d(0, 0, 0);
+    position: fixed;
+    height: 100vh;
+    width: 200px;  // $menu-width;
+    padding: 0;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    ${mixins.transition('left 0.3s ease')}
+
+    h2,
+    &__list {
+        width: 200px;  // $menu-width;
+    }
 
     h2 {
-        display: none;
+        display: block;
+        padding: 0.2em 0;
+        font-size: 1.2em;
+        font-weight: 500;
+        text-transform: none;
+        text-align: center;
+        color: #ccc;  // $color-menu-text;
+
+        &:before {
+            font-size: 4em;
+            display: block;
+            text-align: center;
+            margin: 0 0 0.2em;
+            width: 100%;
+            opacity: 0.15;
+        }
+    }
+
+    ul {
+        overflow: auto;
+        flex-grow: 1;
     }
 
     li {
@@ -270,59 +298,11 @@ const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
 
     &__footer {
         margin: 0;
-        padding: 0.9em 1.7em;
         text-align: center;
         color: #ccc;  // $color-menu-text;
-    }
-
-    ${smBreakpoint(css`
-        transform: translate3d(0, 0, 0);
-        position: fixed;
-        height: 100vh;
-        width: 200px;  // $menu-width;
+        line-height: 50px;  // $nav-footer-closed-height;
         padding: 0;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-
-        ${mixins.transition('left 0.2s ease')}
-
-        h2,
-        &__list {
-            width: 200px;  // $menu-width;
-        }
-
-        h2 {
-            display: block;
-            padding: 0.2em 0;
-            font-size: 1.2em;
-            font-weight: 500;
-            text-transform: none;
-            text-align: center;
-            color: #ccc;  // $color-menu-text;
-
-            &:before {
-                font-size: 4em;
-                display: block;
-                text-align: center;
-                margin: 0 0 0.2em;
-                width: 100%;
-                opacity: 0.15;
-            }
-        }
-
-        ul {
-            overflow: auto;
-            flex-grow: 1;
-        }
-
-        &__footer {
-            line-height: 50px;  // $nav-footer-closed-height;
-            padding: 0;
-        }
-    `)}
+    }
 
     ${(props) => props.isVisible && css`
         visibility: visible;
@@ -333,10 +313,16 @@ const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
         }
     `}
 
+    ${(props) => props.collapsed && css`
+        left: -150px;  // Slim menu width minus submenu width
+    `}
+
     ${(props) => props.isOpen && css`
-        ${smBreakpoint(css`
-            left: 200px;  // $menu-width;
-        `)}
+        left: 200px;  // Menu width
+    `}
+
+    ${(props) => props.isOpen && props.collapsed && css`
+        left: 50px;  // Slim menu width
     `}
 `;
 
@@ -346,10 +332,11 @@ interface MenuGroupProps {
     items: MenuData;
     state: MenuState;
     dispatch(action: MenuAction): void;
+    collapsed: boolean;
     navigate(url: string): Promise<void>;
 }
 
-const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({path, data, items, state, dispatch, navigate}) => {
+const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({path, data, items, state, dispatch, collapsed, navigate}) => {
     const isOpen = state.navigationPath.startsWith(path);
     const isActive = isOpen || state.activePath.startsWith(path);
     const [isVisible, setIsVisible] = React.useState(false);
@@ -387,29 +374,29 @@ const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({path, data, items, 
         <MenuGroupWrapper isActive={isActive} isInSubmenu={false} isOpen={isOpen}>
             <a href="#" onClick={onClick} className={data.classnames} aria-haspopup="true" aria-expanded={isOpen ? 'true' : 'false'}>
                 {data.icon_name && <Icon name={data.icon_name} className="icon--menuitem"/>}
-                {data.label}
+                <span className="menuitem-label">{data.label}</span>
                 <SubmenuTriggerIcon name="arrow-right" isOpen={isOpen} />
             </a>
-            <SubmenuWrapper isVisible={isVisible} isOpen={isOpen}>
+            <SubmenuWrapper isVisible={isVisible} isOpen={isOpen} collapsed={collapsed}>
                 <h2 id={`nav-submenu-${data.name}-title`} className={data.classnames}>
                     {data.icon_name && <Icon name={data.icon_name} className="icon--submenu-header"/>}
                     {data.label}
                 </h2>
                 <ul aria-labelledby="nav-submenu-{{ name }}-title">
-                    {renderMenuItems(path, items, state, dispatch, navigate)}
+                    {renderMenuItems(path, items, state, dispatch, collapsed, navigate)}
                 </ul>
             </SubmenuWrapper>
         </MenuGroupWrapper>
     );
 }
 
-function renderMenuItems(path: string, menuItems: MenuData, state: MenuState, dispatch: (action: MenuAction) => void, navigate: (url: string) => Promise<void>) {
+function renderMenuItems(path: string, menuItems: MenuData, state: MenuState, dispatch: (action: MenuAction) => void, collapsed: boolean, navigate: (url: string) => Promise<void>) {
     return (
         <>
             {menuItems.map(menuItem => {
                 switch (menuItem.type) {
                     case 'group':
-                        return <MenuGroup key={menuItem.data.name} path={`${path}.${menuItem.data.name}`} data={menuItem.data} state={state} dispatch={dispatch} items={menuItem.items} navigate={navigate} />;
+                        return <MenuGroup key={menuItem.data.name} path={`${path}.${menuItem.data.name}`} data={menuItem.data} state={state} dispatch={dispatch} collapsed={collapsed} items={menuItem.items} navigate={navigate} />;
                     case 'item':
                         return <MenuItem key={menuItem.data.name} path={`${path}.${menuItem.data.name}`} data={menuItem.data} state={state} dispatch={dispatch} navigate={navigate} />;
                 }
@@ -448,10 +435,18 @@ function menuReducer(state: MenuState, action: MenuAction) {
 }
 
 interface MainNavProps {
+    collapsed: boolean;
+    fullyExpanded: boolean;
     openFooter: boolean;
 }
 
 const MainNav = styled.nav<MainNavProps>`
+    overflow: auto;
+    margin-bottom: ${(props: MainNavProps) => props.openFooter ? '127px' /* $nav-footer-open-height */: '50px' /* $nav-footer-closed-height */};
+    opacity: 1;
+
+    ${mixins.transition('margin-bottom 0.2s ease')}
+
     ul,
     li {
         margin: 0;
@@ -485,25 +480,6 @@ const MainNav = styled.nav<MainNavProps>`
         }
     }
 
-    .footer-submenu {
-        a {
-            border-left: 3px solid transparent;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            &:before {
-                font-size: 1rem;
-                margin-right: 0.5em;
-                vertical-align: -10%;
-            }
-        }
-    }
-
-    .account {
-        display: none;
-    }
-
     *:focus {
         ${mixins.showFocusOutlineInside()}
     }
@@ -523,72 +499,106 @@ const MainNav = styled.nav<MainNavProps>`
         opacity: 0.15;
     }
 
-    ${smBreakpoint(css`
-        overflow: auto;
-        margin-bottom: ${(props: MainNavProps) => props.openFooter ? '127px' /* $nav-footer-open-height */: '50px' /* $nav-footer-closed-height */};
+    .footer-submenu {
+        ${mixins.transition('max-height 0.2s ease')}
 
-        ${mixins.transition('margin-bottom 0.2s ease')}
+        max-height: ${(props: MainNavProps) => props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'};
 
-        .footer {
-            position: fixed;
-            width: 200px;  // $menu-width;
-            bottom: 0;
-            background-color: #262626;  // $nav-footer-submenu-bg;
-        }
+        a {
+            border-left: 3px solid transparent;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-        .footer-submenu {
-            ${mixins.transition('max-height 0.2s ease')}
-
-            max-height: ${(props: MainNavProps) => props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'};
-        }
-
-        .account {
-            ${mixins.clearfix()}
-            background: #1a1a1a;  // $nav-footer-account-bg;
-            color: #ccc;  // $color-menu-text;
-            text-transform: uppercase;
-            display: block;
-            cursor: pointer;
-
-            &:hover {
-                background-color: rgba(100, 100, 100, 0.15);
-                color: #fff;  // $color-white
-                text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-            }
-
-            .avatar {
-                float: left;
-                margin-right: 0.9em;
-
-                &:before {
-                    color: inherit;
-                    border-color: inherit;
-                }
-            }
-
-            em {
-                box-sizing: border-box;
-                padding-right: 1.8em;
-                margin-top: 1.2em;
-                font-style: normal;
-                font-weight: 700;
-                width: 110px;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                float: left;
-
-                &:after {
-                    font-size: 1.5em;
-                    position: absolute;
-                    right: 0.25em;
-                }
+            &:before {
+                font-size: 1rem;
+                margin-right: 0.5em;
+                vertical-align: -10%;
             }
         }
-    `)}
+    }
+
+    .footer {
+        position: fixed;
+        width: 200px;  // $menu-width;
+        bottom: 0;
+        background-color: #262626;  // $nav-footer-submenu-bg;
+    }
+
+    .account {
+        ${mixins.clearfix()}
+        background: #1a1a1a;  // $nav-footer-account-bg;
+        color: #ccc;  // $color-menu-text;
+        text-transform: uppercase;
+        display: block;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(100, 100, 100, 0.15);
+            color: #fff;  // $color-white
+            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar {
+            float: left;
+            margin-right: 0.9em;
+
+            &:before {
+                color: inherit;
+                border-color: inherit;
+            }
+        }
+
+        em {
+            box-sizing: border-box;
+            padding-right: 1.8em;
+            margin-top: 1.2em;
+            font-style: normal;
+            font-weight: 700;
+            width: 110px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: left;
+
+            &:after {
+                font-size: 1.5em;
+                position: absolute;
+                right: 0.25em;
+            }
+        }
+    }
+
+    > ul > li > a {
+        // Need !important to override body.ready class
+        transition: padding 0.3s ease !important;
+
+        .menuitem-label {
+            transition: opacity 0.3s ease;
+        }
+    }
+
+    ${(props) => props.collapsed && css`
+        > ul > li > a {
+            padding: 0.8em 0.8em;
+
+            .menuitem-label {
+                opacity: 0;
+            }
+
+            .icon-arrow-right {
+                right: 0;
+            }
+        }
+    `}
+
+    ${(props) => !props.fullyExpanded && css`
+        overflow-x: hidden;
+    `}
 `;
 
 interface MenuProps {
+    collapsed: boolean;
     activeUrl: string;
     menuItems: MenuData;
     user: ShellProps['user'];
@@ -597,7 +607,7 @@ interface MenuProps {
     navigate(url: string): Promise<void>;
 }
 
-export const Menu: React.FunctionComponent<MenuProps> = ({activeUrl, menuItems, user, accountUrl, logoutUrl, navigate}) => {
+export const Menu: React.FunctionComponent<MenuProps> = ({collapsed, activeUrl, menuItems, user, accountUrl, logoutUrl, navigate}) => {
     const [state, dispatch] = React.useReducer(menuReducer, {
         navigationPath: '',
         activePath: '',
@@ -674,6 +684,20 @@ export const Menu: React.FunctionComponent<MenuProps> = ({activeUrl, menuItems, 
         };
     }, []);
 
+    // Whenever the menu is uncollapsed, wait until it has fully expanded before adding the `overflow: auto` rule back
+    // This prevents an ugly flash of the scrollbar while the animation is in progress
+    const [fullyExpanded, setFullyExpanded] = React.useState(collapsed);
+    React.useEffect(() => {
+        if (collapsed) {
+            setFullyExpanded(false);
+        }
+        if (!collapsed && !fullyExpanded) {
+            const timeout = setTimeout(() => {
+                setFullyExpanded(true);
+            }, 300);
+            return () => clearTimeout(timeout);
+        }
+    }, [collapsed]);
 
     const onClickLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (e.target instanceof HTMLAnchorElement) {
@@ -691,9 +715,9 @@ export const Menu: React.FunctionComponent<MenuProps> = ({activeUrl, menuItems, 
     }
 
     return (
-        <MainNav openFooter={accountSettingsOpen}>
+        <MainNav collapsed={collapsed} fullyExpanded={fullyExpanded} openFooter={accountSettingsOpen}>
             <ul>
-                {renderMenuItems('', menuItems, state, dispatch, navigate)}
+                {renderMenuItems('', menuItems, state, dispatch, collapsed, navigate)}
 
                 <li className="footer">
                     <div className="account" title={gettext('Edit your account')} onClick={onClickAccountSettings}>
