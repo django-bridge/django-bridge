@@ -27,6 +27,10 @@ declare global {
             EXTRA_CHILDREN_PARAMETERS: string;
         };
 
+        ADMIN_URLS: {
+            PAGES: string;
+        };
+
         I18N_ENABLED: boolean;
         LOCALES: {
             code: string;

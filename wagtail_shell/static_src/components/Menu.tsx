@@ -7,6 +7,8 @@ import * as mixins from './common/mixins';
 import * as breakpoints from './common/breakpoints';
 import { ExplorerContext, ShellProps } from '../main';
 
+import './Explorer';
+
 const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
 
 interface MenuItemWrapperProps {
