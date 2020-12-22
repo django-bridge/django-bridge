@@ -26,19 +26,6 @@ const LogoWrapper = styled.a<LogoWrapperProps>`
     `}
 `;
 
-const LogoMobileWrapper = styled.div<LogoWrapperProps>`
-    margin-right: 10px;
-    background-color: #555;
-    border-radius: 50%;
-    padding: 5px 7.5px;
-
-    .wagtail-logo {
-        width: 20px;
-        float: left;
-        border: 0;
-    }
-`;
-
 interface LogoDesktopWrapperProps extends LogoWrapperProps {
     isWagging: boolean;
 }
@@ -192,13 +179,7 @@ export const Logo: React.FunctionComponent<LogoProps> = ({collapsed, images, hom
 
     return (
         <LogoWrapper collapsed={collapsed} href="#" onClick={onClick} aria-label={gettext('Dashboard')}>
-            {/* Mobile */}
-            <LogoMobileWrapper collapsed={collapsed} className="u-hidden@sm">
-                <img src={images.mobileLogo} alt="" width="80" />
-            </LogoMobileWrapper>
-
-            {/* Desktop (animated) */}
-            <LogoDesktopWrapper collapsed={collapsed} className="u-hidden@xs" isWagging={isWagging} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+            <LogoDesktopWrapper collapsed={collapsed} isWagging={isWagging} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
                 <div>
                     <img data-part="body" src={images.desktopLogoBody} alt=""/>
                     <img data-part="tail" src={images.desktopLogoTail} alt="" />
@@ -206,7 +187,7 @@ export const Logo: React.FunctionComponent<LogoProps> = ({collapsed, images, hom
                     <img data-part="eye--closed" src={images.desktopLogoEyeClosed} alt="" />
                 </div>
             </LogoDesktopWrapper>
-            <span className="u-hidden@sm">{gettext('Dashboard')}</span>
+            {/* TODO Do we need this? <span className="u-hidden@sm">{gettext('Dashboard')}</span> */}
         </LogoWrapper>
     );
 }
