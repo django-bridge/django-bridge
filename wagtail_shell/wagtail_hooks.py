@@ -24,3 +24,16 @@ def register_admin_urls():
             ),
         )
     ]
+
+
+@hooks.register("insert_global_admin_css", order=100)
+def global_admin_css():
+    # Remove left padding from the content, this is usually for Wagtail's
+    # builtin menu which we've removed in templates/wagtailadmin/base.html.
+    return """
+    <style>
+        .wrapper {
+            padding-left: 0;
+        }
+    </style>
+    """
