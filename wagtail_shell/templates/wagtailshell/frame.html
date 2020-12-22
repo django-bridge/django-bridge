@@ -21,7 +21,7 @@
                         document.head.appendChild(baseElement);
 
                         // Ajaxify links
-                        Array.from(document.links).forEach(link => {
+                        const processLink = (link) => {
                             // Don't ajaxify download links
                             if (link.hasAttribute('download')) {
                                 return
@@ -50,15 +50,37 @@
                                     }, "*");
                                 }
                             });
-                        });
+                        };
 
                         // Set action on forms without one.
                         // (otherwise the form will submit to /admin/shell/frame/)
-                        Array.from(document.forms).forEach(form => {
+                        const processForm = (form) => {
                             // Note: Don't use form.action here as some forms have an action field!
                             const formAction = form.getAttribute('action');
                             form.action = formAction || frame.url;
+                        }
+
+                        // Set up elements that are in the initial response and set them up
+                        Array.from(document.links).forEach(processLink);
+                        Array.from(document.forms).forEach(processForm);
+
+                        // Create an observer to listen for new links and forms
+                        const observer = new MutationObserver((mutationsList, observer) => {
+                            // Use traditional 'for loops' for IE 11
+                            mutationsList.forEach(mutation => {
+                                if (mutation.type === 'childList') {
+                                    mutation.addedNodes.forEach(node => {
+                                        if (node instanceof HTMLElement) {
+                                            node.querySelectorAll('a[href]').forEach(processLink);
+                                            node.querySelectorAll('form').forEach(processForm);
+                                        }
+                                    })
+                                }
+                            })
                         });
+
+                        // Start observing the target node for configured mutations
+                        observer.observe(document.body, { attributes: false, childList: true, subtree: true });
 
                         parent.postMessage({
                             id: frame.id,
