@@ -2,14 +2,38 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 import Button from './common/Button';
-import Icon from './common/Icon';
+import Icon, { IconProps } from './common/Icon';
 import * as mixins from './common/mixins';
 import * as breakpoints from './common/breakpoints';
 import { ExplorerContext, ShellProps } from '../main';
-
-import './Explorer';
+import { initExplorer } from './Explorer';
 
 const smBreakpoint = breakpoints.mediaBreakpointUp('sm');
+
+interface SubmenuTriggerIconProps extends IconProps {
+    isOpen: boolean
+}
+const SubmenuTriggerIcon = styled<React.FunctionComponent<SubmenuTriggerIconProps>>(Icon)`
+    // The menus are collapsible on desktop only.
+    display: none;
+
+    ${smBreakpoint(css`
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        position: absolute;
+        top: 0.8125em;
+        right: 0.5em;
+        ${mixins.transition('transform 0.3s ease')}
+    `)}
+
+    ${(props) => props.isOpen && css`
+        ${smBreakpoint(css`
+            transform-origin: 50% 50%;
+            transform: rotate(180deg);
+        `)}
+    `}
+`;
 
 interface MenuItemWrapperProps {
     isActive: boolean;
@@ -90,30 +114,60 @@ interface MenuItemProps {
 }
 
 const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, dispatch}) => {
-    const explorerToggle = React.useRef<((page: number) => void) | null>(null);
-    const isActive = state.activePath.startsWith(path) || state.navigationPath.startsWith(path);
+    const isOpen = state.navigationPath.startsWith(path);
+    const isActive = isOpen || state.activePath.startsWith(path);
     const isInSubmenu = path.split('.').length > 2;
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        if (isOpen) {
+            // isOpen is set at the moment the user clicks the menu item
+            setIsVisible(true);
+        } else if (!isOpen && isVisible) {
+            // When a submenu is closed, we have to wait for the close animation
+            // to finish before making it invisible
+            setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+        }
+    }, [isOpen]);
 
     const context = React.useContext(ExplorerContext);
-    /* TODO
+    const explorerManager = React.useRef<any>(null);
     React.useEffect(() => {
-        if (context?.wrapperRef?.current) {
-            explorerToggle.current = initExplorer(context.wrapperRef.current, navigate);
+        const wrapperElement = context?.wrapperRef;
+        if (wrapperElement?.current && !explorerManager.current) {
+            explorerManager.current = initExplorer(wrapperElement.current);
         }
-    }, [context, context?.wrapperRef]);
-    */
+    }, [context?.wrapperRef]);
 
-    const onClickExplorer = (e: React.MouseEvent) => {
+    React.useEffect(() => {
+        if (isOpen && explorerManager.current) {
+            explorerManager.current.open(context.startPageId);
+
+            return () => {
+                if (explorerManager.current) {
+                    explorerManager.current.close();
+                }
+            };
+        }
+
+    }, [isOpen, explorerManager]);
+
+    const onClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        // Set active menu item
-        dispatch({
-            type: 'set-navigation-path',
-            path: path,
-        });
-
-        if (explorerToggle.current) {
-            explorerToggle.current(context.startPageId || 1);
+        // Open/close explorer
+        if (isOpen) {
+            dispatch({
+                type: 'set-navigation-path',
+                path: '',
+            });
+        } else {
+            dispatch({
+                type: 'set-navigation-path',
+                path,
+            });
         }
     }
 
@@ -121,11 +175,11 @@ const ExplorerMenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, s
         <MenuItemWrapper isActive={isActive} isInSubmenu={isInSubmenu}>
               <Button
                 dialogTrigger={true}
-                onClick={onClickExplorer}
+                onClick={onClick}
             >
                 <Icon name="folder-open-inverse" className="icon--menuitem" />
                     {data.label}
-                <Icon name="arrow-right" className="icon--submenu-trigger" />
+                <SubmenuTriggerIcon name="arrow-right" isOpen={isOpen} />
             </Button>
         </MenuItemWrapper>
     );
@@ -167,7 +221,6 @@ const MenuItem: React.FunctionComponent<MenuItemProps> = ({path, data, state, di
                 {data.label}
             </a>
         </MenuItemWrapper>
-
     );
 }
 
@@ -176,30 +229,8 @@ interface MenuGroupWrapperProps extends MenuItemWrapperProps {
 }
 
 const MenuGroupWrapper = styled(MenuItemWrapper)<MenuGroupWrapperProps>`
-    .icon--submenu-trigger {
-        // The menus are collapsible on desktop only.
-        display: none;
-
-        ${smBreakpoint(css`
-            display: block;
-            width: 1.5em;
-            height: 1.5em;
-            position: absolute;
-            top: 0.8125em;
-            right: 0.5em;
-            ${mixins.transition('transform 0.3s ease')}
-        `)}
-    }
-
     ${(props) => props.isOpen && css`
         background: #262626;  // $nav-submenu-bg;
-
-        .icon--submenu-trigger {
-            ${smBreakpoint(css`
-                transform-origin: 50% 50%;
-                transform: rotate(180deg);
-            `)}
-        }
 
         > a {
             text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
@@ -350,7 +381,7 @@ const MenuGroup: React.FunctionComponent<MenuGroupProps> = ({path, data, items, 
             <a href="#" onClick={onClick} className={data.classnames} aria-haspopup="true" aria-expanded={isOpen ? 'true' : 'false'}>
                 {data.icon_name && <Icon name={data.icon_name} className="icon--menuitem"/>}
                 {data.label}
-                <Icon name="arrow-right" className="icon--submenu-trigger"/>
+                <SubmenuTriggerIcon name="arrow-right" isOpen={isOpen} />
             </a>
             <SubmenuWrapper isVisible={isVisible} isOpen={isOpen}>
                 <h2 id={`nav-submenu-${data.name}-title`} className={data.classnames}>

@@ -22,6 +22,16 @@ const InnerWrapper = styled.div`
     `)}
 `;
 
+const ExplorerWrapper = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    flex: 1;
+
+    * {
+        box-sizing: border-box;
+    }
+`;
+
 interface SidebarProps extends ShellProps {
     navigationController: NavigationController;
 }
@@ -54,7 +64,7 @@ export const Sidebar: React.FunctionComponent<SidebarProps> =  ({homeUrl, logoIm
                     <Menu activeUrl={activeUrl} user={user} accountUrl={accountUrl} logoutUrl={logoutUrl} menuItems={menuItems} navigate={navigationController.navigate} />
                 </ExplorerContext.Provider>
             </InnerWrapper>
-            <div className="explorer__wrapper" ref={explorerWrapperRef}></div>
+            <ExplorerWrapper ref={explorerWrapperRef} data-explorer-menu />
         </>
     );
 };

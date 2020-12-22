@@ -1,3 +1,6 @@
+@import '../../wagtailscss/settings';
+@import '../../wagtailscss/tools';
+
 $c-explorer-bg: #4c4e4d;
 $c-explorer-bg-dark: $nav-grey-1;
 $c-explorer-bg-active: rgba(0, 0, 0, 0.425);
@@ -6,16 +9,6 @@ $c-explorer-easing: cubic-bezier(0.075, 0.82, 0.165, 1);
 $menu-footer-height: 50px;
 
 @import 'ExplorerItem';
-
-.explorer__wrapper,
-.explorer__wrapper * {
-    box-sizing: border-box;
-}
-
-.explorer__wrapper {
-    display: flex;
-    flex: 1;
-}
 
 .explorer {
     width: 100%;
@@ -28,6 +21,7 @@ $menu-footer-height: 50px;
         position: fixed;
         z-index: 500;
         left: $menu-width;
+        top: 0;
     }
 
     *:focus {

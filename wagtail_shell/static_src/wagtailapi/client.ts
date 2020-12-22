@@ -42,6 +42,7 @@ const request = (method: string, url: string) => {
     headers: new Headers({
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
     }),
     method: method
   };
