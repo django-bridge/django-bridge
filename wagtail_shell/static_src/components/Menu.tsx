@@ -17,7 +17,7 @@ const SubmenuTriggerIcon = styled<React.FunctionComponent<SubmenuTriggerIconProp
     position: absolute;
     top: 0.8125em;
     right: 0.5em;
-    ${mixins.transition('transform 0.3s ease, right 0.3s ease')}
+    ${mixins.transition('transform 0.3s ease, top 0.3s ease, right 0.3s ease, width 0.3s ease, height 0.3s ease')}
 
     ${(props) => props.isOpen && css`
         transform-origin: 50% 50%;
@@ -587,7 +587,10 @@ const MainNav = styled.nav<MainNavProps>`
             }
 
             .icon-arrow-right {
-                right: 0;
+                top: 1.0em;
+                right: 0.15em;
+                width: 1em;
+                height:1em;
             }
         }
     `}
