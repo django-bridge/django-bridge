@@ -56,7 +56,7 @@ export const FrameWrapper: React.FunctionComponent<FrameWrapperProps> = ({visibl
     return (
         <iframe onLoad={onIframeLoad} style={{
             display: visible ? 'block' : 'none',
-            overflow: 'scroll',
+            overflow: 'auto',
             border: 0,
             width: '100%',
             height: '100%',
