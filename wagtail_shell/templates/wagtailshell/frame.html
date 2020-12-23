@@ -13,7 +13,7 @@
                     document.write(frame.context.html);
                     document.close();
 
-                    document.addEventListener('DOMContentLoaded', () => {
+                    const onLoad = () => {
                         // Insert a <base target="_parent"> tag into the <head> of the iframe
                         // This makes it open all links in the main window
                         const baseElement = document.createElement('base');
@@ -87,7 +87,15 @@
                             type: 'load',
                             title: document.title,
                         }, "*");
-                    });
+                    };
+
+                    // Chrome/Edge load the document immedately and doesn't bother to fire DOMContentLoaded most of the time
+                    // Firefox never loads the document immediately and always fires DOMContentLoaded
+                    if (document.body) {
+                        onLoad();
+                    } else {
+                        document.addEventListener('DOMContentLoaded', onLoad);
+                    }
                 }
             }, false);
         </script>
