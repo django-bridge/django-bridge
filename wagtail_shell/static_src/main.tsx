@@ -80,24 +80,10 @@ const BrowserWrapper = styled.div<WrapperProps>`
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
     const [collapsed, setCollapsed] = React.useState(false);
 
-    React.useEffect(() => {
-        const listener = (e: KeyboardEvent) => {
-            if (e.key == 'Enter') {
-                setCollapsed(!collapsed);
-            }
-        };
-
-        document.addEventListener('keydown', listener);
-
-        return () => {
-            document.removeEventListener('keydown', listener);
-        }
-    });
-
     return (
         <ShellWrapper collapsed={collapsed}>
             <SidebarWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
-                <Sidebar {...props} collapsed={collapsed} navigationController={props.navigationController} />
+                <Sidebar {...props} collapsed={collapsed} navigationController={props.navigationController} onCollapse={setCollapsed} />
             </SidebarWrapper>
             <BrowserWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
                 <Browser navigationController={props.navigationController} />
