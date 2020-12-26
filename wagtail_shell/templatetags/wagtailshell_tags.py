@@ -26,13 +26,16 @@ def wagtailshell_enabled(context):
 def shell_props(context):
     request = context['request']
     search_areas = admin_search_areas.search_items_for_request(request)
-    if not search_areas:
-        return ''
-    search_area = search_areas[0]
+    if search_areas:
+        search_area = search_areas[0]
+    else:
+        search_area = None
+
+    print(search_area)
 
     explorer_start_page = get_explorable_root_page(request.user)
 
-    return json.dumps({
+    foo = json.dumps({
         'homeUrl': reverse('wagtailadmin_home'),
         'logoImages': {
             'mobileLogo': versioned_static('wagtailadmin/images/wagtail-logo.svg'),
@@ -41,7 +44,7 @@ def shell_props(context):
             'desktopLogoEyeOpen': versioned_static('wagtailadmin/images/logo-eyeopen.svg'),
             'desktopLogoEyeClosed': versioned_static('wagtailadmin/images/logo-eyeclosed.svg'),
         },
-        'searchUrl': search_area.url,
+        'searchUrl': search_area.url if search_area else None,
         'explorerStartPageId': explorer_start_page.id if explorer_start_page else None,
         'menuItems': serialize_admin_menu(request, admin_menu),
         'user': {
@@ -51,3 +54,7 @@ def shell_props(context):
         'accountUrl': reverse('wagtailadmin_account'),
         'logoutUrl': reverse('wagtailadmin_logout'),
     }, cls=DjangoJSONEncoder)
+
+    print(foo)
+
+    return foo
