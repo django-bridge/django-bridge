@@ -89,7 +89,7 @@ const usePersistedState = <T, _>(key: string, defaultValue: T): [T, (value: T) =
   }
 
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
-    const [collapsed, setCollapsed] = usePersistedState('wagtailshell-collapsed', false);
+    const [collapsed, setCollapsed] = usePersistedState('wagtailshell-collapsed', window.innerWidth < 800);
 
     return (
         <ShellWrapper collapsed={collapsed}>
