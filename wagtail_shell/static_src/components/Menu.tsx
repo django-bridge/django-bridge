@@ -249,7 +249,7 @@ interface SubmenuWrapperProps {
 const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
     visibility: hidden;
     background: #262626;  // $nav-submenu-bg;
-    z-index: -1;
+    z-index: -2;
     transform: translate3d(0, 0, 0);
     position: fixed;
     height: 100vh;
@@ -319,6 +319,9 @@ const SubmenuWrapper = styled.div<SubmenuWrapperProps>`
 
     ${(props) => props.isOpen && css`
         left: 200px;  // Menu width
+
+        // If another submenu is opening, display this menu behind it
+        z-index: -1;
     `}
 
     ${(props) => props.isOpen && props.collapsed && css`
