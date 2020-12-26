@@ -35,5 +35,9 @@ def global_admin_css():
         .wrapper {
             padding-left: 0;
         }
+
+        #nav-toggle {
+            display: none;
+        }
     </style>
     """
