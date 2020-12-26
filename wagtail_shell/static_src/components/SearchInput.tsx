@@ -1,10 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import * as mixins from './common/mixins';
 import {getIcon} from './common/iconfont';
 
-const SearchForm = styled.form`
+interface SearchFormProps {
+    collapsed: boolean;
+    visible: boolean;
+}
+
+const SearchForm = styled.form<SearchFormProps>`
     position: relative;
     padding: 0 1em 1em;
     margin: 0;
@@ -29,6 +34,17 @@ const SearchForm = styled.form`
         color: #ccc;  // $nav-search-color;
         padding: 0.8em 2.5em 0.8em 1em;
         font-weight: 600;
+        opacity: 1;
+        // Need !important to override body.ready class
+        transition: background-color 0.2s ease, opacity 0.3s ease !important;
+
+        ${(props) => props.collapsed && css`
+            opacity: 0;
+        `}
+
+        ${(props) => !props.visible && css`
+            visibility: hidden;
+        `}
 
         &:hover {
             background-color: hsla(0,0%,39.2%,.15);  // $nav-search-hover-bg;
@@ -53,6 +69,11 @@ const SearchForm = styled.form`
         bottom: 0;
         padding: 0;
         width: 3em;
+        transition: right 0.3s ease;
+
+        ${(props) => props.collapsed && css`
+            right: 0.5em;
+        `}
 
         &:hover {
             background-color: rgba(100, 100, 100, 0.15);  // $nav-item-hover-bg;
@@ -81,13 +102,40 @@ interface SearchInputProps {
     navigate(url: string): void;
 }
 
-export const SearchInput: React.FunctionComponent<SearchInputProps> = ({searchUrl, navigate}) => {
+export const SearchInput: React.FunctionComponent<SearchInputProps> = ({collapsed, searchUrl, navigate}) => {
+    const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+        if (e.target instanceof HTMLFormElement) {
+            e.preventDefault();
+
+            if (isVisible) {
+                const inputElement = e.target.querySelector('input[name="q"]') as HTMLInputElement;
+                navigate(searchUrl + '?q=' + encodeURIComponent(inputElement.value));
+            } else {
+                navigate(searchUrl);
+            }
+        }
+    };
+
     const onChangeSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         navigate(searchUrl + '?q=' + encodeURIComponent(e.target.value))
     };
 
+    const [isVisible, setIsVisible] = React.useState(false);
+
+    React.useEffect(() => {
+        if (!collapsed) {
+            setIsVisible(true);
+        } else if (collapsed && isVisible) {
+            // When the menu is collapsed, we have to wait for the close animation
+            // to finish before making it invisible
+            setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+        }
+    }, [collapsed]);
+
     return (
-        <SearchForm action={searchUrl} method="get">
+        <SearchForm action={searchUrl} method="get" collapsed={collapsed} visible={isVisible} onSubmit={onSubmitForm}>
             <div>
                 <label htmlFor="menu-search-q">{gettext('Search')}</label>
                 <input type="text" id="menu-search-q" name="q" placeholder={gettext('Search')} onChange={onChangeSearchInput} />
