@@ -77,8 +77,19 @@ const BrowserWrapper = styled.div<WrapperProps>`
     `}
 `;
 
+const usePersistedState = <T, _>(key: string, defaultValue: T): [T, (value: T) => void]  => {
+    const value = localStorage.getItem(key);
+    const [state, setState] = React.useState(
+        value ? JSON.parse(value) : defaultValue
+    );
+    React.useEffect(() => {
+      localStorage.setItem(key, JSON.stringify(state));
+    }, [key, state]);
+    return [state, setState];
+  }
+
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
-    const [collapsed, setCollapsed] = React.useState(false);
+    const [collapsed, setCollapsed] = usePersistedState('wagtailshell-collapsed', false);
 
     return (
         <ShellWrapper collapsed={collapsed}>
