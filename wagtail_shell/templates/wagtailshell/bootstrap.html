@@ -53,6 +53,7 @@
             try {
                 var request = new XMLHttpRequest();
                 request.open('GET', spriteURL, true);
+                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 request.onload = function () {
                     if (request.status >= 200 && request.status < 400) {
                         data = request.responseText;
