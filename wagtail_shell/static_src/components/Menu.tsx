@@ -448,7 +448,7 @@ const MainNav = styled.nav<MainNavProps>`
     margin-bottom: ${(props: MainNavProps) => props.openFooter ? '127px' /* $nav-footer-open-height */: '50px' /* $nav-footer-closed-height */};
     opacity: 1;
 
-    ${mixins.transition('margin-bottom 0.2s ease')}
+    ${mixins.transition('margin-bottom 0.3s ease')}
 
     ul,
     li {
@@ -458,12 +458,12 @@ const MainNav = styled.nav<MainNavProps>`
     }
 
     li {
-        ${mixins.transition('border-color 0.2s ease')}
+        ${mixins.transition('border-color 0.3s ease')}
         position: relative;
     }
 
     a {
-        ${mixins.transition('border-color 0.2s ease')}
+        ${mixins.transition('border-color 0.3s ease')}
         -webkit-font-smoothing: auto;
         text-decoration: none;
         display: block;
@@ -502,76 +502,6 @@ const MainNav = styled.nav<MainNavProps>`
         opacity: 0.15;
     }
 
-    .footer-submenu {
-        ${mixins.transition('max-height 0.2s ease')}
-
-        max-height: ${(props: MainNavProps) => props.openFooter ? '77px' /* $nav-footer-submenu-height */: '0'};
-
-        a {
-            border-left: 3px solid transparent;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
-            &:before {
-                font-size: 1rem;
-                margin-right: 0.5em;
-                vertical-align: -10%;
-            }
-        }
-    }
-
-    .footer {
-        position: fixed;
-        width: 200px;  // $menu-width;
-        bottom: 0;
-        background-color: #262626;  // $nav-footer-submenu-bg;
-    }
-
-    .account {
-        ${mixins.clearfix()}
-        background: #1a1a1a;  // $nav-footer-account-bg;
-        color: #ccc;  // $color-menu-text;
-        text-transform: uppercase;
-        display: block;
-        cursor: pointer;
-
-        &:hover {
-            background-color: rgba(100, 100, 100, 0.15);
-            color: #fff;  // $color-white
-            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        .avatar {
-            float: left;
-            margin-right: 0.9em;
-
-            &:before {
-                color: inherit;
-                border-color: inherit;
-            }
-        }
-
-        em {
-            box-sizing: border-box;
-            padding-right: 1.8em;
-            margin-top: 1.2em;
-            font-style: normal;
-            font-weight: 700;
-            width: 110px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            float: left;
-
-            &:after {
-                font-size: 1.5em;
-                position: absolute;
-                right: 0.25em;
-            }
-        }
-    }
-
     > ul > li > a {
         // Need !important to override body.ready class
         transition: padding 0.3s ease !important;
@@ -603,6 +533,93 @@ const MainNav = styled.nav<MainNavProps>`
     `}
 `;
 
+interface FooterWrapperProps {
+    collapsed: boolean;
+    isOpen: boolean;
+}
+
+const FooterWrapper = styled.li<FooterWrapperProps>`
+    position: fixed !important;  // override li styling in MenuWrapper
+    width: 200px;  // $menu-width;
+    bottom: 0;
+    background-color: #262626;  // $nav-footer-submenu-bg;
+    transition: width 0.3s ease !important;  // Override body.ready
+
+    ${(props) => (props.collapsed && !props.isOpen) && css`
+        width: 50px;
+    `}
+
+    > ul {
+        ${mixins.transition('max-height 0.3s ease')}
+
+        max-height: ${(props: FooterWrapperProps) => props.isOpen ? '77px' /* $nav-footer-submenu-height */: '0'};
+
+        a {
+            border-left: 3px solid transparent;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            &:before {
+                font-size: 1rem;
+                margin-right: 0.5em;
+                vertical-align: -10%;
+            }
+        }
+    }
+
+    .account {
+        ${mixins.clearfix()}
+        background: #1a1a1a;  // $nav-footer-account-bg;
+        color: #ccc;  // $color-menu-text;
+        text-transform: uppercase;
+        display: block;
+        cursor: pointer;
+        position: relative;
+
+        &:hover {
+            background-color: rgba(100, 100, 100, 0.15);
+            color: #fff;  // $color-white
+            text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar {
+            float: left;
+
+            &:before {
+                color: inherit;
+                border-color: inherit;
+            }
+        }
+
+        em {
+            box-sizing: border-box;
+            padding-right: 1.8em;
+            margin-top: 1.2em;
+            margin-left: 0.9em;
+            font-style: normal;
+            font-weight: 700;
+            width: 135px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            position: absolute;
+            left: 50px;  // Width of avatar
+            transition: left 0.3s ease;
+
+            ${(props) => (props.collapsed && !props.isOpen) && css`
+                left: -150px;  // menu closed with - menu open width
+            `}
+
+            &:after {
+                font-size: 1.5em;
+                position: absolute;
+                right: 0.25em;
+            }
+        }
+    }
+`;
+
 interface MenuProps {
     collapsed: boolean;
     activeUrl: string;
@@ -618,7 +635,7 @@ export const Menu: React.FunctionComponent<MenuProps> = ({collapsed, activeUrl, 
         navigationPath: '',
         activePath: '',
     });
-    const [accountSettingsOpen, setAccountSettingsOpen] = React.useState(false);
+    const accountSettingsOpen = state.navigationPath.startsWith('.account');
 
     // Whenever activeUrl or menuItems change, work out new activePath
     React.useEffect(() => {
@@ -712,12 +729,28 @@ export const Menu: React.FunctionComponent<MenuProps> = ({collapsed, activeUrl, 
                 e.preventDefault();
                 navigate(href);
             }
+
+            dispatch({
+                type: 'set-navigation-path',
+                path: '',
+            });
         }
     };
 
     const onClickAccountSettings = (e: React.MouseEvent) => {
         e.preventDefault();
-        setAccountSettingsOpen(!accountSettingsOpen);
+
+        if (accountSettingsOpen) {
+            dispatch({
+                type: 'set-navigation-path',
+                path: '',
+            });
+        } else {
+            dispatch({
+                type: 'set-navigation-path',
+                path: '.account',
+            });
+        }
     }
 
     return (
@@ -725,7 +758,7 @@ export const Menu: React.FunctionComponent<MenuProps> = ({collapsed, activeUrl, 
             <ul>
                 {renderMenuItems('', menuItems, state, dispatch, collapsed, navigate)}
 
-                <li className="footer">
+                <FooterWrapper collapsed={collapsed} isOpen={accountSettingsOpen}>
                     <div className="account" title={gettext('Edit your account')} onClick={onClickAccountSettings}>
                         <span className="avatar square avatar-on-dark">
                             <img src={user.avatarUrl} alt="" />
@@ -733,11 +766,11 @@ export const Menu: React.FunctionComponent<MenuProps> = ({collapsed, activeUrl, 
                         <em className={'icon ' + (accountSettingsOpen ? 'icon-arrow-down-after' : 'icon-arrow-up-after')}>{user.name}</em>
                     </div>
 
-                    <ul className="footer-submenu">
+                    <ul>
                         <li><a href={accountUrl} onClick={onClickLink} className="icon icon-user">{gettext('Account settings')}</a></li>
                         <li><a href={logoutUrl} onClick={onClickLink} className="icon icon-logout">{gettext('Log out')}</a></li>
                     </ul>
-                </li>
+                </FooterWrapper>
             </ul>
         </MainNav>
     );
