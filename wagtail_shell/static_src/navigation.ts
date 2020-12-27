@@ -1,4 +1,7 @@
 import {shellFetch, ShellResponse} from './fetch';
+import { Mode } from './main';
+
+let nextFrameId: number = 1;
 
 export interface Frame {
     id: number;
@@ -9,19 +12,24 @@ export interface Frame {
 }
 
 export class NavigationController {
+    mode: Mode;
+    title: string;
+
     nextFetchId: number = 1;
     lastReceivedFetchId: number = 1;
 
-    nextFrameId: number = 1;
     currentFrame: Frame;
     nextFrame: Frame | null = null;
 
     navigationListeners: ((frame: Frame | null) => void)[] = [];
 
-    constructor(initialResponse: ShellResponse) {
+    constructor(mode: Mode, initialResponse: ShellResponse) {
+        this.mode = mode;
+        this.title = '';
+
         if (initialResponse.status == 'render') {
             this.currentFrame = {
-                id: this.nextFrameId++,
+                id: nextFrameId++,
                 url: window.location.pathname,
                 view: initialResponse.view,
                 context: initialResponse.context,
@@ -36,7 +44,7 @@ export class NavigationController {
         // when the requests were sent, the older requests don't replace newer ones
         let thisFetchId = this.nextFetchId++;
 
-        return shellFetch(url).then(response => {
+        return shellFetch(url, this.mode).then(response => {
             if (thisFetchId < this.lastReceivedFetchId) {
                 // A subsequent fetch was made but its response came in before this one
                 // So ignore this response
@@ -56,10 +64,11 @@ export class NavigationController {
             }
 
             if (response.status == 'load-it') {
+                // TODO: Is this OK for modals?
                 window.location.href = url;
             } else if (response.status == 'render') {
                 this.nextFrame = {
-                    id: this.nextFrameId++,
+                    id: nextFrameId++,
                     url,
                     view: response.view,
                     context: response.context,
@@ -71,13 +80,18 @@ export class NavigationController {
         });
     }
 
-    onLoadNextFrame = () => {
+    onLoadNextFrame = (title: string) => {
         if (this.nextFrame) {
             this.currentFrame = this.nextFrame;
             this.nextFrame = null;
+            this.title = title;
 
-            if (this.currentFrame.pushState) {
-                history.pushState({}, "", this.currentFrame.url);
+            if (this.mode == 'browser') {
+                document.title = title;
+
+                if (this.currentFrame.pushState) {
+                    history.pushState({}, "", this.currentFrame.url);
+                }
             }
 
             this.navigationListeners.forEach(func => func(this.currentFrame));

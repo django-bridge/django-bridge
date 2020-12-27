@@ -4,11 +4,15 @@ import styled, { css } from 'styled-components';
 
 import {LogoImages} from './components/Logo';
 import {Browser} from './components/Browser';
+import ModalWindow from './components/ModalWindow';
+
 import {Sidebar} from './components/Sidebar';
 import * as mixins from './components/common/mixins';
 import './wagtailscss/styles.scss';
 
 import {Frame, NavigationController} from './navigation';
+
+export type Mode = 'browser' | 'modal';
 
 // A React context to pass some data down to the ExplorerMenuItem component
 interface ExplorerContext {
@@ -90,14 +94,82 @@ const usePersistedState = <T, _>(key: string, defaultValue: T): [T, (value: T) =
 
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
     const [collapsed, setCollapsed] = usePersistedState('wagtailshell-collapsed', window.innerWidth < 800);
+    const [modalStack, setModalStack] = React.useState<NavigationController[]>([]);
+    const [render, setRender] = React.useState(0);
+
+    const openModal = (parentModalId: number | null, url: string) => {
+        // Only the top modal can launch new modals
+        if (parentModalId === null && modalStack.length > 0) {
+            // Browser window tried to create a modal but there is already a modal
+            return;
+        } else if (parentModalId !== null && parentModalId != modalStack.length - 1) {
+            // An existing modal tried to create a child, but it already has one going
+            return;
+        }
+
+        // Set up a new navigation controller
+        const navigationController = new NavigationController('modal', {
+            status: 'render',
+            view: 'modal-loading',
+            context: {},
+        });
+        navigationController.addNavigationListener(() => {
+            // HACK: Update some state to force a re-render
+            setRender(render + Math.random());
+        });
+        navigationController.navigate(url);
+
+        // Push it to the stack
+        const newModalStack = modalStack.slice();
+        newModalStack.push(navigationController);
+        setModalStack(newModalStack);
+    };
+
+    const closeTopModal = () => {
+        const newModalStack = modalStack.slice();
+        newModalStack.pop();
+        setModalStack(newModalStack);
+    };
+
+    React.useEffect(() => {
+        const keydownEventListener = (e: KeyboardEvent) => {
+            // Close top modal on click escape
+            if (e.key === 'Escape') {
+                closeTopModal();
+            }
+        };
+
+        document.addEventListener('keydown', keydownEventListener);
+
+        return () => {
+            document.removeEventListener('keydown', keydownEventListener);
+        };
+    });
 
     return (
         <ShellWrapper collapsed={collapsed}>
+            {modalStack.map((navigationController, index) => {
+                const isLoading = navigationController.nextFrame !== null;
+
+                if (isLoading) {
+                    return (
+                        <ModalWindow key={index} heading={navigationController.title} isLoading={true} onClose={() => closeTopModal()}>
+                            <Browser navigationController={navigationController} openModal={(url) => openModal(index, url)} />
+                        </ModalWindow>
+                    );
+                } else {
+                    return (
+                        <ModalWindow key={index} heading={navigationController.title} isLoading={false} onClose={() => closeTopModal()}>
+                            <Browser navigationController={navigationController} openModal={(url) => openModal(index, url)} />
+                        </ModalWindow>
+                    );
+                }
+            })}
             <SidebarWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
                 <Sidebar {...props} collapsed={collapsed} navigationController={props.navigationController} onCollapse={setCollapsed} />
             </SidebarWrapper>
             <BrowserWrapper collapsed={collapsed} className={collapsed ? 'sidebar-collapsed' : ''}>
-                <Browser navigationController={props.navigationController} />
+                <Browser navigationController={props.navigationController} openModal={(url) => openModal(null, url)} />
             </BrowserWrapper>
         </ShellWrapper>
     );
@@ -108,7 +180,7 @@ export function initShell() {
     const sidebarElement = document.getElementById('wagtailshell-sidebar');
 
     if (shellElement instanceof HTMLElement && sidebarElement instanceof HTMLElement && sidebarElement.dataset.props && shellElement.dataset.initialResponse) {
-        const navController = new NavigationController(JSON.parse(shellElement.dataset.initialResponse));
+        const navController = new NavigationController('browser', JSON.parse(shellElement.dataset.initialResponse));
 
         // Add listener for popState
         // This event is fired when the user hits the back/forward links in their browser

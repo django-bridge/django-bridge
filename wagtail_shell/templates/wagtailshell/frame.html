@@ -6,19 +6,30 @@
     <body>
         <script>
             window.addEventListener("message", (event) => {
-                const frame = event.data;
+                const frame = event.data.frame;
 
-                if (event.data.view == 'iframe') {
+                if (frame.view == 'iframe') {
                     document.open();
                     document.write(frame.context.html);
                     document.close();
 
+                    // JavaScript API
+                    window.openModal = (url) => {
+                        parent.postMessage({
+                            id: frame.id,
+                            type: 'open-modal',
+                            url,
+                        }, "*");
+                    };
+
                     const onLoad = () => {
-                        // Insert a <base target="_parent"> tag into the <head> of the iframe
-                        // This makes it open all links in the main window
-                        const baseElement = document.createElement('base');
-                        baseElement.target = '_parent';
-                        document.head.appendChild(baseElement);
+                        if (event.data.mode === 'browser') {
+                            // Insert a <base target="_parent"> tag into the <head> of the iframe
+                            // This makes it open all links in the main window
+                            const baseElement = document.createElement('base');
+                            baseElement.target = '_parent';
+                            document.head.appendChild(baseElement);
+                        }
 
                         // Ajaxify links
                         const processLink = (link) => {
@@ -35,18 +46,21 @@
 
                             link.addEventListener('click', (e) => {
                                 e.preventDefault();
+                                let url;
 
                                 if (href.startsWith('?')) {
-                                    parent.postMessage({
-                                        id: frame.id,
-                                        type: 'navigate',
-                                        url: frame.url + href,
-                                    }, "*");
+                                    url = frame.url + href;
+                                } else {
+                                    url = href;
+                                }
+
+                                if (link.dataset.modal === 'yes') {
+                                    window.openModal(url);
                                 } else {
                                     parent.postMessage({
                                         id: frame.id,
                                         type: 'navigate',
-                                        url: href,
+                                        url,
                                     }, "*");
                                 }
                             });

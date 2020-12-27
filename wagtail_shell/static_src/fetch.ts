@@ -1,3 +1,5 @@
+import { Mode } from "./main";
+
 interface ShellResponseLoadIt {
     status: 'load-it';
 }
@@ -21,8 +23,8 @@ export type ShellResponse = ShellResponseLoadIt
                           | ShellResponseNotFound
                           | ShellResponsePermissionDenied;
 
-export async function shellFetch(url: string): Promise<ShellResponse> {
-    const response = await fetch(url, { headers: { 'X-Requested-With': 'WagtailShell' } });
+export async function shellFetch(url: string, mode: Mode): Promise<ShellResponse> {
+    const response = await fetch(url, { headers: { 'X-Requested-With': 'WagtailShell', 'X-WagtailShell-Mode': mode } });
     if (!response.headers.get('X-WagtailShellStatus')) {
         console.warn("WagtailShell Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?");
         return {
