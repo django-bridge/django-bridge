@@ -52,13 +52,13 @@ def convert_to_shell_response(request, response):
     # response that wraps the response in an iframe on the frontend
 
     # FIXME: Find a proper mime type parser
-    # FIXME: Find a general solution for password reset views. Maybe go back to detecting whether a known template was used for the response?
     is_html = response.get('Content-Type').startswith('text/html')
-    if is_html and not 'wagtailadmin/login.html' in getattr(response, 'template_name', []):
+    if is_html:
         if hasattr(response, 'render'):
             response.render()
 
-        return ShellResponseRenderHtml(response.content.decode('utf-8'))
+        if getattr(request, 'wagtailshell_template_enabled', False):
+            return ShellResponseRenderHtml(response.content.decode('utf-8'))
 
     # Can't convert the response
     return response

@@ -17,9 +17,16 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
+def enable_shell(context):
+    request = context['request']
+    setattr(request, 'wagtailshell_template_enabled', True)
+    return ''
+
+
+@register.simple_tag(takes_context=True)
 def wagtailshell_enabled(context):
     request = context['request']
-    return getattr(request, 'wagtailshell_enabled', False)
+    return getattr(request, 'wagtailshell_enabled', False) and getattr(request, 'wagtailshell_template_enabled', False)
 
 
 @register.simple_tag(takes_context=True)
@@ -31,11 +38,9 @@ def shell_props(context):
     else:
         search_area = None
 
-    print(search_area)
-
     explorer_start_page = get_explorable_root_page(request.user)
 
-    foo = json.dumps({
+    return json.dumps({
         'homeUrl': reverse('wagtailadmin_home'),
         'logoImages': {
             'mobileLogo': versioned_static('wagtailadmin/images/wagtail-logo.svg'),
@@ -54,7 +59,3 @@ def shell_props(context):
         'accountUrl': reverse('wagtailadmin_account'),
         'logoutUrl': reverse('wagtailadmin_logout'),
     }, cls=DjangoJSONEncoder)
-
-    print(foo)
-
-    return foo

@@ -1,8 +1,10 @@
 {% extends "wagtailadmin/admin_base.html" %}
-{% load wagtailadmin_tags wagtailcore_tags i18n %}
+{% load wagtailadmin_tags wagtailcore_tags i18n wagtailshell_tags %}
 
 {% block furniture %}
     {# Menu was here #}
+
+    {% enable_shell %}
 
     <main class="content-wrapper" role="main" id="main">
         <div class="content">

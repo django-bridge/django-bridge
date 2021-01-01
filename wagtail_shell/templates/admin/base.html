@@ -25,6 +25,8 @@
 
 <!-- Container -->
 <div id="container">
+    {% enable_shell %}
+
     {% wagtailshell_enabled as shell_enabled %}
     {% if not is_popup %}
     {% if not shell_enabled %}
