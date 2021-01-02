@@ -20,7 +20,11 @@ Coming soon:
 
 # Installation
 
-Install ``wagtail-shell`` with pip
+**Please note that this project is still very much experimental, is not very well tested, and is likely to change in backwards-incompatible ways without notice**
+
+But if you'd like help this project by being an early tester, here's how to install!
+
+Install ``wagtail-shell`` with pip:
 
     pip install wagtail-shell
 
