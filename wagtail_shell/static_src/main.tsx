@@ -131,6 +131,12 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
         setModalStack(newModalStack);
     };
 
+    const expandModal = (modalId: number) => {
+        // Navigate to the modal's URL
+        props.navigationController.navigate(modalStack[modalId].currentFrame.url);
+        setModalStack([]);
+    };
+
     React.useEffect(() => {
         const keydownEventListener = (e: KeyboardEvent) => {
             // Close top modal on click escape
@@ -153,13 +159,13 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
 
                 if (isLoading) {
                     return (
-                        <ModalWindow key={index} heading={navigationController.title} isLoading={true} onClose={() => closeTopModal()}>
+                        <ModalWindow key={index} heading={navigationController.title} isLoading={true} onClose={() => closeTopModal()} onExpand={() => expandModal(index)}>
                             <Browser navigationController={navigationController} openModal={(url) => openModal(index, url)} />
                         </ModalWindow>
                     );
                 } else {
                     return (
-                        <ModalWindow key={index} heading={navigationController.title} isLoading={false} onClose={() => closeTopModal()}>
+                        <ModalWindow key={index} heading={navigationController.title} isLoading={false} onClose={() => closeTopModal()} onExpand={() => expandModal(index)}>
                             <Browser navigationController={navigationController} openModal={(url) => openModal(index, url)} />
                         </ModalWindow>
                     );

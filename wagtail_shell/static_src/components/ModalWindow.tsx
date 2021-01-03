@@ -1,14 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import FocusTrap from 'react-focus-trap';
+
+// @ts-ignore
+import ExpandIcon from '../icons/expand-solid.svg';
+
 // import _ from 'lodash';
+
+const ExpandButton = styled.button`
+    width: 2.2rem;
+    height: 2.2rem;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    padding: 0;
+    padding-top: 0.25em;
+
+    svg {
+        height: 1.4em;
+    }
+`;
 
 interface ModalHeaderProps {
     heading: string;
     headingId?: string;
     onClose(): void;
+    onExpand?(): void;
 }
 
-const ModalHeader: React.FunctionComponent<ModalHeaderProps> = ({ heading, headingId, onClose }) => (
+const ModalHeader: React.FunctionComponent<ModalHeaderProps> = ({ heading, headingId, onClose, onExpand }) => (
   <header className="nice-padding" style={{marginBottom: '0', height: '50px'}}>
     <div className="row">
       <div className="left">
@@ -19,6 +39,14 @@ const ModalHeader: React.FunctionComponent<ModalHeaderProps> = ({ heading, headi
         </div>
       </div>
       <div className="right">
+        {onExpand && <ExpandButton
+                onClick={onExpand}
+                type="button"
+                className="button"
+                data-dismiss="modal"
+            >
+                <ExpandIcon />
+            </ExpandButton>}
         <button
                 onClick={onClose}
                 type="button"
@@ -45,6 +73,7 @@ interface ModalWindowProps {
     heading: string;
     isLoading?: boolean;
     onClose(): void;
+    onExpand?(): void;
     onKeyDown?(e: KeyboardEvent): void;
 }
 
@@ -133,7 +162,7 @@ const ModalWindow: React.FunctionComponent<ModalWindowProps> = (props) => {
                 <FocusTrap>
                     <div className="modal-dialog">
                         <div className="modal-content" style={{paddingBottom: '0'}}>
-                            <ModalHeader heading={props.heading} headingId={`${id.current}-title`} onClose={onClose} />
+                            <ModalHeader heading={props.heading} headingId={`${id.current}-title`} onClose={onClose} onExpand={props.onExpand} />
                             <div className="modal-body">
                                 <ModalSpinner isActive={props.isLoading && loadingSpinnerVisible}>
                                     {props.children}
