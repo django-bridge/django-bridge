@@ -29,11 +29,11 @@ interface ModalHeaderProps {
 }
 
 const ModalHeader: React.FunctionComponent<ModalHeaderProps> = ({ heading, headingId, onClose, onExpand }) => (
-  <header className="nice-padding" style={{marginBottom: '0', height: '50px'}}>
+  <header className="nice-padding" style={{marginBottom: '0', padding: '0', height: '3.3rem'}}>
     <div className="row">
       <div className="left">
         <div className="col">
-          <h1 id={headingId}>
+          <h1 className="visuallyhidden" id={headingId}>
             {heading}
           </h1>
         </div>
