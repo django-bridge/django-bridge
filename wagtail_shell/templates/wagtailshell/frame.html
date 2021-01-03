@@ -29,6 +29,9 @@
                             const baseElement = document.createElement('base');
                             baseElement.target = '_parent';
                             document.head.appendChild(baseElement);
+                        } else {
+                            // Insert a .wagtailshell-modal class to the <body> element
+                            document.body.classList.add('wagtailshell-modal');
                         }
 
                         // Ajaxify links
