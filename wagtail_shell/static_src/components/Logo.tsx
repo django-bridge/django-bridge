@@ -14,7 +14,7 @@ const LogoWrapper = styled.a<LogoWrapperProps>`
     display: block;
     margin: 2em auto;
     text-align: center;
-    padding: 0.6em 1.2em;
+    padding: 10px 0px;
     transition: padding 0.3s ease;
 
     &:hover {
@@ -22,7 +22,7 @@ const LogoWrapper = styled.a<LogoWrapperProps>`
     }
 
     ${(props) => props.collapsed && css`
-        padding: 1em 0.1em;
+        padding: 40px 0px;
     `}
 `;
 
