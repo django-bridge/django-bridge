@@ -1,22 +1,23 @@
 # Wagtail Shell
 
-Wagtail Shell is an experimental frontend for Wagtail admin that converts it into a single-page-application and improvements to the left hand menu.
+Wagtail Shell is an experimental single-page-application for Wagtail admin which provides global user interfaces (such as the menu and modal workflow) and fetches all view content over an API.
 
-Features:
+## Why?
+
+ - It removes page reloads for almost all navigation for a more fluid user experience
+ - This reduces the complexity of Wagtail admin by separating the menu/modal code from the view code
+ - It allows us to use different frontend frameworks for views in Wagtail admin without breaking the menu or modals
+ - All content is fetched over an API. Legacy views are rendered in an iframe but views can also return context for a JS component to render as well
  
- - No page reloads for general navigation!
- - Left hand menu rewritten in React, with improved animations and a new collapsed mode
- - Support for views written for different frontend frameworks, such as Django admin
- - A new modal workflow UI that supports rendering any view in a modal
+## Why the name?
 
-Coming soon:
-
- - Ability to write new API-driven views entirely in JavaScript (using React, Vue, or something else)
+Wagtail Shell fulfills a similar role for Wagtail that an OS shell would fulfill for an OS.
+For example, Windows shell provides the task bar, start menu, and windowing for Windows users.
+Wagtail shell procides the left hand menu and modal workflow UI for Wagtail users.
 
 ## What does it look like?
 
 ![Wagtail Shell Expanded](/screenshots/expanded.png)
-![Wagtail Shell Collapsed](/screenshots/collapsed.png)
 
 # Installation
 
