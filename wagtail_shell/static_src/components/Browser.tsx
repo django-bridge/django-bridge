@@ -9,7 +9,7 @@ export interface BrowserProps {
 }
 
 export const Browser: React.FunctionComponent<BrowserProps> = ({navigationController, openModal}) => {
-    const {currentFrame, nextFrame, navigate} = navigationController;
+    const {currentFrame, nextFrame, navigate, submitForm} = navigationController;
 
     const onLoadNextFrame = (title: string) => {
         navigationController.onLoadNextFrame(title);
@@ -54,6 +54,7 @@ export const Browser: React.FunctionComponent<BrowserProps> = ({navigationContro
                 frame={currentFrame}
                 style={frameStyle}
                 navigate={navigate}
+                submitForm={submitForm}
                 openModal={openModal}
             />
         </div>
@@ -67,6 +68,7 @@ export const Browser: React.FunctionComponent<BrowserProps> = ({navigationContro
                     visible={false}
                     frame={nextFrame}
                     navigate={navigate}
+                    submitForm={submitForm}
                     openModal={openModal}
                     onLoad={onLoadNextFrame}
                 />

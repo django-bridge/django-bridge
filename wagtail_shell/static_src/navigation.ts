@@ -1,4 +1,4 @@
-import {shellFetch, ShellResponse} from './fetch';
+import {shellGet, shellPost, ShellResponse} from './fetch';
 import { Mode } from './main';
 
 let nextFrameId: number = 1;
@@ -40,22 +40,26 @@ export class NavigationController {
         }
     }
 
-    _shellFetch = (url: string): Promise<ShellResponse | null> => {
+    _shellFetch = (fetcher: () => Promise<ShellResponse>, url: string, pushState: boolean): Promise<void> => {
         // Get a fetch ID
         // We do this so that if responses come back in a different order to
         // when the requests were sent, the older requests don't replace newer ones
         let thisFetchId = this.nextFetchId++;
 
-        return shellFetch(url, this.mode).then(response => {
+        return fetcher().then(response => {
             if (thisFetchId < this.lastReceivedFetchId) {
                 // A subsequent fetch was made but its response came in before this one
                 // So ignore this response
-                return null;
+                return;
             }
 
             this.lastReceivedFetchId = thisFetchId;
 
-            return response;
+            if (response === null) {
+                return;
+            }
+
+            this._handleResponse(response, url, pushState);
         });
     }
 
@@ -95,13 +99,11 @@ export class NavigationController {
     }
 
     navigate = (url: string, pushState: boolean = true): Promise<void> => {
-        return this._shellFetch(url).then(response => {
-            if (response === null) {
-                return;
-            }
+        return this._shellFetch(() => shellGet(url, this.mode), url, pushState);
+    }
 
-            this._handleResponse(response, url, pushState);
-        });
+    submitForm = (url: string, data: FormData): Promise<void> => {
+        return this._shellFetch(() => shellPost(url, data, this.mode), url, true);
     }
 
     escalate = (url: string, response: ShellResponse) => {

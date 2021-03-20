@@ -14,6 +14,10 @@ def shell_enable(fn):
         request.wagtailshell_enabled = True
         response = fn(request, *args, **kwargs)
 
+        # Pass through redirects
+        if response.status_code == 301 or response.status_code == 302:
+            return response
+
         # Attempt to convert non-shell response into a shell response
         if response.status_code == 200 and not isinstance(response, ShellResponse) and request.wagtailshell_enabled and not request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             response = convert_to_shell_response(request, response)

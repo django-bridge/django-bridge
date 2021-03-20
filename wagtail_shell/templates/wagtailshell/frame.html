@@ -69,12 +69,35 @@
                             });
                         };
 
-                        // Set action on forms without one.
-                        // (otherwise the form will submit to /admin/shell/frame/)
+                        // Ajaxify forms
+                        // Note: Some forms are submitted through ajax anyway, we don't care about those
+                        // We only want to ajaxify forms that will otherwise reload the page
                         const processForm = (form) => {
+                            // Get action URL
                             // Note: Don't use form.action here as some forms have an action field!
-                            const formAction = form.getAttribute('action');
-                            form.action = formAction || frame.url;
+                            // Note: If action is not specified, fall back to the current pathname with any existing GET parameters removed
+                            const action = form.getAttribute('action') || frame.url.split('?')[0];
+
+                            form.addEventListener('submit', (e) => {
+                                e.preventDefault();
+
+                                const method = form.getAttribute('method');
+                                const isPost = method && method.toLowerCase() == 'post';
+                                const data = new FormData(form);
+
+                                // Add value of clicked submit button to form data
+                                if (e.submitter.value) {
+                                    data.set(e.submitter.name, e.submitter.value);
+                                }
+
+                                parent.postMessage({
+                                    id: frame.id,
+                                    type: 'submit-form',
+                                    action,
+                                    method: isPost ? 'post' : 'get',
+                                    data,
+                                }, "*");
+                            });
                         }
 
                         // Set up elements that are in the initial response and set them up
