@@ -14,6 +14,7 @@ export interface Frame {
 export class NavigationController {
     mode: Mode;
     title: string;
+    parent: NavigationController | null;
 
     nextFetchId: number = 1;
     lastReceivedFetchId: number = 1;
@@ -23,9 +24,10 @@ export class NavigationController {
 
     navigationListeners: ((frame: Frame | null) => void)[] = [];
 
-    constructor(mode: Mode, initialResponse: ShellResponse) {
+    constructor(mode: Mode, initialResponse: ShellResponse, parent: NavigationController | null) {
         this.mode = mode;
         this.title = '';
+        this.parent = parent;
 
         if (initialResponse.status == 'render') {
             this.currentFrame = {
@@ -38,7 +40,7 @@ export class NavigationController {
         }
     }
 
-    shellFetch = (url: string): Promise<ShellResponse | null> => {
+    _shellFetch = (url: string): Promise<ShellResponse | null> => {
         // Get a fetch ID
         // We do this so that if responses come back in a different order to
         // when the requests were sent, the older requests don't replace newer ones
@@ -57,27 +59,59 @@ export class NavigationController {
         });
     }
 
+    _handleResponse = (response: ShellResponse, url: string, pushState: boolean = true) => {
+        if (response.status == 'load-it') {
+            if (this.mode === 'browser') {
+                window.location.href = url;
+            } else if (this.mode == 'modal' && this.parent) {
+                // load-it responses require reloading the entire page.
+                // Escalate this response to the page's navigation controller instead
+                this.parent.escalate(url, response);
+            } else {
+                console.error("Unable to handle a 'load-it' response here.")
+            }
+        } else if (response.status == 'render') {
+            // If this navigation controller is handling a modal, make sure the response can be
+            // loaded in a modal. Otherwise, escalate it
+            if (this.mode == 'modal' && response.mode != 'modal') {
+                if (this.parent) {
+                    this.parent.escalate(url, response);
+                    return;
+                } else {
+                    console.warn("Response does not support rendering in a modal, but no method of escalation was given.")
+                }
+            }
+
+            this.nextFrame = {
+                id: nextFrameId++,
+                url,
+                view: response.view,
+                context: response.context,
+                pushState,
+            };
+
+            this.navigationListeners.forEach(func => func(null));
+        }
+    }
+
     navigate = (url: string, pushState: boolean = true): Promise<void> => {
-        return this.shellFetch(url).then(response => {
+        return this._shellFetch(url).then(response => {
             if (response === null) {
                 return;
             }
 
-            if (response.status == 'load-it') {
-                // TODO: Is this OK for modals?
-                window.location.href = url;
-            } else if (response.status == 'render') {
-                this.nextFrame = {
-                    id: nextFrameId++,
-                    url,
-                    view: response.view,
-                    context: response.context,
-                    pushState,
-                };
-
-                this.navigationListeners.forEach(func => func(null));
-            }
+            this._handleResponse(response, url, pushState);
         });
+    }
+
+    escalate = (url: string, response: ShellResponse) => {
+        // Called by a child NavigationController when it cannot handle a response.
+        // For example, say this NavigationController controls the main window and there's a
+        // modal open that has a different NavigationController. If the user clicks a link
+        // that needs to navigate the whole page somewhere else, that response is escalated
+        // from the modal NavigationController to the main window NavigationController using
+        // this method.
+        this._handleResponse(response, url);
     }
 
     onLoadNextFrame = (title: string) => {

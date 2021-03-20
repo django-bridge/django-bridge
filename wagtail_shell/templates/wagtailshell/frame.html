@@ -57,7 +57,7 @@
                                     url = href;
                                 }
 
-                                if (link.dataset.modal === 'yes') {
+                                if (link.target === '_modal') {
                                     window.openModal(url);
                                 } else {
                                     parent.postMessage({

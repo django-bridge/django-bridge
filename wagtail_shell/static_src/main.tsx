@@ -110,9 +110,10 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
         // Set up a new navigation controller
         const navigationController = new NavigationController('modal', {
             status: 'render',
+            mode: 'modal',
             view: 'modal-loading',
             context: {},
-        });
+        }, props.navigationController);
         navigationController.addNavigationListener(() => {
             // HACK: Update some state to force a re-render
             setRender(render + Math.random());
@@ -152,6 +153,11 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
         };
     });
 
+    // Close all models when we navigate the main window
+    props.navigationController.addNavigationListener(() => {
+        setModalStack([]);
+    });
+
     return (
         <ShellWrapper collapsed={collapsed}>
             {modalStack.map((navigationController, index) => {
@@ -186,7 +192,7 @@ export function initShell() {
     const sidebarElement = document.getElementById('wagtailshell-sidebar');
 
     if (shellElement instanceof HTMLElement && sidebarElement instanceof HTMLElement && sidebarElement.dataset.props && shellElement.dataset.initialResponse) {
-        const navController = new NavigationController('browser', JSON.parse(shellElement.dataset.initialResponse));
+        const navController = new NavigationController('browser', JSON.parse(shellElement.dataset.initialResponse), null);
 
         // Add listener for popState
         // This event is fired when the user hits the back/forward links in their browser

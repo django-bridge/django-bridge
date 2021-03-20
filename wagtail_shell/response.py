@@ -5,13 +5,15 @@ from django.shortcuts import render
 class ShellResponse(JsonResponse):
     status = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, mode='browser', **kwargs):
         data = {
             'status': self.status,
+            'mode': mode,
         }
         data.update(self.get_data(*args, **kwargs))
         super().__init__(data)
-        self['X-WagtailShellStatus'] = self.status
+        self['X-WagtailShell-Status'] = self.status
+        self['X-WagtailShell-Mode'] = mode
 
     def get_data(self):
         return {}
@@ -57,8 +59,10 @@ def convert_to_shell_response(request, response):
         if hasattr(response, 'render'):
             response.render()
 
+        render_in_modal = request.META.get('HTTP_X_WAGTAILSHELL_MODE') == 'modal' and getattr(request, 'wagtailshell_modal_safe', False)
+
         if getattr(request, 'wagtailshell_template_enabled', False):
-            return ShellResponseRenderHtml(response.content.decode('utf-8'))
+            return ShellResponseRenderHtml(response.content.decode('utf-8'), mode='modal' if render_in_modal else 'browser')
 
     # Can't convert the response
     return response

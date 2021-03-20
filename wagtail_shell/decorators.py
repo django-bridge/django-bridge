@@ -48,3 +48,15 @@ def shell_disable(fn):
         return fn(request, *args, **kwargs)
 
     return wrapper
+
+
+def modal_safe(fn):
+    """
+    Marks it self to render this view in a modal.
+    """
+    @functools.wraps(fn)
+    def wrapper(request, *args, **kwargs):
+        request.wagtailshell_modal_safe = True
+        return fn(request, *args, **kwargs)
+
+    return wrapper
