@@ -135,4 +135,8 @@ export class NavigationController {
     addNavigationListener = (func: (frame: Frame | null) => void) => {
         this.navigationListeners.push(func);
     }
+
+    removeNavigationListener = (func: (frame: Frame | null) => void) => {
+        this.navigationListeners = this.navigationListeners.filter((listener) => listener !== func);
+    }
 }

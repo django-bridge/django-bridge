@@ -154,8 +154,16 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
     });
 
     // Close all models when we navigate the main window
-    props.navigationController.addNavigationListener(() => {
-        setModalStack([]);
+    React.useEffect(() => {
+        const navigationListener = () => {
+            setModalStack([]);
+        };
+
+        props.navigationController.addNavigationListener(navigationListener);
+
+        return () => {
+            props.navigationController.removeNavigationListener(navigationListener);
+        }
     });
 
     return (
