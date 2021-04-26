@@ -8,7 +8,7 @@ Wagtail Shell is an experimental single-page-application for Wagtail admin which
  - This reduces the complexity of Wagtail admin by separating the menu/modal code from the view code
  - It allows us to use different frontend frameworks for views in Wagtail admin without breaking the menu or modals
  - All content is fetched over an API. Legacy views are rendered in an iframe but views can also return context for a JS component to render as well
- 
+
 ## Why the name?
 
 Wagtail Shell fulfills a similar role for Wagtail that an OS shell would fulfill for an OS.
@@ -46,22 +46,18 @@ INSTALLED_APPS = [
 
 ```
 
-Decorate all Wagtail admin URLs with ``shell_enable`` using Wagtail's ``decorate_urlpatterns`` helper:
+In your ``urls.py``, replace the ``wagtail.admin.urls`` import with ``wagtail_shell.urls``
 
 ```python
 # urls.py
 
 from django.conf.urls import include, url
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.utils.urlpatterns import decorate_urlpatterns
-from wagtail_shell.decorators import shell_enable
+from wagtail_shell import urls as wagtailadmin_urls
 
 
-urlpatterns = decorate_urlpatterns([
-    # All URLs that you want to use the Wagtail menu on go here
-    # You can also add Django admin or custom views here if you want to!
+urlpatterns = [
+    # ...
     url(r'^admin/', include(wagtailadmin_urls)),
-], shell_enable) + [
-    # All other URLs here
+    # ...
 ]
 ```
