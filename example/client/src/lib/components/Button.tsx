@@ -116,7 +116,7 @@ interface LinkButtonInternalProps
     size?: "normal" | "small";
 }
 
-export const LinkButton = styled(Link)<{
+export const LinkButton = styled(Link) <{
     kind?: LinkButtonInternalProps["kind"];
     size?: LinkButtonInternalProps["size"];
 }>`

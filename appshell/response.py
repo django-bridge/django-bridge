@@ -1,68 +1,101 @@
+from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.utils.cache import patch_cache_control
+from django.utils.html import conditional_escape
+
+from .telepath import JSContext
 
 
-class ShellResponse(JsonResponse):
+class BaseAppShellResponse(JsonResponse):
+    """
+    Base class for all shell responses.
+    """
+
     status = None
 
-    def __init__(self, *args, mode='browser', **kwargs):
+    def __init__(self, *args, **kwargs):
+        js_context = JSContext()
         data = {
-            'status': self.status,
-            'mode': mode,
+            "status": self.status,
         }
-        data.update(self.get_data(*args, **kwargs))
+        data.update(js_context.pack(self.get_data(*args, **kwargs)))
         super().__init__(data)
-        self['X-AppShell-Status'] = self.status
-        self['X-AppShell-Mode'] = mode
+        self["X-Shell-Status"] = self.status
+
+        # Make sure that shell responses are never cached by browsers
+        # We need to do this because Shell responses are given on the same URLs that users would otherwise get HTML responses on if they visited those URLs directly.
+        # If the shell response is cached, there's a chance that a user could see the JSON document in their browser rather than a HTML page.
+        # This behaviour only seems to occur (intermittently) on Firefox.
+        patch_cache_control(self, no_store=True)
 
     def get_data(self):
         return {}
 
 
-class ShellResponseLoadIt(ShellResponse):
-    status = 'load-it'
+class AppShellResponse(BaseAppShellResponse):
+    """
+    Instructs the shell to render a view (React component) with the given context.
+    """
 
+    status = "render"
 
-class ShellResponseRender(ShellResponse):
-    status = 'render'
+    def __init__(self, request, *args, supported_modes=None, title="", **kwargs):
+        self.request = request
+        self.supported_modes = supported_modes or ["browser"]
+        self.title = title
+        super().__init__(*args, **kwargs)
+
+    def get_mode(self):
+        requested_mode = self.request.META.get("HTTP_X_SHELL_MODE", "browser")
+        if requested_mode in self.supported_modes:
+            return requested_mode
+
+        return "browser"
 
     def get_data(self, view, context):
         return {
-            'view': view,
-            'context': context,
+            "view": view,
+            "mode": self.get_mode(),
+            "title": self.title,
+            "context": context,
+            "messages": [
+                {
+                    "level": "error"
+                    if message.level == messages.ERROR
+                    else "warning"
+                    if message.level == messages.WARNING
+                    else "success",
+                    "html": conditional_escape(message.message),
+                }
+                for message in messages.get_messages(self.request)
+            ],
         }
 
 
-class ShellResponseRenderHtml(ShellResponseRender):
-    def get_data(self, html):
-        return super().get_data('iframe', {'html': html})
-
-
-class ShellResponseNotFound(ShellResponse):
-    status = 'not-found'
-
-
-class ShellResponsePermissionDenied(ShellResponse):
-    status = 'permission-denied'
-
-
-def convert_to_shell_response(request, response):
+class AppShellLoadItResponse(BaseAppShellResponse):
     """
-    Converts a non-shell response into a shell one.
+    Instructs the appshell to load the view the old-fashioned way.
     """
-    # If the response is HTML and isn't the login view then return a "render HTML
-    # response that wraps the response in an iframe on the frontend
 
-    # FIXME: Find a proper mime type parser
-    is_html = response.get('Content-Type').startswith('text/html')
-    if is_html:
-        if hasattr(response, 'render'):
-            response.render()
+    status = "load-it"
 
-        render_in_modal = request.META.get('HTTP_X_WAGTAILSHELL_MODE') == 'modal' and getattr(request, 'appshell_modal_safe', False)
 
-        if getattr(request, 'appshell_template_enabled', False):
-            return ShellResponseRenderHtml(response.content.decode('utf-8'), mode='modal' if render_in_modal else 'browser')
+class AppShellRedirectResponse(BaseAppShellResponse):
+    status = "redirect"
 
-    # Can't convert the response
-    return response
+    def get_data(self, path):
+        return {
+            "path": path,
+        }
+
+
+class AppShellCloseModalResponse(BaseAppShellResponse):
+    status = "close-modal"
+
+
+class AppShellNotFoundResponse(BaseAppShellResponse):
+    status = "not-found"
+
+
+class AppShellPermissionDeniedResponse(BaseAppShellResponse):
+    status = "permission-denied"

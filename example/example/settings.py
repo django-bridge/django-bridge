@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'appshell',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,3 +122,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# TEMPORARY
+CSRF_TRUSTED_ORIGINS = ['https://8000-kaedroho-djangoreactapp-7ckmimy7lsj.ws-eu67.gitpod.io']
+APPSHELL_VITE_SERVER_ORIGIN = 'https://3000-kaedroho-djangoreactapp-7ckmimy7lsj.ws-eu67.gitpod.io'
