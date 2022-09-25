@@ -1,0 +1,6 @@
+tasks:
+  - init: cd example && pip install -r requirements.txt && python manage.py migrate
+    command: python manage.py runserver
+
+  - init: cd example/client && yarn install
+    command: yarn dev
