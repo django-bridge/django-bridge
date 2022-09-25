@@ -2,19 +2,19 @@
 
 import React, { ReactElement } from "react";
 
-interface ServerRenderedWidgetProps {
+interface ServerRenderedInputProps {
     html: string;
     id: string;
     name: string;
     value: string;
 }
 
-function ServerRenderedWidget({
+function ServerRenderedInput({
     html,
     id,
     name,
     value,
-}: ServerRenderedWidgetProps): ReactElement {
+}: ServerRenderedInputProps): ReactElement {
     // Set the initial value of the input
     const fieldWrapperRef = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
@@ -51,4 +51,4 @@ function ServerRenderedWidget({
     );
 }
 
-export default ServerRenderedWidget;
+export default ServerRenderedInput;

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
 
 import React, { ReactElement } from "react";
-import ServerRenderedWidget from "../../components/widgets/ServerRenderedWidget";
+import ServerRenderedInput from "../../components/widgets/ServerRenderedInput";
 import { WidgetDef } from "./base";
 
-export default class ServerRenderedWidgetDef implements WidgetDef {
+export default class ServerRenderedInputetDef implements WidgetDef {
     html: string;
 
     idForLabel: string;
@@ -21,7 +21,7 @@ export default class ServerRenderedWidgetDef implements WidgetDef {
         value: string
     ): ReactElement {
         return (
-            <ServerRenderedWidget
+            <ServerRenderedInput
                 html={this.html}
                 id={id}
                 name={name}
