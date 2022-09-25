@@ -1,0 +1,71 @@
+@import "./vendor/meyer-reset.css";
+
+:root {
+    /* Colours from Wagtail's design system */
+    /* https://www.figma.com/file/h67EsVXdWsfu38WGGxWfpi/Wagtail-Editor-5?node-id=2649%3A26958 */
+    --color--black: #000000;
+    --color--grey-dark: #262626;
+    --color--grey-light: #5c5c5c;
+    --color--grey-borders: #929292;
+    --color--grey-line: #e0e0e0;
+    --color--grey-hover: #f9f9f9;
+    --color--white: #ffffff;
+
+    --color--teal: #007d7e;
+    --color--teal-light: #00b0b1;
+    --color--teal-tint: #f2fcfc;
+
+    --color--red: #eb0316;
+    --color--red-light: #fd5765;
+    --color--red-tint: #ffdddf;
+
+    --color--amber: #e9b04d;
+    --color--amber-tint: #faecd5;
+
+    --color--green: #008758;
+
+    --color--indigo: #2e1f5e;
+
+    /* Other Colours */
+    --color--lemon: #ffe60b;
+    --color--grey-content-type: #f4f4f4;
+    --color--grey-2: #262626;
+    --color--teal-3: #bcebec;
+    --color--red-dark: #d30213; /* 10% darker than --color--red */
+    --color--deep-indigo: #251657;
+    --color--indigo-dull: #5b4f80;
+    --color--indigo-light: #3c287a;
+    --color--streamfield: #4f67a7;
+    --color--focus-outline: #ffbf47;
+
+    /* Fonts */
+    --font-family--sans-serif: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Oxygen, Cantarell,
+        sans-serif;
+
+    --font-family--monospace: source-code-pro, Menlo, Monaco, Consolas,
+        "Courier New", monospace;
+
+    /* Z indexes */
+    --z-index--pop-up: 100;
+    --z-index--loading-screen: 999;
+    --z-index--top-menu: 1000;
+    --z-index--modals: 2000;
+    --z-index--dialogs: 3000;
+    --z-index--toast-messages: 4000;
+}
+
+body,
+button {
+    font-family: var(--font-family--sans-serif);
+    font-weight: 400;
+    font-style: normal;
+}
+
+b {
+    font-weight: 700;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--color--focus-outline);
+}
