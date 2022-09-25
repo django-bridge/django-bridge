@@ -1,6 +1,8 @@
 {
     "name": "django-react-appshell",
     "version": "0.1.2",
+    "description": "Django React AppShell is a framework for building React frontends for Django projects.",
+    "license": "BSD",
     "main": "dist/django-react-appshell.cjs.js",
     "module": "dist/django-react-appshell.esm.js",
     "types": "dist/django-react-appshell.cjs.d.ts",

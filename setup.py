@@ -13,7 +13,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 setup(
     name="django-react-appshell",
     version=__version__,
-    description="A framework for building React SPA frontends for Django projects",
+    description="A framework for building React frontends for Django projects",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Karl Hobley",

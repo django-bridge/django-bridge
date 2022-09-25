@@ -1,8 +1,8 @@
 # Django React AppShell
 
-Django React AppShell is a framework allows you to build a React frontend for your Django application.
+Django React AppShell is a framework for building React frontends for Django projects.
 
-Unlike other approaches, this framework allows you to use Django URL routing, views, and forms. React is used instead of Django templates.
+This framework allows you to use Django's URL routing, views, and forms. React is used instead of Django templates.
 
 # Installation
 
