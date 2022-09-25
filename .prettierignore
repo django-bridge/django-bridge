@@ -1,0 +1,10 @@
+# Prettier doesn't recognise Django tags
+*.html
+
+# Not a fan of how prettier indents markdown
+*.md
+
+node_modules
+dist
+
+package-lock.json
