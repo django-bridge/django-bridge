@@ -31,7 +31,9 @@ def profile(request):
             "user": {
                 "displayName": request.user.get_full_name(),
                 "avatarUrl": "https://www.gravatar.com/avatar/{}?s=128&d=identicon".format(
-                    hashlib.md5(request.user.email.lower().strip().encode("utf-8")).hexdigest()
+                    hashlib.md5(
+                        request.user.email.lower().strip().encode("utf-8")
+                    ).hexdigest()
                 ),
             },
             "csrfToken": get_token(request),

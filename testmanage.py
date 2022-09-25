@@ -35,11 +35,17 @@ def runtests():
         warnings.simplefilter("default", PendingDeprecationWarning)
     elif args.deprecation == "pending":
         # Show all deprecation warnings from wagtail
-        warnings.filterwarnings("default", category=DeprecationWarning, module=only_wagtail)
-        warnings.filterwarnings("default", category=PendingDeprecationWarning, module=only_wagtail)
+        warnings.filterwarnings(
+            "default", category=DeprecationWarning, module=only_wagtail
+        )
+        warnings.filterwarnings(
+            "default", category=PendingDeprecationWarning, module=only_wagtail
+        )
     elif args.deprecation == "imminent":
         # Show only imminent deprecation warnings from wagtail
-        warnings.filterwarnings("default", category=DeprecationWarning, module=only_wagtail)
+        warnings.filterwarnings(
+            "default", category=DeprecationWarning, module=only_wagtail
+        )
     elif args.deprecation == "none":
         # Deprecation warnings are ignored by default
         pass

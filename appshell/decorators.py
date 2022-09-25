@@ -23,7 +23,9 @@ def _decorate_urlpatterns(urlpatterns, decorator):
             _decorate_urlpatterns(pattern.url_patterns, decorator)
 
         if getattr(pattern, "callback", None):
-            pattern.callback = update_wrapper(decorator(pattern.callback), pattern.callback)
+            pattern.callback = update_wrapper(
+                decorator(pattern.callback), pattern.callback
+            )
 
     return urlpatterns
 
@@ -59,13 +61,18 @@ def appshell_enable(fn):
                 # Development - Fetch JS/CSS from Vite server
                 js = [
                     settings.APPSHELL_VITE_SERVER_ORIGIN + "/@vite/client",
-                    settings.APPSHELL_VITE_SERVER_ORIGIN + "/static/src/main.tsx",
+                    settings.APPSHELL_VITE_SERVER_ORIGIN
+                    + "/static/src/main.tsx",
                 ]
                 css = []
-                vite_react_refresh_runtime = settings.APPSHELL_VITE_SERVER_ORIGIN + "/@react-refresh"
+                vite_react_refresh_runtime = (
+                    settings.APPSHELL_VITE_SERVER_ORIGIN + "/@react-refresh"
+                )
             else:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
-                asset_manifest = json.loads(Path("/client/manifest.json").read_text())
+                asset_manifest = json.loads(
+                    Path("/client/manifest.json").read_text()
+                )
 
                 js = [
                     "/static/" + asset_manifest["src/main.tsx"]["file"],
@@ -84,7 +91,11 @@ def appshell_enable(fn):
                             "user": {
                                 "displayName": request.user.get_full_name(),
                                 "avatarUrl": "https://www.gravatar.com/avatar/{}?s=128&d=identicon".format(
-                                    hashlib.md5(request.user.email.lower().strip().encode("utf-8")).hexdigest()
+                                    hashlib.md5(
+                                        request.user.email.lower()
+                                        .strip()
+                                        .encode("utf-8")
+                                    ).hexdigest()
                                 ),
                             },
                             "urls": {
