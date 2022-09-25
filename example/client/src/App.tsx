@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import Shell, { ShellResponse } from "django-react-appshell";
 
+import LoginView from "./auth/views/Login";
 import UserProfileView from "./users/views/Profile";
 
 import { Globals, GlobalsContext } from "./contexts";
@@ -9,6 +10,7 @@ import "./App.css";
 import "./telepath";
 
 const views = new Map();
+views.set("auth-login", LoginView);
 views.set("user-profile", UserProfileView);
 
 function App(): ReactElement {

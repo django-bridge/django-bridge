@@ -97,7 +97,9 @@ def appshell_enable(fn):
                                         .encode("utf-8")
                                     ).hexdigest()
                                 ),
-                            },
+                            }
+                            if request.user.is_authenticated
+                            else None,
                             "urls": {
                                 "userProfile": reverse("user_profile"),
                             },

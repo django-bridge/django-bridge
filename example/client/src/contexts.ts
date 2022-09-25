@@ -4,7 +4,7 @@ import { User } from "./users/types";
 import { createTestUser } from "./users/testdata";
 
 export interface Globals {
-    user: User;
+    user: User | null;
     urls: {
         userProfile: string;
         logout: string;
