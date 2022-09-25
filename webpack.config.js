@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './appshell/static_src/main.tsx',
+  entry: './client/main.tsx',
   module: {
     rules: [
       {
@@ -59,7 +59,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: ['.tsx', '.ts', '.js']
   },
   externals: {
     /* These are provided by Wagtail */

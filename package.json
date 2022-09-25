@@ -2,7 +2,7 @@
   "name": "django-react-appshell",
   "version": "1.0.0",
   "description": "",
-  "main": "appshell/static_src/main.tsx",
+  "main": "client/main.tsx",
   "scripts": {
     "build": "webpack --mode=production",
     "start": "webpack --mode=development --watch",

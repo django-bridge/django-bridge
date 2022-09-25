@@ -13,7 +13,7 @@
         "esModuleInterop": true
     },
     "files": [
-        "appshell/static_src/main.tsx",
-        "appshell/static_src/custom.d.ts"
+        "client/main.tsx",
+        "client/custom.d.ts"
     ]
 }
