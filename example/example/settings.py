@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,10 +129,15 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# TEMPORARY
-CSRF_TRUSTED_ORIGINS = [
-    "https://8000-kaedroho-djangoreactapp-7ckmimy7lsj.ws-eu67.gitpod.io"
-]
-APPSHELL_VITE_SERVER_ORIGIN = (
-    "https://3000-kaedroho-djangoreactapp-7ckmimy7lsj.ws-eu67.gitpod.io"
-)
+if "GITPOD_WORKSPACE_ID" in os.environ:
+    GITPOD_WORKSPACE_ID = os.environ["GITPOD_WORKSPACE_ID"]
+    GITPOD_WORKSPACE_CLUSTER_HOST = os.environ["GITPOD_WORKSPACE_CLUSTER_HOST"]
+
+    CSRF_TRUSTED_ORIGINS = [
+        f"https://8000-{GITPOD_WORKSPACE_ID}.{GITPOD_WORKSPACE_CLUSTER_HOST}"
+    ]
+    APPSHELL_VITE_SERVER_ORIGIN = (
+        f"https://3000-{GITPOD_WORKSPACE_ID}.{GITPOD_WORKSPACE_CLUSTER_HOST}"
+    )
+else:
+    APPSHELL_VITE_SERVER_ORIGIN = "http://localhost:3000"
