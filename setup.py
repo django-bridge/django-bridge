@@ -34,7 +34,7 @@ setup(
         "Framework :: Django",
         "Framework :: Django :: 4.0",
     ],
-    install_requires=["Django>=4.0,<5.0"],
+    install_requires=["Django>=4.0,<5.0", "telepath>=0.3,<0.4"],
     extras_require={
         "testing": [],
     },
