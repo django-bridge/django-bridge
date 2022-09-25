@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import styled, { css } from "styled-components";
-import Icon from "../../icons";
+import Icon from "../icons";
 import { Message } from "../fetch";
 
 const ToastMessagesContainer = styled.div`

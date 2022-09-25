@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
-import "./App.css";
+import Shell, { ShellResponse } from "django-react-appshell";
 
-import Shell from "./shell";
-import { ShellResponse } from "./shell/fetch";
-import LoadingView from "./shell/views/Loading";
 import UserProfileView from "./users/views/Profile";
-import { ShellGlobals } from "./shell/contexts";
+
+import { Globals, GlobalsContext } from "./contexts";
+
+import "./App.css";
+import "./telepath";
 
 const views = new Map();
-views.set("loading", LoadingView);
 views.set("user-profile", UserProfileView);
 
 function App(): ReactElement {
@@ -18,11 +18,15 @@ function App(): ReactElement {
 
     if (initialResponse && globals) {
         return (
-            <Shell
-                views={views}
-                initialResponse={JSON.parse(initialResponse) as ShellResponse}
-                globals={JSON.parse(globals) as ShellGlobals}
-            />
+            <GlobalsContext.Provider value={JSON.parse(globals) as Globals}>
+                <Shell
+                    views={views}
+                    initialResponse={
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        JSON.parse(initialResponse) as ShellResponse
+                    }
+                />
+            </GlobalsContext.Provider>
         );
     }
     return <>Unable to render</>;

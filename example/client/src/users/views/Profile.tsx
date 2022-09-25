@@ -4,13 +4,13 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 import ContentWrapper from "../../lib/components/ContentWrapper";
 import Container from "../../lib/components/Container";
-import { ModalWindowControlsContext } from "../../shell/components/ModalWindow";
+import { ModalWindowControlsContext } from "django-react-appshell";
 import Form from "../../forms/components/Form";
 import Button from "../../lib/components/Button";
 import FormDef from "../../forms/telepath/Form";
 import { User } from "../types";
 import HorizontalSeparator from "../../forms/components/HorizontalSeparator";
-import { ShellGlobalsContext } from "../../shell/contexts";
+import { GlobalsContext } from "../../contexts";
 
 const ModalWrapper = styled.div`
     width: 100vw;
@@ -43,14 +43,6 @@ const Avatar = styled.img`
     max-height: 100px;
     border-radius: 50%;
 `;
-
-const OrganisationList = styled.p`
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--color--indigo);
-    margin-top: 20px;
-`;
-
 const NameWrapper = styled.h1`
     font-size: 38px;
     font-weight: 800;
@@ -87,7 +79,7 @@ function UserProfileView({
     actionUrl,
 }: UserProfileViewContext): ReactElement {
     const { isModal, close } = React.useContext(ModalWindowControlsContext);
-    const { urls } = React.useContext(ShellGlobalsContext);
+    const { urls } = React.useContext(GlobalsContext);
 
     const rendered = (
         <>

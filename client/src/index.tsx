@@ -1,5 +1,4 @@
 import React, { ReactElement, FunctionComponent } from "react";
-import styled from "styled-components";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import produce from "immer";
 
@@ -9,49 +8,14 @@ import ModalWindow from "./components/ModalWindow";
 import { Message, ShellResponse } from "./fetch";
 
 import { NavigationController } from "./navigation";
-import { DirtyFormScope } from "../forms/dirtyform";
-import { ShellGlobals, ShellGlobalsContext } from "./contexts";
+import { DirtyFormScope } from "./dirtyform";
 
 export interface ShellProps {
     views: Map<string, FunctionComponent>;
     initialResponse: ShellResponse;
-    globals: ShellGlobals;
 }
 
-const ShellWrapper = styled.div`
-    height: 100vh;
-`;
-
-const BrowserWrapper = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-`;
-
-const AvatarWrapper = styled.div`
-    position: fixed;
-    left: 25px;
-    bottom: 25px;
-
-    button {
-        background: none;
-        padding: 0;
-        border: none;
-
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
-    img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-    }
-`;
-
-function Shell({ views, initialResponse, globals }: ShellProps): ReactElement {
+function Shell({ views, initialResponse }: ShellProps): ReactElement {
     const [navigationController] = React.useState(
         () => new NavigationController("browser", null)
     );
@@ -210,62 +174,65 @@ function Shell({ views, initialResponse, globals }: ShellProps): ReactElement {
     });
 
     return (
-        <ShellWrapper>
-            <ShellGlobalsContext.Provider value={globals}>
-                <DirtyFormScope handleBrowserUnload>
-                    <ToastMessages messages={messages} />
-                    {modal &&
-                        modal.navigationController.currentFrame.view !==
-                            "loading" && (
-                            <DirtyFormScope>
-                                <ModalWindow
-                                    side={modal.side}
-                                    onClose={() => {
-                                        setModal(null);
-                                        setRequestModalClose(false);
-                                    }}
-                                    requestClose={requestModalClose}
-                                >
-                                    <Browser
-                                        views={views}
-                                        navigationController={
-                                            modal.navigationController
-                                        }
-                                        openModal={() => {}}
-                                        pushMessage={pushMessage}
-                                    />
-                                </ModalWindow>
-                            </DirtyFormScope>
-                        )}
-                    <BrowserWrapper>
-                        <Browser
-                            views={views}
-                            navigationController={navigationController}
-                            openModal={(url, options) =>
-                                openModal(url, options)
-                            }
-                            pushMessage={pushMessage}
-                        />
-                        <AvatarWrapper>
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    openModal(globals.urls.userProfile, {
-                                        side: "left",
-                                    })
-                                }
+        <div style={{ height: "100vh" }}>
+            <DirtyFormScope handleBrowserUnload>
+                <ToastMessages messages={messages} />
+                {modal &&
+                    modal.navigationController.currentFrame.view !==
+                        "loading" && (
+                        <DirtyFormScope>
+                            <ModalWindow
+                                side={modal.side}
+                                onClose={() => {
+                                    setModal(null);
+                                    setRequestModalClose(false);
+                                }}
+                                requestClose={requestModalClose}
                             >
-                                <img
-                                    src={globals.user.avatarUrl}
-                                    alt="Account Settings"
+                                <Browser
+                                    views={views}
+                                    navigationController={
+                                        modal.navigationController
+                                    }
+                                    openModal={() => {}}
+                                    pushMessage={pushMessage}
                                 />
-                            </button>
-                        </AvatarWrapper>
-                    </BrowserWrapper>
-                </DirtyFormScope>
-            </ShellGlobalsContext.Provider>
-        </ShellWrapper>
+                            </ModalWindow>
+                        </DirtyFormScope>
+                    )}
+                <div
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        overflow: "hidden",
+                    }}
+                >
+                    <Browser
+                        views={views}
+                        navigationController={navigationController}
+                        openModal={(url, options) => openModal(url, options)}
+                        pushMessage={pushMessage}
+                    />
+                </div>
+            </DirtyFormScope>
+        </div>
     );
 }
 
 export default Shell;
+export { ModalWindowControlsContext } from "./components/ModalWindow";
+export type { ModalWindowControls } from "./components/ModalWindow";
+export {
+    ShellNavigationContext,
+    FormWidgetChangeNotificationContext,
+    FormSubmissionStatus,
+} from "./contexts";
+export type { ShellNavigation } from "./contexts";
+export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
+export type { DirtyForm } from "./dirtyform";
+export { NavigationController } from "./navigation";
+export type { Frame } from "./navigation";
+import telepath from "./telepath";
+export { telepath };
+export type { ShellResponse };

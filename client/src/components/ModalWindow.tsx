@@ -1,8 +1,8 @@
 import React, { useRef, ReactElement } from "react";
 import styled, { keyframes } from "styled-components";
 import FocusTrap from "focus-trap-react";
-import { DirtyFormContext } from "../../forms/dirtyform";
-import Icon from "../../icons";
+import { DirtyFormContext } from "../dirtyform";
+import Icon from "../icons";
 
 export interface ModalWindowControls {
     isModal: boolean;

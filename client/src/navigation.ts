@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, Mode, shellGet, shellPost, ShellResponse } from "./fetch";
+import telepath from "./telepath";
 
-import telepath from "../telepath";
+import { Message, Mode, shellGet, shellPost, ShellResponse } from "./fetch";
 
 let nextFrameId = 1;
 

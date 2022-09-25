@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import React, { ReactElement } from "react";
-import { DirtyFormMarker } from "../dirtyform";
+import { ShellNavigationContext, DirtyFormMarker } from "django-react-appshell";
 import {
     FormSubmissionStatus,
     FormWidgetChangeNotificationContext,
 } from "../contexts";
-
-import { ShellNavigationContext } from "../../shell/contexts";
 
 interface FormProps extends React.HTMLProps<HTMLFormElement> {
     isDirty?: boolean;

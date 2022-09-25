@@ -1,6 +1,4 @@
 import React from "react";
-import { createTestUser } from "../users/testdata";
-import { User } from "../users/types";
 import { Message } from "./fetch";
 
 export interface NavigateOptions {
@@ -71,18 +69,11 @@ export const ShellNavigationContext = React.createContext<ShellNavigation>({
     pushMessage() {},
 });
 
-export interface ShellGlobals {
-    user: User;
-    urls: {
-        userProfile: string;
-        logout: string;
-    };
-}
+// This context is used to allow form widgets to notify their forms that data has changed
+export const FormWidgetChangeNotificationContext = React.createContext(
+    () => {}
+);
 
-export const ShellGlobalsContext = React.createContext<ShellGlobals>({
-    user: createTestUser(),
-    urls: {
-        userProfile: "#",
-        logout: "#",
-    },
-});
+// This context is used to notify components within a form if the form is currently submitting
+// This is used to display spinners in submit buttons
+export const FormSubmissionStatus = React.createContext(false);

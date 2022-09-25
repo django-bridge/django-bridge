@@ -31,6 +31,6 @@ export default class ServerRenderedWidgetDef implements WidgetDef {
     }
 
     getIdForLabel(id: string): string {
-        this.idForLabel.replace("__ID__", id);
+        return this.idForLabel.replace("__ID__", id);
     }
 }

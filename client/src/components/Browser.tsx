@@ -1,5 +1,5 @@
 import React, { ReactElement, FunctionComponent } from "react";
-import { DirtyFormContext } from "../../forms/dirtyform";
+import { DirtyFormContext } from "../dirtyform";
 import { Message } from "../fetch";
 
 import { NavigationController } from "../navigation";

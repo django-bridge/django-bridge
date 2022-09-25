@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { ShellNavigation, ShellNavigationContext } from "../../shell/contexts";
+import { ShellNavigation, ShellNavigationContext } from "django-react-appshell";
 
 export interface LinkProps extends React.HTMLProps<HTMLAnchorElement> {
     skipDirtyFormCheck?: boolean;
