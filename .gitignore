@@ -1,7 +1,7 @@
 *.pyc
 /build
 /dist
-/appshell.egg-info
+/django_react_appshell.egg-info
 /.coverage
 /htmlcov
 /.tox
