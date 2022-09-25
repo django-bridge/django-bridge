@@ -24,7 +24,7 @@ export const ModalWindowControlsContext =
                 "ModalWindowControls.close() called from outside a Modal"
             );
         },
-        setWarning: () => { },
+        setWarning: () => {},
     });
 
 const fadeInOverlay = keyframes`
@@ -255,7 +255,7 @@ function ModalWindow({
             };
         }
 
-        return () => { };
+        return () => {};
     });
 
     const dirtyFormContext = React.useContext(DirtyFormContext);

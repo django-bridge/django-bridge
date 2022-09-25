@@ -1,85 +1,85 @@
 version: 2
 
 jobs:
-  flake8:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout
-      - run: pip install flake8
-      - run: flake8 appshell
+    flake8:
+        docker:
+            - image: circleci/python:3.8
+        steps:
+            - checkout
+            - run: pip install flake8
+            - run: flake8 appshell
 
-  prettier:
-    docker:
-      - image: circleci/node:14
-    steps:
-      - checkout:
+    prettier:
+        docker:
+            - image: circleci/node:14
+        steps:
+            - checkout:
 
-      - type: cache-restore
-        keys:
-          - node-modules-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          - node-modules-{{ .Branch }}-
-          - node-modules-master-
+            - type: cache-restore
+              keys:
+                  - node-modules-{{ .Branch }}-{{ checksum "package-lock.json" }}
+                  - node-modules-{{ .Branch }}-
+                  - node-modules-master-
 
-      - run: npm install
-      - run: npm run lint
+            - run: npm install
+            - run: npm run lint
 
-      - type: cache-save
-        key: node-modules-{{ .Branch }}-{{ checksum "package-lock.json" }}
-        paths:
-          - "node_modules"
+            - type: cache-save
+              key: node-modules-{{ .Branch }}-{{ checksum "package-lock.json" }}
+              paths:
+                  - "node_modules"
 
-  test:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout
+    test:
+        docker:
+            - image: circleci/python:3.8
+        steps:
+            - checkout
 
-      - type: cache-restore
-        keys:
-          - pip-{{ .Branch }}-
-          - pip-master-
+            - type: cache-restore
+              keys:
+                  - pip-{{ .Branch }}-
+                  - pip-master-
 
-      - run: pip install -e .[testing]
+            - run: pip install -e .[testing]
 
-      - type: cache-save
-        key: pip-{{ .Branch }}-{{ epoch }}
-        paths:
-          - "~/.cache/pip"
+            - type: cache-save
+              key: pip-{{ .Branch }}-{{ epoch }}
+              paths:
+                  - "~/.cache/pip"
 
-      - run: python testmanage.py test
+            - run: python testmanage.py test
 
-  nightly-wagtail-test:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout
-      - run: git clone git@github.com:wagtail/wagtail.git
+    nightly-wagtail-test:
+        docker:
+            - image: circleci/python:3.8
+        steps:
+            - checkout
+            - run: git clone git@github.com:wagtail/wagtail.git
 
-      - run: pip install -e .[testing]
-      - run: pip install ./wagtail
+            - run: pip install -e .[testing]
+            - run: pip install ./wagtail
 
-      - run: python testmanage.py test
+            - run: python testmanage.py test
 
-      - run:
-          when: on_fail
-          command: python ./.circleci/report_nightly_build_failure.py
+            - run:
+                  when: on_fail
+                  command: python ./.circleci/report_nightly_build_failure.py
 
 workflows:
-  version: 2
-  test:
-    jobs:
-      - flake8
-      - prettier
-      - test
+    version: 2
+    test:
+        jobs:
+            - flake8
+            - prettier
+            - test
 
-  nightly:
-    jobs:
-      - nightly-wagtail-test
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - master
+    nightly:
+        jobs:
+            - nightly-wagtail-test
+        triggers:
+            - schedule:
+                  cron: "0 0 * * *"
+                  filters:
+                      branches:
+                          only:
+                              - master

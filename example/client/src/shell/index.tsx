@@ -155,7 +155,7 @@ function Shell({ views, initialResponse, globals }: ShellProps): ReactElement {
             };
         }
 
-        return () => { };
+        return () => {};
     }, [modal, onServerError]);
 
     const openModal = (
@@ -216,7 +216,7 @@ function Shell({ views, initialResponse, globals }: ShellProps): ReactElement {
                     <ToastMessages messages={messages} />
                     {modal &&
                         modal.navigationController.currentFrame.view !==
-                        "loading" && (
+                            "loading" && (
                             <DirtyFormScope>
                                 <ModalWindow
                                     side={modal.side}
@@ -231,7 +231,7 @@ function Shell({ views, initialResponse, globals }: ShellProps): ReactElement {
                                         navigationController={
                                             modal.navigationController
                                         }
-                                        openModal={() => { }}
+                                        openModal={() => {}}
                                         pushMessage={pushMessage}
                                     />
                                 </ModalWindow>
