@@ -1,3 +1,6 @@
+image:
+    file: etc/gitpod.Dockerfile
+
 tasks:
     - init: cd example && pip install -r requirements.txt && python manage.py migrate
       command: python manage.py runserver
@@ -10,6 +13,7 @@ ports:
       visibility: public
     - port: 6006 # Storybook
     - port: 8000 # Example
+
 vscode:
     extensions:
         - ms-python.python
