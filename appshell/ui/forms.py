@@ -7,8 +7,6 @@ and extract field values.
 from datetime import date, datetime, time
 
 from django import forms
-from django.forms.models import ModelChoiceIteratorValue
-from telepath import ValueNode
 
 from appshell.telepath import Adapter, register
 
@@ -74,7 +72,10 @@ class FormAdapter(Adapter):
     js_constructor = "forms.Form"
 
     def js_args(self, form):
-        return [[FieldWithName(name, form[name]) for name in form.fields.keys()], form.errors]
+        return [
+            [FieldWithName(name, form[name]) for name in form.fields.keys()],
+            form.errors,
+        ]
 
 
 register(FormAdapter(), forms.BaseForm)

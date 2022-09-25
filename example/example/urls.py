@@ -18,8 +18,7 @@ from django.urls import path
 
 from .users import views as users_views
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('profile/', users_views.profile, name="user_profile"),
+    path("admin/", admin.site.urls),
+    path("profile/", users_views.profile, name="user_profile"),
 ]

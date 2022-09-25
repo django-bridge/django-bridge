@@ -7,7 +7,11 @@ from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 
-from .response import BaseAppShellResponse, AppShellLoadItResponse, AppShellRedirectResponse
+from .response import (
+    AppShellLoadItResponse,
+    AppShellRedirectResponse,
+    BaseAppShellResponse,
+)
 
 
 def _decorate_urlpatterns(urlpatterns, decorator):
@@ -85,7 +89,7 @@ def appshell_enable(fn):
                             },
                             "urls": {
                                 "userProfile": reverse("user_profile"),
-                            }
+                            },
                         }
                     ),
                     "js": js,
@@ -113,4 +117,4 @@ def appshell_exempt(fn):
 
 
 def appshell_enable_urlpatterns(urlpatterns):
-    return _decorate_urlpatterns(urlpatterns, shell_wrap)
+    return _decorate_urlpatterns(urlpatterns, appshell_enable)

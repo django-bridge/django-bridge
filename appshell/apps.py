@@ -8,4 +8,4 @@ class AppShellAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
 
     def ready(self):
-        import appshell.ui.forms
+        import appshell.ui.forms  # noqa

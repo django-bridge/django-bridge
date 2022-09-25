@@ -1,12 +1,11 @@
 import hashlib
 
-from appshell.decorators import appshell_enable
-from appshell.response import AppShellResponse, AppShellCloseModalResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.urls import reverse
+
+from appshell.decorators import appshell_enable
+from appshell.response import AppShellCloseModalResponse, AppShellResponse
 
 from .forms import UserChangeForm
 
@@ -17,7 +16,7 @@ def profile(request):
     if request.method == "POST":
         form = UserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
-            user = form.save()
+            form.save()
 
             # If the form is opened in a modal, close it
             if request.META.get("HTTP_X_SHELL_MODE", "browser") == "modal":

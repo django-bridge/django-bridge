@@ -39,7 +39,9 @@ class AppShellResponse(BaseAppShellResponse):
 
     status = "render"
 
-    def __init__(self, request, *args, supported_modes=None, title="", **kwargs):
+    def __init__(
+        self, request, *args, supported_modes=None, title="", **kwargs
+    ):
         self.request = request
         self.supported_modes = supported_modes or ["browser"]
         self.title = title

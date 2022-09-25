@@ -6,7 +6,6 @@ from setuptools import find_packages, setup
 
 from appshell import __version__
 
-
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
@@ -16,7 +15,7 @@ setup(
     version=__version__,
     description="A framework for building React SPA frontends for Django projects",
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
     url="",
