@@ -5,4 +5,4 @@
 
 curl -u ${CIRCLE_API_USER_TOKEN}: \
      -d build_parameters[CIRCLE_JOB]=nightly-wagtail-test \
-     https://circleci.com/api/v1.1/project/github/wagtail/wagtail-shell}/tree/master
+     https://circleci.com/api/v1.1/project/github/wagtail/django-react-appshell}/tree/master

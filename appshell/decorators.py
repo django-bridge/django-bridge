@@ -11,7 +11,7 @@ def shell_enable(fn):
     """
     @functools.wraps(fn)
     def wrapper(request, *args, **kwargs):
-        request.wagtailshell_enabled = True
+        request.appshell_enabled = True
         response = fn(request, *args, **kwargs)
 
         # Pass through redirects
@@ -19,11 +19,11 @@ def shell_enable(fn):
             return response
 
         # Attempt to convert non-shell response into a shell response
-        if response.status_code == 200 and not isinstance(response, ShellResponse) and request.wagtailshell_enabled and not request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        if response.status_code == 200 and not isinstance(response, ShellResponse) and request.appshell_enabled and not request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
             response = convert_to_shell_response(request, response)
 
         # If the request was made by the shell (using `fetch()`, rather than a regular browser request)
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'WagtailShell':
+        if request.META.get('HTTP_X_REQUESTED_WITH') == 'AppShell':
             if isinstance(response, ShellResponse):
                 return response
             else:
@@ -33,7 +33,7 @@ def shell_enable(fn):
         # Regular browser request
         if isinstance(response, ShellResponse):
             # Wrap the response with our shell bootstrap template
-            return render(request, 'wagtailshell/bootstrap.html', {
+            return render(request, 'appshell/bootstrap.html', {
                 'data': response.content.decode('utf-8'),
             })
         else:
@@ -48,7 +48,7 @@ def shell_disable(fn):
     """
     @functools.wraps(fn)
     def wrapper(request, *args, **kwargs):
-        request.wagtailshell_enabled = False
+        request.appshell_enabled = False
         return fn(request, *args, **kwargs)
 
     return wrapper
@@ -60,7 +60,7 @@ def modal_safe(fn):
     """
     @functools.wraps(fn)
     def wrapper(request, *args, **kwargs):
-        request.wagtailshell_modal_safe = True
+        request.appshell_modal_safe = True
         return fn(request, *args, **kwargs)
 
     return wrapper

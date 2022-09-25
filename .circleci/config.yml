@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: pip install flake8
-      - run: flake8 wagtail_shell
+      - run: flake8 appshell
 
   prettier:
     docker:
@@ -37,8 +37,8 @@ jobs:
 
       - type: cache-restore
         keys:
-         - pip-{{ .Branch }}-
-         - pip-master-
+          - pip-{{ .Branch }}-
+          - pip-master-
 
       - run: pip install -e .[testing]
 
@@ -66,20 +66,20 @@ jobs:
           command: python ./.circleci/report_nightly_build_failure.py
 
 workflows:
-    version: 2
-    test:
-      jobs:
-        - flake8
-        - prettier
-        - test
+  version: 2
+  test:
+    jobs:
+      - flake8
+      - prettier
+      - test
 
-    nightly:
-      jobs:
-        - nightly-wagtail-test
-      triggers:
-        - schedule:
-            cron: "0 0 * * *"
-            filters:
-              branches:
-                only:
-                  - master
+  nightly:
+    jobs:
+      - nightly-wagtail-test
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master

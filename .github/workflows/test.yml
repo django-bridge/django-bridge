@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - master
-      - 'stable/**'
+      - "stable/**"
 
   pull_request:
 
@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.7', '3.8']
-        django: ['2.2', '3.0', '3.1']
-        wagtail: ['2.11']
+        python: ["3.7", "3.8"]
+        django: ["2.2", "3.0", "3.1"]
+        wagtail: ["2.11"]
 
     steps:
       - uses: actions/checkout@v2
@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.7', '3.8']
-        django: ['2.2', '3.0', '3.1']
-        wagtail: ['2.11']
-        postgres: ['10.8']
+        python: ["3.7", "3.8"]
+        django: ["2.2", "3.0", "3.1"]
+        wagtail: ["2.11"]
+        postgres: ["10.8"]
 
     services:
       postgres:
@@ -62,5 +62,5 @@ jobs:
         run: |
           tox
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/wagtail_shell
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/appshell
           TOXENV: python${{ matrix.python }}-django${{ matrix.django }}-wagtail${{ matrix.wagtail }}-postgres

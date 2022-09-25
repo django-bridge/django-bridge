@@ -32,8 +32,8 @@ ALLOWED_HOSTS = ["localhost", "testserver"]
 # Application definition
 
 INSTALLED_APPS = [
-    "wagtail_shell",
-    "wagtail_shell.test",
+    "appshell",
+    "appshell.test",
     "wagtail.contrib.search_promotions",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -72,7 +72,7 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-ROOT_URLCONF = "wagtail_shell.test.urls"
+ROOT_URLCONF = "appshell.test.urls"
 
 TEMPLATES = [
     {
@@ -110,7 +110,7 @@ PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(default="sqlite:///test_wagtail_shell.db"),
+    "default": dj_database_url.config(default="sqlite:///test_appshell.db"),
 }
 
 
@@ -159,4 +159,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "test-media")
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "Wagtail Shell test site"
+WAGTAIL_SITE_NAME = "Django React AppShell test site"

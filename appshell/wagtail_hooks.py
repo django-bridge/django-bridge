@@ -11,16 +11,16 @@ from .decorators import shell_disable
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     urls = [
-        path('jsi18n/', JavaScriptCatalog.as_view(packages=['wagtail_shell']), name='javascript_catalog'),
-        path('frame/', xframe_options_sameorigin(shell_disable(TemplateView.as_view(template_name='wagtailshell/frame.html'))), name='frame'),
+        path('jsi18n/', JavaScriptCatalog.as_view(packages=['appshell']), name='javascript_catalog'),
+        path('frame/', xframe_options_sameorigin(shell_disable(TemplateView.as_view(template_name='appshell/frame.html'))), name='frame'),
     ]
 
     return [
         path(
             "shell/",
             include(
-                (urls, "wagtail_shell"),
-                namespace="wagtail_shell",
+                (urls, "appshell"),
+                namespace="appshell",
             ),
         )
     ]

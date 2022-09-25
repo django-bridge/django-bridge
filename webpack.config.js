@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './wagtail_shell/static_src/main.tsx',
+  entry: './appshell/static_src/main.tsx',
   module: {
     rules: [
       {
@@ -37,7 +37,7 @@ module.exports = {
               name: '[name].[ext]',
               outputPath: '../fonts/',
               // FIXME: Make this work when /static is hosted somewhere else
-              publicPath: '/static/wagtail_shell/fonts/'
+              publicPath: '/static/appshell/fonts/'
             }
           }
         ]
@@ -51,7 +51,7 @@ module.exports = {
               name: '[name].[ext]',
               outputPath: '../images/',
               // FIXME: Make this work when /static is hosted somewhere else
-              publicPath: '/static/wagtail_shell/images/'
+              publicPath: '/static/appshell/images/'
             }
           }
         ]
@@ -68,7 +68,7 @@ module.exports = {
     'gettext': 'gettext',
   },
   output: {
-    path: path.resolve(__dirname, 'wagtail_shell/static/wagtail_shell/js'),
-    filename: 'wagtail-shell.js'
+    path: path.resolve(__dirname, 'appshell/static/appshell/js'),
+    filename: 'django-react-appshell.js'
   }
 };

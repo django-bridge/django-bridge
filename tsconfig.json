@@ -1,7 +1,11 @@
 {
     "compilerOptions": {
         "jsx": "react",
-        "lib": ["es2015", "dom", "dom.iterable"],
+        "lib": [
+            "es2015",
+            "dom",
+            "dom.iterable"
+        ],
         "noImplicitAny": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -9,7 +13,7 @@
         "esModuleInterop": true
     },
     "files": [
-        "wagtail_shell/static_src/main.tsx",
-        "wagtail_shell/static_src/custom.d.ts"
+        "appshell/static_src/main.tsx",
+        "appshell/static_src/custom.d.ts"
     ]
 }

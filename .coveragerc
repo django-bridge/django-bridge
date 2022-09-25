@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = wagtail_shell/*
+include = appshell/*
 omit = */migrations/*,*/tests/*
 
 [report]

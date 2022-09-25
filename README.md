@@ -1,6 +1,6 @@
-# Wagtail Shell
+# Django React AppShell
 
-Wagtail Shell is an experimental single-page-application for Wagtail admin which provides global user interfaces (such as the menu and modal workflow) and fetches all view content over an API.
+Django React AppShell is an experimental single-page-application for Wagtail admin which provides global user interfaces (such as the menu and modal workflow) and fetches all view content over an API.
 
 ## Why?
 
@@ -11,13 +11,13 @@ Wagtail Shell is an experimental single-page-application for Wagtail admin which
 
 ## Why the name?
 
-Wagtail Shell fulfills a similar role for Wagtail that an OS shell would fulfill for an OS.
+Django React AppShell fulfills a similar role for Wagtail that an OS shell would fulfill for an OS.
 For example, Windows shell provides the task bar, start menu, and windowing for Windows users.
 Wagtail shell procides the left hand menu and modal workflow UI for Wagtail users.
 
 ## What does it look like?
 
-![Wagtail Shell Expanded](/screenshots/expanded.png)
+![Django React AppShell Expanded](/screenshots/expanded.png)
 
 # Installation
 
@@ -25,9 +25,9 @@ Wagtail shell procides the left hand menu and modal workflow UI for Wagtail user
 
 But if you'd like help this project by being an early tester, here's how to install!
 
-Install ``wagtail-shell`` with pip:
+Install ``django-react-appshell`` with pip:
 
-    pip install wagtail-shell
+    pip install django-react-appshell
 
 
 Add it to ``INSTALLED_APPS``:
@@ -39,20 +39,20 @@ INSTALLED_APPS = [
     # ...
 
     # Must be above wagtail.admin
-    'wagtail_shell',
+    'appshell',
 
     # ...
 ]
 
 ```
 
-In your ``urls.py``, replace the ``wagtail.admin.urls`` import with ``wagtail_shell.urls``
+In your ``urls.py``, replace the ``wagtail.admin.urls`` import with ``appshell.urls``
 
 ```python
 # urls.py
 
 from django.conf.urls import include, url
-from wagtail_shell import urls as wagtailadmin_urls
+from appshell import urls as wagtailadmin_urls
 
 
 urlpatterns = [

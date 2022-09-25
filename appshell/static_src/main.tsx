@@ -2,15 +2,15 @@ import React, { MutableRefObject } from 'react';
 import ReactDOM from 'react-dom';
 import styled, { css } from 'styled-components';
 
-import {LogoImages} from './components/Logo';
-import {Browser} from './components/Browser';
+import { LogoImages } from './components/Logo';
+import { Browser } from './components/Browser';
 import ModalWindow from './components/ModalWindow';
 
-import {Sidebar} from './components/Sidebar';
+import { Sidebar } from './components/Sidebar';
 import * as mixins from './components/common/mixins';
 import './wagtailscss/styles.scss';
 
-import {Frame, NavigationController} from './navigation';
+import { Frame, NavigationController } from './navigation';
 
 export type Mode = 'browser' | 'modal';
 
@@ -19,7 +19,7 @@ interface ExplorerContext {
     startPageId: number | null;
     wrapperRef: MutableRefObject<HTMLDivElement | null> | null;
 }
-export const ExplorerContext = React.createContext<ExplorerContext>({startPageId: null, wrapperRef: null});
+export const ExplorerContext = React.createContext<ExplorerContext>({ startPageId: null, wrapperRef: null });
 
 export interface ShellProps {
     homeUrl: string;
@@ -81,19 +81,19 @@ const BrowserWrapper = styled.div<WrapperProps>`
     `}
 `;
 
-const usePersistedState = <T, _>(key: string, defaultValue: T): [T, (value: T) => void]  => {
+const usePersistedState = <T, _>(key: string, defaultValue: T): [T, (value: T) => void] => {
     const value = localStorage.getItem(key);
     const [state, setState] = React.useState(
         value ? JSON.parse(value) : defaultValue
     );
     React.useEffect(() => {
-      localStorage.setItem(key, JSON.stringify(state));
+        localStorage.setItem(key, JSON.stringify(state));
     }, [key, state]);
     return [state, setState];
-  }
+}
 
 const Shell: React.FunctionComponent<ShellProps> = (props) => {
-    const [collapsed, setCollapsed] = usePersistedState('wagtailshell-collapsed', window.innerWidth < 800);
+    const [collapsed, setCollapsed] = usePersistedState('appshell-collapsed', window.innerWidth < 800);
     const [modalStack, setModalStack] = React.useState<NavigationController[]>([]);
     const [render, setRender] = React.useState(0);
 
@@ -196,8 +196,8 @@ const Shell: React.FunctionComponent<ShellProps> = (props) => {
 }
 
 export function initShell() {
-    const shellElement = document.getElementById('wagtailshell-root');
-    const sidebarElement = document.getElementById('wagtailshell-sidebar');
+    const shellElement = document.getElementById('appshell-root');
+    const sidebarElement = document.getElementById('appshell-sidebar');
 
     if (shellElement instanceof HTMLElement && sidebarElement instanceof HTMLElement && sidebarElement.dataset.props && shellElement.dataset.initialResponse) {
         const navController = new NavigationController('browser', JSON.parse(shellElement.dataset.initialResponse), null);

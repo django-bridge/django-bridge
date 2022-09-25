@@ -1,8 +1,9 @@
 <!doctype html>
-{% load wagtailadmin_tags wagtailcore_tags i18n wagtailshell_tags %}
+{% load wagtailadmin_tags wagtailcore_tags i18n appshell %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <html class="no-js" lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+
 <head>
     <meta charset="utf-8" />
     <title>{% block branding_title %}Wagtail{% endblock %} - {% block titletag %}{% endblock %}</title>
@@ -18,15 +19,18 @@
         body {
             overscroll-behavior: none;
         }
+
     </style>
 
     {% block css %}{% endblock %}
 
     {% block branding_favicon %}
-        <link rel="shortcut icon" href="{% versioned_static 'wagtailadmin/images/favicon.ico' %}" />
+    <link rel="shortcut icon" href="{% versioned_static 'wagtailadmin/images/favicon.ico' %}" />
     {% endblock %}
 </head>
-<body id="wagtail" class="{% block bodyclass %}{% endblock %} {% if messages %}has-messages{% endif %} focus-outline-on">
+
+<body id="wagtail"
+    class="{% block bodyclass %}{% endblock %} {% if messages %}has-messages{% endif %} focus-outline-on">
     <div data-sprite></div>
     <script>
         function loadIconSprite() {
@@ -83,14 +87,15 @@
     <![endif]-->
     <noscript class="capabilitymessage">
         {% blocktrans %}
-            JavaScript is required to use Wagtail, but it is currently disabled.<br />
-            Here are the <a href="https://www.enable-javascript.com/" target="_blank" rel="noopener noreferrer">instructions how to enable JavaScript in your web browser</a>.
+        JavaScript is required to use Wagtail, but it is currently disabled.<br />
+        Here are the <a href="https://www.enable-javascript.com/" target="_blank" rel="noopener noreferrer">instructions
+            how to enable JavaScript in your web browser</a>.
         {% endblocktrans %}
     </noscript>
 
     {% block js %}
     <script>
-        (function(document, window) {
+        (function (document, window) {
             window.wagtailConfig = window.wagtailConfig || {};
             wagtailConfig.ADMIN_API = {
                 PAGES: '{% url "wagtailadmin_api:pages:listing" %}',
@@ -98,41 +103,37 @@
                 IMAGES: '{% url "wagtailadmin_api:images:listing" %}',
                 {# // Use this to add an extra query string on all API requests. #}
                 {# // Example value: '&order=-id' #}
-                EXTRA_CHILDREN_PARAMETERS: '',
+                    EXTRA_CHILDREN_PARAMETERS: '',
             };
 
-            {% i18n_enabled as i18n_enabled %}
-            {% locales as locales %}
-            wagtailConfig.I18N_ENABLED = {% if i18n_enabled %}true{% else %}false{% endif %};
-            wagtailConfig.LOCALES = {{ locales|safe }};
+                {% i18n_enabled as i18n_enabled %}
+                {% locales as locales %}
+                wagtailConfig.I18N_ENABLED = {% if i18n_enabled %} true{% else %} false{% endif %};
+            wagtailConfig.LOCALES = {{ locales | safe }
+        };
 
-            wagtailConfig.STRINGS = {% js_translation_strings %};
+        wagtailConfig.STRINGS = {% js_translation_strings %};
 
-            wagtailConfig.ADMIN_URLS = {
-                PAGES: '{% url "wagtailadmin_explore_root" %}'
-            };
-        })(document, window);
+        wagtailConfig.ADMIN_URLS = {
+            PAGES: '{% url "wagtailadmin_explore_root" %}'
+        };
+        }) (document, window);
     </script>
     <script src="{% versioned_static 'wagtailadmin/js/vendor.js' %}"></script>
     <script src="{% versioned_static 'wagtailadmin/js/wagtailadmin.js' %}"></script>
 
-    <script src="{% url 'wagtail_shell:javascript_catalog' %}"></script>
-    <script src="{% versioned_static 'wagtail_shell/js/wagtail-shell.js' %}"></script>
+    <script src="{% url 'appshell:javascript_catalog' %}"></script>
+    <script src="{% versioned_static 'appshell/js/django-react-appshell.js' %}"></script>
     {% endblock %}
 
     <a class="skiplink button" href="#main" data-skiplink>{% trans 'Skip to main content' %}</a>
 
-    <div id="wagtailshell-root" data-initial-response="{{ data }}">
-        {% include 'wagtailshell/sidebar.html' %}
+    <div id="appshell-root" data-initial-response="{{ data }}">
+        {% include 'appshell/sidebar.html' %}
     </div>
     <script>
         window.csrfToken = '{{ csrf_token|escapejs }}';
     </script>
 </body>
+
 </html>
-
-
-
-
-
-

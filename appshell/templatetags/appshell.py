@@ -10,7 +10,7 @@ from wagtail.admin.search import admin_search_areas
 from wagtail.admin.staticfiles import versioned_static
 from wagtail.admin.templatetags.wagtailadmin_tags import avatar_url
 
-from wagtail_shell.menu import serialize_admin_menu
+from appshell.menu import serialize_admin_menu
 
 
 register = template.Library()
@@ -19,14 +19,14 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def enable_shell(context):
     request = context['request']
-    setattr(request, 'wagtailshell_template_enabled', True)
+    setattr(request, 'appshell_template_enabled', True)
     return ''
 
 
 @register.simple_tag(takes_context=True)
-def wagtailshell_enabled(context):
+def appshell_enabled(context):
     request = context['request']
-    return getattr(request, 'wagtailshell_enabled', False) and getattr(request, 'wagtailshell_template_enabled', False)
+    return getattr(request, 'appshell_enabled', False) and getattr(request, 'appshell_template_enabled', False)
 
 
 @register.simple_tag(takes_context=True)
