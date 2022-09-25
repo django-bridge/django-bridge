@@ -10,13 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os
+from pathlib import Path
 
-import dj_database_url
-
-# Build paths inside the project like this: os.path.join(PROJECT_DIR, ...)
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -35,8 +32,6 @@ ALLOWED_HOSTS = ["localhost", "testserver"]
 INSTALLED_APPS = [
     "appshell",
     "appshell.test",
-    "taggit",
-    "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -92,7 +87,10 @@ PASSWORD_HASHERS = ("django.contrib.auth.hashers.MD5PasswordHasher",)
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(default="sqlite:///test_appshell.db"),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
 
 
@@ -100,14 +98,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 
@@ -133,9 +127,7 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_DIRS = [os.path.join(PROJECT_DIR, "static")]
-
-STATIC_ROOT = os.path.join(BASE_DIR, "test-static")
+STATIC_ROOT = BASE_DIR / "test-static"
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "test-media")
+MEDIA_ROOT = BASE_DIR / "test-media"

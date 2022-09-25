@@ -35,17 +35,11 @@ def runtests():
         warnings.simplefilter("default", PendingDeprecationWarning)
     elif args.deprecation == "pending":
         # Show all deprecation warnings from wagtail
-        warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_wagtail
-        )
-        warnings.filterwarnings(
-            "default", category=PendingDeprecationWarning, module=only_wagtail
-        )
+        warnings.filterwarnings("default", category=DeprecationWarning, module=only_wagtail)
+        warnings.filterwarnings("default", category=PendingDeprecationWarning, module=only_wagtail)
     elif args.deprecation == "imminent":
         # Show only imminent deprecation warnings from wagtail
-        warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_wagtail
-        )
+        warnings.filterwarnings("default", category=DeprecationWarning, module=only_wagtail)
     elif args.deprecation == "none":
         # Deprecation warnings are ignored by default
         pass
@@ -55,7 +49,7 @@ def runtests():
     try:
         execute_from_command_line(argv)
     finally:
-        from wagtail.tests.settings import MEDIA_ROOT, STATIC_ROOT
+        from appshell.test.settings import MEDIA_ROOT, STATIC_ROOT
 
         shutil.rmtree(STATIC_ROOT, ignore_errors=True)
         shutil.rmtree(MEDIA_ROOT, ignore_errors=True)
