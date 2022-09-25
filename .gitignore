@@ -6,7 +6,6 @@
 /htmlcov
 /.tox
 /venv
-/.vscode
 /site
 /test_appshell.db
 /node_modules
