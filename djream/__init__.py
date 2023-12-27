@@ -1,4 +1,4 @@
-default_app_config = "appshell.apps.AppShellAppConfig"
+default_app_config = "djream.apps.DjreamAppConfig"
 
 
 VERSION = (0, 1, 0)

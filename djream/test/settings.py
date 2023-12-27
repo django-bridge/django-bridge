@@ -30,8 +30,8 @@ ALLOWED_HOSTS = ["localhost", "testserver"]
 # Application definition
 
 INSTALLED_APPS = [
-    "appshell",
-    "appshell.test",
+    "djream",
+    "djream.test",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "appshell.test.urls"
+ROOT_URLCONF = "djream.test.urls"
 
 TEMPLATES = [
     {

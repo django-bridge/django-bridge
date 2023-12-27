@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
 
-import { telepath } from "django-react-appshell";
+import { telepath } from "djream";
 import FieldDef from "./forms/telepath/Field";
 import FormDef from "./forms/telepath/Form";
 import ServerRenderedInputtDef from "./forms/telepath/widgets/ServerRenderedInput";

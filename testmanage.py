@@ -8,7 +8,7 @@ import warnings
 
 from django.core.management import execute_from_command_line
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "appshell.test.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "djream.test.settings"
 
 
 def make_parser():
@@ -55,7 +55,7 @@ def runtests():
     try:
         execute_from_command_line(argv)
     finally:
-        from appshell.test.settings import MEDIA_ROOT, STATIC_ROOT
+        from djream.test.settings import MEDIA_ROOT, STATIC_ROOT
 
         shutil.rmtree(STATIC_ROOT, ignore_errors=True)
         shutil.rmtree(MEDIA_ROOT, ignore_errors=True)

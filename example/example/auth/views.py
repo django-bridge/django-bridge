@@ -10,12 +10,11 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from djream.decorators import djream_enable
+from djream.response import DjreamResponse
 
-from appshell.decorators import appshell_enable
-from appshell.response import AppShellResponse
 
-
-@appshell_enable
+@djream_enable
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
@@ -35,7 +34,6 @@ def login(
     if request.method == "POST":
         form = authentication_form(request, data=request.POST)
         if form.is_valid():
-
             # Ensure the user-originating redirection url is safe.
             if not url_has_allowed_host_and_scheme(
                 url=redirect_to, allowed_hosts=[request.get_host()]
@@ -58,4 +56,4 @@ def login(
     if extra_context is not None:
         context.update(extra_context)
 
-    return AppShellResponse(request, "auth-login", context)
+    return DjreamResponse(request, "auth-login", context)

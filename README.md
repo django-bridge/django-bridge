@@ -1,14 +1,14 @@
-# Django React AppShell
+# Djream
 
-Django React AppShell is a framework for building React frontends for Django projects.
+Djream is a framework for building React frontends for Django projects.
 
 This framework allows you to use Django's URL routing, views, and forms. React is used instead of Django templates.
 
 # Installation
 
-Install ``django-react-appshell`` with pip:
+Install ``djream`` with pip:
 
-    pip install django-react-appshell
+    pip install djream
 
 
 Add it to ``INSTALLED_APPS``:
@@ -19,7 +19,7 @@ Add it to ``INSTALLED_APPS``:
 INSTALLED_APPS = [
     # ...
 
-    'appshell',
+    'djream',
 
     # ...
 ]
@@ -28,4 +28,4 @@ INSTALLED_APPS = [
 
 # Usage
 
-See the [example project](https://github.com/kaedroho/django-react-appshell/tree/main/example) for a usage example.
+See the [example project](https://github.com/kaedroho/djream/tree/main/example) for a usage example.

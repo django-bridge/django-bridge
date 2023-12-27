@@ -7,8 +7,7 @@ and extract field values.
 from datetime import date, datetime, time
 
 from django import forms
-
-from appshell.telepath import Adapter, register
+from djream.telepath import Adapter, register
 
 
 class ServerRenderedInputAdapter(Adapter):

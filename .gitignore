@@ -1,13 +1,13 @@
 *.pyc
 /build
 /dist
-/django_react_appshell.egg-info
+/djream.egg-info
 /.coverage
 /htmlcov
 /.tox
 /venv
 /site
-/test_appshell.db
+/test_djream.db
 /node_modules
 /test-static
 /test-media

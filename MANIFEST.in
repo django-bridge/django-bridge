@@ -1,4 +1,4 @@
 include LICENSE *.rst *.txt *.md
-graft appshell
+graft djream
 global-exclude __pycache__
 global-exclude *.py[co]

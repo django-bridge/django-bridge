@@ -6,7 +6,7 @@ from django.utils.html import conditional_escape
 from .telepath import JSContext
 
 
-class BaseAppShellResponse(JsonResponse):
+class BaseDjreamResponse(JsonResponse):
     """
     Base class for all shell responses.
     """
@@ -24,7 +24,7 @@ class BaseAppShellResponse(JsonResponse):
 
         # Make sure that shell responses are never cached by browsers
         # We need to do this because Shell responses are given on the same URLs that users would otherwise get HTML responses on if they visited those URLs directly.
-        # If the shell response is cached, there's a chance that a user could see the JSON document in their browser rather than a HTML page.
+        # If djream response is cached, there's a chance that a user could see the JSON document in their browser rather than a HTML page.
         # This behaviour only seems to occur (intermittently) on Firefox.
         patch_cache_control(self, no_store=True)
 
@@ -32,9 +32,9 @@ class BaseAppShellResponse(JsonResponse):
         return {}
 
 
-class AppShellResponse(BaseAppShellResponse):
+class DjreamResponse(BaseDjreamResponse):
     """
-    Instructs the shell to render a view (React component) with the given context.
+    Instructs djream to render a view (React component) with the given context.
     """
 
     status = "render"
@@ -74,15 +74,15 @@ class AppShellResponse(BaseAppShellResponse):
         }
 
 
-class AppShellLoadItResponse(BaseAppShellResponse):
+class DjreamLoadItResponse(BaseDjreamResponse):
     """
-    Instructs the appshell to load the view the old-fashioned way.
+    Instructs the djream to load the view the old-fashioned way.
     """
 
     status = "load-it"
 
 
-class AppShellRedirectResponse(BaseAppShellResponse):
+class DjreamRedirectResponse(BaseDjreamResponse):
     status = "redirect"
 
     def get_data(self, path):
@@ -91,13 +91,13 @@ class AppShellRedirectResponse(BaseAppShellResponse):
         }
 
 
-class AppShellCloseModalResponse(BaseAppShellResponse):
+class DjreamCloseModalResponse(BaseDjreamResponse):
     status = "close-modal"
 
 
-class AppShellNotFoundResponse(BaseAppShellResponse):
+class DjreamNotFoundResponse(BaseDjreamResponse):
     status = "not-found"
 
 
-class AppShellPermissionDeniedResponse(BaseAppShellResponse):
+class DjreamPermissionDeniedResponse(BaseDjreamResponse):
     status = "permission-denied"

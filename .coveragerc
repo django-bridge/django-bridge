@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = appshell/*
+include = djream/*
 omit = */migrations/*,*/tests/*
 
 [report]

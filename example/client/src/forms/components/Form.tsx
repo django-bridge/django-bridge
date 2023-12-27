@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { ReactElement } from "react";
-import { ShellNavigationContext, DirtyFormMarker } from "django-react-appshell";
+import { ShellNavigationContext, DirtyFormMarker } from "djream";
 import {
     FormSubmissionStatus,
     FormWidgetChangeNotificationContext,

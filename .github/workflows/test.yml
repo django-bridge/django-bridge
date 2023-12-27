@@ -1,4 +1,4 @@
-name: Django React AppShell CI
+name: Djream CI
 
 on:
     push:

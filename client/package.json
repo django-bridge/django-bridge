@@ -1,11 +1,11 @@
 {
-    "name": "django-react-appshell",
+    "name": "djream",
     "version": "0.1.2",
-    "description": "Django React AppShell is a framework for building React frontends for Django projects.",
+    "description": "Djream is a framework for building React frontends for Django projects.",
     "license": "BSD",
-    "main": "dist/django-react-appshell.cjs.js",
-    "module": "dist/django-react-appshell.esm.js",
-    "types": "dist/django-react-appshell.cjs.d.ts",
+    "main": "dist/djream.cjs.js",
+    "module": "dist/djream.esm.js",
+    "types": "dist/djream.cjs.d.ts",
     "scripts": {
         "build": "preconstruct build"
     },

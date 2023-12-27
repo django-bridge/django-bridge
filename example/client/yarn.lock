@@ -4524,9 +4524,9 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-django-react-appshell@^0.1.2:
+djream@^0.1.2:
   version "0.1.2"
-  resolved "https://registry.yarnpkg.com/django-react-appshell/-/django-react-appshell-0.1.2.tgz#f93a55561a3c11239c93b46702b286b8cd7abcad"
+  resolved "https://registry.yarnpkg.com/djream/-/djream-0.1.2.tgz#f93a55561a3c11239c93b46702b286b8cd7abcad"
   integrity sha512-+g9XJOsSjTxk8Exx2MC0ktenwHsKk4V2Vdq/diiEipgkFfOG6M7essIvg8hieamkcp9hp1HN69XqsqDRTbVTCQ==
   dependencies:
     focus-trap-react "^10.0.0"

@@ -48,7 +48,7 @@ function LoginView({
     return (
         <Wrapper>
             <LoginWrapper>
-                <h2>Django React AppShell Example</h2>
+                <h2>Djream Example</h2>
 
                 <form action={actionUrl} method="post" noValidate>
                     <input

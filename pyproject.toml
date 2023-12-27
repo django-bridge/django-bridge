@@ -5,4 +5,4 @@ target-version = ['py38']
 
 [tool.isort]
 profile = 'black'
-known_first_party = ['appshell', 'example']
+known_first_party = ['djream', 'example']

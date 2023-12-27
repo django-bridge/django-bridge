@@ -3,15 +3,14 @@ import hashlib
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.urls import reverse
-
-from appshell.decorators import appshell_enable
-from appshell.response import AppShellCloseModalResponse, AppShellResponse
+from djream.decorators import djream_enable
+from djream.response import DjreamCloseModalResponse, DjreamResponse
 
 from .forms import UserChangeForm
 
 
 @login_required
-@appshell_enable
+@djream_enable
 def profile(request):
     if request.method == "POST":
         form = UserChangeForm(request.POST, instance=request.user)
@@ -20,11 +19,11 @@ def profile(request):
 
             # If the form is opened in a modal, close it
             if request.META.get("HTTP_X_SHELL_MODE", "browser") == "modal":
-                return AppShellCloseModalResponse()
+                return DjreamCloseModalResponse()
     else:
         form = UserChangeForm(instance=request.user)
 
-    return AppShellResponse(
+    return DjreamResponse(
         request,
         "user-profile",
         {

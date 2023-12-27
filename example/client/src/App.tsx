@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import Shell, { ShellResponse } from "django-react-appshell";
+import Shell, { ShellResponse } from "djream";
 
 import LoginView from "./auth/views/Login";
 import UserProfileView from "./users/views/Profile";

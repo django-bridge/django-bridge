@@ -8,9 +8,9 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .response import (
-    AppShellLoadItResponse,
-    AppShellRedirectResponse,
-    BaseAppShellResponse,
+    BaseDjreamResponse,
+    DjreamLoadItResponse,
+    DjreamRedirectResponse,
 )
 
 
@@ -30,9 +30,9 @@ def _decorate_urlpatterns(urlpatterns, decorator):
     return urlpatterns
 
 
-def appshell_enable(fn):
+def djream_enable(fn):
     """
-    Wraps a view to make it load with the shell.
+    Wraps a view to make it load with djream.
     """
 
     @wraps(fn)
@@ -43,20 +43,20 @@ def appshell_enable(fn):
         if response.status_code == 301:
             return response
 
-        # If the request was made by the shell (using `fetch()`, rather than a regular browser request)
+        # If the request was made by djream (using `fetch()`, rather than a regular browser request)
         if request.META.get("HTTP_X_REQUESTED_WITH") == "Shell":
-            if isinstance(response, BaseAppShellResponse):
+            if isinstance(response, BaseDjreamResponse):
                 return response
 
             elif response.status_code == 302:
-                return AppShellRedirectResponse(response["Location"])
+                return DjreamRedirectResponse(response["Location"])
 
             else:
                 # Response couldn't be converted into a shell response. Reload the page
-                return AppShellLoadItResponse()
+                return DjreamLoadItResponse()
 
         # Regular browser request
-        if isinstance(response, BaseAppShellResponse):
+        if isinstance(response, BaseDjreamResponse):
             if settings.APPSHELL_VITE_SERVER_ORIGIN:
                 # Development - Fetch JS/CSS from Vite server
                 js = [
@@ -83,7 +83,7 @@ def appshell_enable(fn):
             # Wrap the response with our shell bootstrap template
             return render(
                 request,
-                "appshell/bootstrap.html",
+                "djream/bootstrap.html",
                 {
                     "data": response.content.decode("utf-8"),
                     "globals_data": json.dumps(
@@ -116,9 +116,9 @@ def appshell_enable(fn):
     return wrapper
 
 
-def appshell_exempt(fn):
+def djream_exempt(fn):
     """
-    Excludes a view from the app shell to override appshell_enable_urlpatterns.
+    Excludes a view from djream to override djream_enable_urlpatterns.
     """
 
     @wraps(fn)
@@ -129,5 +129,5 @@ def appshell_exempt(fn):
     return wrapper
 
 
-def appshell_enable_urlpatterns(urlpatterns):
-    return _decorate_urlpatterns(urlpatterns, appshell_enable)
+def djream_enable_urlpatterns(urlpatterns):
+    return _decorate_urlpatterns(urlpatterns, djream_enable)

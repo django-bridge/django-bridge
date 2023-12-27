@@ -4,7 +4,7 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 import ContentWrapper from "../../lib/components/ContentWrapper";
 import Container from "../../lib/components/Container";
-import { ModalWindowControlsContext } from "django-react-appshell";
+import { ModalWindowControlsContext } from "djream";
 import Form from "../../forms/components/Form";
 import Button from "../../lib/components/Button";
 import FormDef from "../../forms/telepath/Form";
