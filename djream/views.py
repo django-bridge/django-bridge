@@ -2,7 +2,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin, View
 
 from .decorators import djream_enable
-from .response import DjreamResponse
+from .response import DjreamNotFoundResponse, DjreamResponse
 
 
 class DjreamResponseMixin:
@@ -44,3 +44,8 @@ class DjreamView(DjreamResponseMixin, ContextMixin, View):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
+
+@djream_enable
+def handler_404(request, exception=None):
+    return DjreamNotFoundResponse(request)
