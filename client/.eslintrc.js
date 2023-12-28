@@ -3,7 +3,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ["./tsconfig.json"],
+        project: ["./packages/core/tsconfig.json"],
     },
     env: {
         browser: true,
@@ -19,7 +19,6 @@ module.exports = {
         "airbnb/hooks",
         "airbnb-typescript",
         "prettier",
-        "plugin:storybook/recommended",
     ],
     rules: {
         "react/function-component-definition": [
