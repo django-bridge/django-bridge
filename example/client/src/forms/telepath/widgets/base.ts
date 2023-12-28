@@ -1,15 +1,15 @@
 import { ReactElement } from "react";
 
 export interface WidgetDef {
-    helpTextPosition?: "before" | "after";
+  helpTextPosition?: "before" | "after";
 
-    floatLeft?: boolean;
+  floatLeft?: boolean;
 
-    render(
-        id: string,
-        name: string,
-        disabled: boolean,
-        value: string
-    ): ReactElement;
-    getIdForLabel(id: string): string;
+  render(
+    id: string,
+    name: string,
+    disabled: boolean,
+    value: string
+  ): ReactElement;
+  getIdForLabel(id: string): string;
 }

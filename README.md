@@ -6,12 +6,11 @@ This framework allows you to use Django's URL routing, views, and forms. React i
 
 # Installation
 
-Install ``djream`` with pip:
+Install `djream` with pip:
 
     pip install djream
 
-
-Add it to ``INSTALLED_APPS``:
+Add it to `INSTALLED_APPS`:
 
 ```python
 # settings.py

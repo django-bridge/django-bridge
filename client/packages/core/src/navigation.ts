@@ -235,7 +235,7 @@ export class NavigationController {
                         prevScrollPosition: scrollPosition,
                     },
                     "",
-                    this.currentFrame.path,
+                    this.currentFrame.path
                 );
 
                 // set the scroll position
@@ -244,7 +244,7 @@ export class NavigationController {
         }
 
         this.navigationListeners.forEach((func) =>
-            func(this.currentFrame, newFrame),
+            func(this.currentFrame, newFrame)
         );
     };
 
@@ -288,13 +288,13 @@ export class NavigationController {
         this.handleResponse(response, url);
 
     addNavigationListener = (
-        func: (frame: Frame | null, newFrame: boolean) => void,
+        func: (frame: Frame | null, newFrame: boolean) => void
     ) => {
         this.navigationListeners.push(func);
     };
 
     removeNavigationListener = (
-        func: (frame: Frame | null, newFrame: boolean) => void,
+        func: (frame: Frame | null, newFrame: boolean) => void
     ) => {
         this.navigationListeners = this.navigationListeners.filter(
             (listener) => listener !== func

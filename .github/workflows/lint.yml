@@ -1,63 +1,63 @@
 name: Djream CI
 
 on:
-    push:
+  push:
 
-    pull_request:
+  pull_request:
 
 jobs:
-    lint_server:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python 3.10
-              uses: actions/setup-python@v2
-              with:
-                  python-version: "3.10"
-            - name: Install dev dependencies
-              run: |
-                  cd server
-                  python -m pip install .[dev]
+  lint_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install dev dependencies
+        run: |
+          cd server
+          python -m pip install .[dev]
 
-            - name: Flake8
-              run: |
-                  cd server
-                  flake8 .
+      - name: Flake8
+        run: |
+          cd server
+          flake8 .
 
-            - name: ISort
-              run: |
-                  cd server
-                  isort --check .
+      - name: ISort
+        run: |
+          cd server
+          isort --check .
 
-            - name: Black
-              run: |
-                  cd server
-                  black --check .
+      - name: Black
+        run: |
+          cd server
+          black --check .
 
-    lint_client:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Node.js 18
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "18"
-            - name: Install dependencies
-              run: |
-                cd client
-                yarn install
+  lint_client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: |
+          cd client
+          yarn install
 
-            - name: Prettier
-              run: |
-                cd client
-                yarn run check-format
+      - name: Prettier
+        run: |
+          cd client
+          yarn run check-format
 
-            - name: ESLint
-              run: |
-                cd client
-                yarn run lint
+      - name: ESLint
+        run: |
+          cd client
+          yarn run lint
 
-            - name: Tsc
-              run: |
-                cd client
-                yarn run check-types
+      - name: Tsc
+        run: |
+          cd client
+          yarn run check-types

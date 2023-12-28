@@ -43,9 +43,7 @@ function Shell({
     const [messages, setMessages] = React.useState<Message[]>([]);
     const pushMessage = React.useCallback(
         (message: Message) => {
-            setMessages(
-                messages.concat([message])
-            );
+            setMessages(messages.concat([message]));
         },
         [messages]
     );
@@ -172,7 +170,7 @@ function Shell({
     React.useEffect(() => {
         const navigationListener = (
             _frame: Frame | null,
-            newFrame: boolean,
+            newFrame: boolean
         ) => {
             // Only close modal if a new frame is being pushed
             // This prevents the modal from closing when refreshContext is called
