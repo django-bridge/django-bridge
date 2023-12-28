@@ -1,0 +1,11 @@
+{
+    "name": "@djream/root",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "dependencies": {
+        "prettier": "^2.7.1"
+    }
+}

@@ -8,6 +8,5 @@
 /venv
 /site
 /test_djream.db
-/node_modules
 /test-static
 /test-media
