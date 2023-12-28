@@ -26,8 +26,7 @@
     "dependencies": {
         "focus-trap-react": "^10.0.0",
         "immer": "^9.0.12",
-        "styled-components": "^5.3.5",
-        "telepath-unpack": "^0.0.3"
+        "styled-components": "^5.3.5"
     },
     "devDependencies": {
         "@babel/core": "^7.18.10",
@@ -37,16 +36,6 @@
         "@types/react": "18",
         "@types/react-dom": "^18.0.6",
         "@types/styled-components": "^5.1.26",
-        "@typescript-eslint/eslint-plugin": "^5.12.0",
-        "@typescript-eslint/parser": "^5.12.0",
-        "eslint": "^8.9.0",
-        "eslint-config-airbnb": "^19.0.4",
-        "eslint-config-airbnb-typescript": "^16.1.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.25.4",
-        "eslint-plugin-jsx-a11y": "^6.5.1",
-        "eslint-plugin-react": "^7.28.0",
-        "eslint-plugin-react-hooks": "^4.3.0",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
         "tsup": "^8.0.1",

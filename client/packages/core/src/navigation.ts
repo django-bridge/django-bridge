@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import telepath from "./telepath";
-
 import { Message, Mode, shellGet, shellPost, ShellResponse } from "./fetch";
 
 let nextFrameId = 1;
@@ -22,6 +20,8 @@ export class NavigationController {
 
     parent: NavigationController | null;
 
+    unpackContext: (data: any) => Record<string, unknown>;
+
     nextFetchId = 1;
 
     lastReceivedFetchId = 1;
@@ -36,9 +36,10 @@ export class NavigationController {
 
     closeListeners: (() => void)[] = [];
 
-    constructor(mode: Mode, parent: NavigationController | null) {
+    constructor(mode: Mode, parent: NavigationController | null, unpackContext: (data: any) => Record<string, unknown>) {
         this.mode = mode;
         this.parent = parent;
+        this.unpackContext = unpackContext;
 
         nextFrameId += 1;
         this.currentFrame = {
@@ -116,11 +117,7 @@ export class NavigationController {
             }
 
             // Unpack context
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            const context = telepath.unpack(response.context) as Record<
-                string,
-                unknown
-            >;
+            const context = this.unpackContext(response.context);
 
             // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
             // If it does, call it to see if we should reload the view or just update its context

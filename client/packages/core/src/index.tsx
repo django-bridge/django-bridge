@@ -13,11 +13,12 @@ import { DirtyFormScope } from "./dirtyform";
 export interface ShellProps {
     views: Map<string, FunctionComponent>;
     initialResponse: ShellResponse;
+    unpackContext(data: any): Record<string, unknown>;
 }
 
-function Shell({ views, initialResponse }: ShellProps): ReactElement {
+function Shell({ views, initialResponse, unpackContext }: ShellProps): ReactElement {
     const [navigationController] = React.useState(
-        () => new NavigationController("browser", null)
+        () => new NavigationController("browser", null, unpackContext)
     );
     const [modal, setModal] = React.useState<{
         navigationController: NavigationController;
@@ -132,7 +133,8 @@ function Shell({ views, initialResponse }: ShellProps): ReactElement {
         // Set up a new navigation controller
         const modalNavigationController = new NavigationController(
             "modal",
-            navigationController
+            navigationController,
+            unpackContext
         );
         modalNavigationController.addNavigationListener(() => {
             // HACK: Update some state to force a re-render
@@ -233,6 +235,4 @@ export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-import telepath from "./telepath";
-export { telepath };
 export type { ShellResponse };
