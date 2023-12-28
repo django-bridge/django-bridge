@@ -1,75 +1,64 @@
 name: Djream CI
 
 on:
-    push:
+  push:
 
-    pull_request:
+  pull_request:
 
 jobs:
-    flake8:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python 3.10
-              uses: actions/setup-python@v2
-              with:
-                  python-version: "3.10"
-            - name: Install dev dependencies
-              run: |
-                  python -m pip install .[dev]
-            - name: Flake8
-              run: flake8 .
+  lint_server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install dev dependencies
+        run: |
+          cd server
+          python -m pip install .[dev]
 
-    isort:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python 3.10
-              uses: actions/setup-python@v2
-              with:
-                  python-version: "3.10"
-            - name: Install dev dependencies
-              run: |
-                  python -m pip install .[dev]
-            - name: ISort
-              run: isort --check .
+      - name: Flake8
+        run: |
+          cd server
+          flake8 .
 
-    black:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python 3.10
-              uses: actions/setup-python@v2
-              with:
-                  python-version: "3.10"
-            - name: Install dev dependencies
-              run: |
-                  python -m pip install .[dev]
-            - name: Black
-              run: black --check .
+      - name: ISort
+        run: |
+          cd server
+          isort --check .
 
-    prettier:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Node.js 16
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "16"
-            - name: Install prettier
-              run: yarn install
-            - name: Prettier
-              run: ./node_modules/.bin/prettier --check .
+      - name: Black
+        run: |
+          cd server
+          black --check .
 
-    eslint-example:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Node.js 16
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "16"
-            - name: Install eslint
-              run: cd example/client && yarn install
-            - name: Eslint example
-              run: cd example/client && ./node_modules/.bin/eslint
+  lint_client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: |
+          cd client
+          yarn install
+
+      - name: Prettier
+        run: |
+          cd client
+          yarn run check-format
+
+      - name: ESLint
+        run: |
+          cd client
+          yarn run lint
+
+      - name: Tsc
+        run: |
+          cd client/packages/core
+          yarn install
+          yarn run check-types

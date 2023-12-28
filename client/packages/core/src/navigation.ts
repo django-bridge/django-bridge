@@ -25,7 +25,7 @@ export class NavigationController {
 
     parent: NavigationController | null;
 
-    unpackContext: (data: any) => Record<string, unknown>;
+    unpackContext: (data: Record<string, unknown>) => Record<string, unknown>;
 
     nextFetchId = 1;
 
@@ -45,7 +45,9 @@ export class NavigationController {
     constructor(
         mode: Mode,
         parent: NavigationController | null,
-        unpackContext: (data: any) => Record<string, unknown>
+        unpackContext: (
+            data: Record<string, unknown>
+        ) => Record<string, unknown>
     ) {
         this.mode = mode;
         this.parent = parent;
@@ -127,7 +129,9 @@ export class NavigationController {
             }
 
             // Unpack context
-            const context = this.unpackContext(response.context);
+            const context = this.unpackContext(
+                response.context as unknown as Record<string, unknown>
+            );
 
             // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
             // If it does, call it to see if we should reload the view or just update its context
@@ -235,7 +239,7 @@ export class NavigationController {
                         prevScrollPosition: scrollPosition,
                     },
                     "",
-                    this.currentFrame.path,
+                    this.currentFrame.path
                 );
 
                 // set the scroll position
@@ -244,7 +248,7 @@ export class NavigationController {
         }
 
         this.navigationListeners.forEach((func) =>
-            func(this.currentFrame, newFrame),
+            func(this.currentFrame, newFrame)
         );
     };
 
@@ -288,13 +292,13 @@ export class NavigationController {
         this.handleResponse(response, url);
 
     addNavigationListener = (
-        func: (frame: Frame | null, newFrame: boolean) => void,
+        func: (frame: Frame | null, newFrame: boolean) => void
     ) => {
         this.navigationListeners.push(func);
     };
 
     removeNavigationListener = (
-        func: (frame: Frame | null, newFrame: boolean) => void,
+        func: (frame: Frame | null, newFrame: boolean) => void
     ) => {
         this.navigationListeners = this.navigationListeners.filter(
             (listener) => listener !== func

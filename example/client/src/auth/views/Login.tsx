@@ -6,65 +6,61 @@ import FormDef from "../../forms/telepath/Form";
 import Button from "../../lib/components/Button";
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #2e1f5e;
-    height: 100vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #2e1f5e;
+  height: 100vh;
 `;
 
 const LoginWrapper = styled.div`
-    width: 24rem;
-    border-radius: 0.5rem;
-    padding: 2.5rem;
-    background-color: white;
+  width: 24rem;
+  border-radius: 0.5rem;
+  padding: 2.5rem;
+  background-color: white;
 
-    h2 {
-        color: #2e1f5e;
-        font-weight: bold;
-        font-size: 1.5rem;
-        line-height: 2rem;
-    }
+  h2 {
+    color: #2e1f5e;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
 `;
 
 const SubmitButtonWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 interface LoginViewContext {
-    csrfToken: string;
-    form: FormDef;
-    actionUrl: string;
+  csrfToken: string;
+  form: FormDef;
+  actionUrl: string;
 }
 
 function LoginView({
-    csrfToken,
-    form,
-    actionUrl,
+  csrfToken,
+  form,
+  actionUrl,
 }: LoginViewContext): ReactElement {
-    return (
-        <Wrapper>
-            <LoginWrapper>
-                <h2>Djream Example</h2>
+  return (
+    <Wrapper>
+      <LoginWrapper>
+        <h2>Djream Example</h2>
 
-                <form action={actionUrl} method="post" noValidate>
-                    <input
-                        type="hidden"
-                        name="csrfmiddlewaretoken"
-                        value={csrfToken}
-                    />
+        <form action={actionUrl} method="post" noValidate>
+          <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
 
-                    {form.render()}
+          {form.render()}
 
-                    <SubmitButtonWrapper>
-                        <Button type="submit">Log in</Button>
-                    </SubmitButtonWrapper>
-                </form>
-            </LoginWrapper>
-        </Wrapper>
-    );
+          <SubmitButtonWrapper>
+            <Button type="submit">Log in</Button>
+          </SubmitButtonWrapper>
+        </form>
+      </LoginWrapper>
+    </Wrapper>
+  );
 }
 export default LoginView;

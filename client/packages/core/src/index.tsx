@@ -4,11 +4,12 @@ import Browser from "./components/Browser";
 import { Message, ShellResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
+import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 
 export interface ShellProps {
     views: Map<string, FunctionComponent>;
     initialResponse: ShellResponse;
-    unpackContext(data: any): Record<string, unknown>;
+    unpackContext(data: Record<string, unknown>): Record<string, unknown>;
     ModalWindowComponent: FunctionComponent<{
         children: ReactElement;
         side: "left" | "right";
@@ -43,9 +44,7 @@ function Shell({
     const [messages, setMessages] = React.useState<Message[]>([]);
     const pushMessage = React.useCallback(
         (message: Message) => {
-            setMessages(
-                messages.concat([message])
-            );
+            setMessages(messages.concat([message]));
         },
         [messages]
     );
@@ -172,7 +171,7 @@ function Shell({
     React.useEffect(() => {
         const navigationListener = (
             _frame: Frame | null,
-            newFrame: boolean,
+            newFrame: boolean
         ) => {
             // Only close modal if a new frame is being pushed
             // This prevents the modal from closing when refreshContext is called
@@ -238,6 +237,5 @@ export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
 export type { ShellResponse };
-import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };

@@ -11,7 +11,7 @@ export function buildLinkElement(
     ref:
         | ((instance: HTMLAnchorElement | null) => void)
         | React.MutableRefObject<HTMLAnchorElement | null>
-        | null,
+        | null
 ): ReactElement {
     const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (href) {

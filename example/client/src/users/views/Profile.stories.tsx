@@ -8,45 +8,45 @@ import TextInputDef from "../../forms/telepath/widgets/TextInput";
 import { createTestUser } from "../testdata";
 
 export default {
-    title: "Views/Users/Profile",
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    component: UserProfileView,
-    parameters: {
-        layout: "fullscreen",
-    },
+  title: "Views/Users/Profile",
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  component: UserProfileView,
+  parameters: {
+    layout: "fullscreen",
+  },
 } as ComponentMeta<typeof UserProfileView>;
 
 export function Page() {
-    return (
-        <UserProfileView
-            {...{
-                user: createTestUser(),
-                csrfToken: "",
-                actionUrl: "#",
-                form: new FormDef(
-                    [
-                        new FieldDef(
-                            "first_name",
-                            "First name",
-                            false,
-                            false,
-                            new TextInputDef("text", "__ID__", ""),
-                            "",
-                            "Bender"
-                        ),
-                        new FieldDef(
-                            "last_name",
-                            "Last name",
-                            false,
-                            false,
-                            new TextInputDef("text", "__ID__", ""),
-                            "",
-                            "Rodríguez"
-                        ),
-                    ],
-                    {}
-                ),
-            }}
-        />
-    );
+  return (
+    <UserProfileView
+      {...{
+        user: createTestUser(),
+        csrfToken: "",
+        actionUrl: "#",
+        form: new FormDef(
+          [
+            new FieldDef(
+              "first_name",
+              "First name",
+              false,
+              false,
+              new TextInputDef("text", "__ID__", ""),
+              "",
+              "Bender"
+            ),
+            new FieldDef(
+              "last_name",
+              "Last name",
+              false,
+              false,
+              new TextInputDef("text", "__ID__", ""),
+              "",
+              "Rodríguez"
+            ),
+          ],
+          {}
+        ),
+      }}
+    />
+  );
 }
