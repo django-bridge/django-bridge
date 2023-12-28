@@ -8,6 +8,7 @@ Djream is a framework for rapidly building Django applications with React SPA fr
 - Render views in modals
 - 10KB of minified JavaScript, only depends on React. As URL routing and state is managed on the backend, you won't need Redux or React Router
 - Seamless integration with non-SPA Django views, allowing mixing with third-party applications and incremental rewrites
+- Support for hot-reloading with Vite
 
 ## How it works
 
