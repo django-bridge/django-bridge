@@ -5,11 +5,7 @@ from pathlib import Path
 from django.conf import settings
 from django.shortcuts import render
 
-from .response import (
-    BaseDjreamResponse,
-    DjreamLoadItResponse,
-    DjreamRedirectResponse,
-)
+from .response import BaseDjreamResponse, DjreamLoadItResponse, DjreamRedirectResponse
 
 
 def _decorate_urlpatterns(urlpatterns, decorator):
@@ -70,9 +66,7 @@ def djream_enable(fn):
                 )
             else:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
-                asset_manifest = json.loads(
-                    Path("/client/manifest.json").read_text()
-                )
+                asset_manifest = json.loads(Path("/client/manifest.json").read_text())
 
                 js = [
                     "/static/" + asset_manifest["src/main.tsx"]["file"],
