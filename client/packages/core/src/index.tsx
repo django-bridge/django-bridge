@@ -1,6 +1,4 @@
 import React, { ReactElement, FunctionComponent } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import produce from "immer";
 
 import Browser from "./components/Browser";
 import { Message, ShellResponse } from "./fetch";
@@ -47,9 +45,7 @@ function Shell({
     const pushMessage = React.useCallback(
         (message: Message) => {
             setMessages(
-                produce(messages, (draft) => {
-                    draft.push(message);
-                })
+                messages.concat([message])
             );
         },
         [messages]

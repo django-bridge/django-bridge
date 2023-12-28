@@ -24,9 +24,7 @@
             "last 1 safari version"
         ]
     },
-    "dependencies": {
-        "immer": "^9.0.12"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.18.10",
         "@babel/preset-react": "^7.18.6",
