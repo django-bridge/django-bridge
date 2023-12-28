@@ -34,6 +34,7 @@ interface ShellResponseRender {
 
 interface ShellResponseCloseModal {
     status: "close-modal";
+    messages: Message[];
 }
 
 interface ShellResponseServerError {
@@ -44,23 +45,13 @@ interface ShellResponseNetworkError {
     status: "network-error";
 }
 
-interface ShellResponseNotFound {
-    status: "not-found";
-}
-
-interface ShellResponsePermissionDenied {
-    status: "permission-denied";
-}
-
 export type ShellResponse =
     | ShellResponseLoadIt
     | ShellResponseRedirect
     | ShellResponseRender
     | ShellResponseCloseModal
     | ShellResponseServerError
-    | ShellResponseNetworkError
-    | ShellResponseNotFound
-    | ShellResponsePermissionDenied;
+    | ShellResponseNetworkError;
 
 export async function shellGet(
     url: string,

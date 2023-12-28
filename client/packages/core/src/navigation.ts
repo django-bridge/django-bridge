@@ -15,6 +15,11 @@ export interface Frame<Context = Record<string, unknown>> {
     shouldReloadCallback?: (newPath: string, newContext: Context) => boolean;
 }
 
+interface HistoryState {
+    prevPath?: string;
+    prevScrollPosition?: number;
+}
+
 export class NavigationController {
     mode: Mode;
 
@@ -29,7 +34,8 @@ export class NavigationController {
     currentFrame: Frame;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    navigationListeners: ((frame: Frame | null) => void)[] = [];
+    navigationListeners: ((frame: Frame | null, newFrame: boolean) => void)[] =
+        [];
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     serverErrorListeners: ((kind: "server" | "network") => void)[] = [];
@@ -146,6 +152,11 @@ export class NavigationController {
         } else if (response.status === "close-modal") {
             // Call close listeners. One of these should close the modal
             this.closeListeners.forEach((func) => func());
+
+            // Push any messages
+            response.messages.forEach((message) => {
+                this.currentFrame.serverMessages.push(message);
+            });
         } else if (response.status === "server-error") {
             this.serverErrorListeners.forEach((func) => func("server"));
             return Promise.reject();
@@ -189,7 +200,8 @@ export class NavigationController {
     ) => {
         let frameId = this.currentFrame.id;
 
-        if (view !== this.currentFrame.view || reload) {
+        const newFrame = view !== this.currentFrame.view || reload;
+        if (newFrame) {
             nextFrameId += 1;
             frameId = nextFrameId;
         }
@@ -208,12 +220,32 @@ export class NavigationController {
             document.title = title;
 
             if (this.currentFrame.pushState) {
-                // eslint-disable-next-line no-restricted-globals
-                history.pushState({}, "", this.currentFrame.path);
+                let scollPositionY = 0;
+                const scrollPosition = window.scrollY;
+                const historyState = window.history?.state as HistoryState;
+                // if we're going back to previous path, return to the the previous scroll position
+                if (historyState?.prevPath === this.currentFrame.path) {
+                    scollPositionY = historyState.prevScrollPosition ?? 0;
+                }
+
+                // set the previous path and scroll position in the state before pushing the new url
+                window.history.pushState(
+                    {
+                        prevPath: window.location.pathname,
+                        prevScrollPosition: scrollPosition,
+                    },
+                    "",
+                    this.currentFrame.path,
+                );
+
+                // set the scroll position
+                window.scrollTo(0, scollPositionY);
             }
         }
 
-        this.navigationListeners.forEach((func) => func(this.currentFrame));
+        this.navigationListeners.forEach((func) =>
+            func(this.currentFrame, newFrame),
+        );
     };
 
     replacePath = (frameId: number, path: string) => {
@@ -255,11 +287,15 @@ export class NavigationController {
     escalate = (url: string, response: ShellResponse): Promise<void> =>
         this.handleResponse(response, url);
 
-    addNavigationListener = (func: (frame: Frame | null) => void) => {
+    addNavigationListener = (
+        func: (frame: Frame | null, newFrame: boolean) => void,
+    ) => {
         this.navigationListeners.push(func);
     };
 
-    removeNavigationListener = (func: (frame: Frame | null) => void) => {
+    removeNavigationListener = (
+        func: (frame: Frame | null, newFrame: boolean) => void,
+    ) => {
         this.navigationListeners = this.navigationListeners.filter(
             (listener) => listener !== func
         );

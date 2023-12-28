@@ -2,8 +2,7 @@ import React, { ReactElement, FunctionComponent } from "react";
 
 import Browser from "./components/Browser";
 import { Message, ShellResponse } from "./fetch";
-
-import { NavigationController } from "./navigation";
+import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 
 export interface ShellProps {
@@ -171,8 +170,13 @@ function Shell({
     // Close modal when we navigate the main window
     // We can force close in this situation, since we've already checked if there are any dirty forms
     React.useEffect(() => {
-        const navigationListener = () => {
-            if (modal) {
+        const navigationListener = (
+            _frame: Frame | null,
+            newFrame: boolean,
+        ) => {
+            // Only close modal if a new frame is being pushed
+            // This prevents the modal from closing when refreshContext is called
+            if (modal && newFrame) {
                 setRequestModalClose(true);
             }
         };
@@ -185,7 +189,7 @@ function Shell({
     });
 
     return (
-        <div style={{ height: "100vh" }}>
+        <div>
             <DirtyFormScope handleBrowserUnload>
                 <MessagesComponent messages={messages} />
                 {modal &&
@@ -211,21 +215,12 @@ function Shell({
                             </ModalWindowComponent>
                         </DirtyFormScope>
                     )}
-                <div
-                    style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        overflow: "hidden",
-                    }}
-                >
-                    <Browser
-                        views={views}
-                        navigationController={navigationController}
-                        openModal={(url, options) => openModal(url, options)}
-                        pushMessage={pushMessage}
-                    />
-                </div>
+                <Browser
+                    views={views}
+                    navigationController={navigationController}
+                    openModal={(url, options) => openModal(url, options)}
+                    pushMessage={pushMessage}
+                />
             </DirtyFormScope>
         </div>
     );
@@ -243,3 +238,6 @@ export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
 export type { ShellResponse };
+import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
+export { Link, BuildLinkElement, buildLinkElement };
+export type { Message };

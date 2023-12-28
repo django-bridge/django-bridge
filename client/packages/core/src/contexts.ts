@@ -14,6 +14,7 @@ export interface OpenModalOptions {
 export interface ShellNavigation {
     frameId: number;
     path: string;
+    context: Record<string, unknown>;
     navigate: (path: string, options?: NavigateOptions) => Promise<void>;
     pushFrame: (
         path: string,
@@ -34,6 +35,7 @@ export interface ShellNavigation {
 export const ShellNavigationContext = React.createContext<ShellNavigation>({
     frameId: 0,
     path: "/",
+    context: {},
     navigate: () => {
         // eslint-disable-next-line no-console
         console.error("navigate() called from outside a Shell Browser");

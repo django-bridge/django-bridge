@@ -36,18 +36,6 @@ function Browser({
         currentFrame.serverMessages = [];
     }
 
-    let style: React.CSSProperties = {};
-
-    if (navigationController.mode === "browser") {
-        style = {
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-        };
-    }
-
     const { isDirty, requestUnload, cancelUnload } =
         React.useContext(DirtyFormContext);
 
@@ -55,6 +43,7 @@ function Browser({
         () => ({
             frameId: currentFrame.id,
             path: currentFrame.path,
+            context: currentFrame.context,
             navigate: (url: string, options: NavigateOptions = {}) => {
                 // If there is a dirty form, block navigation until unload has been confirmed
                 if (!isDirty || options.skipDirtyFormCheck === true) {
@@ -99,7 +88,7 @@ function Browser({
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return (
         <ShellNavigationContext.Provider value={ShellNavigationUtils}>
-            <div key={currentFrame.id} style={style}>
+            <div key={currentFrame.id}>
                 <View {...currentFrame.context} />
             </div>
         </ShellNavigationContext.Provider>

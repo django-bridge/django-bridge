@@ -5,7 +5,6 @@ from telepath import Adapter, AdapterRegistry, JSContextBase
 
 
 class CustomJSContextBase(JSContextBase):
-
     # Remove default media as we import 'telepath-unpack' directly into the client app
     @property
     def base_media(self):
@@ -26,8 +25,8 @@ def register(adapter, cls):
 
 def adapter(js_constructor, base=Adapter):
     """
-    Allows a class to implement its adapting logic with a `js_args()` method on the class itself.
-    This just helps reduce the amount of code you have to write.
+    Allows a class to implement its adapting logic with a `js_args()` method on the
+    class itself. This just helps reduce the amount of code you have to write.
 
     For example:
 

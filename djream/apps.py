@@ -8,4 +8,5 @@ class DjreamAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
 
     def ready(self):
-        import djream.ui.forms  # noqa
+        # Import forms module to register telepath converters
+        from .ui import forms  # noqa
