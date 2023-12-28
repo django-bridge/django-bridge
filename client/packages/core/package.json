@@ -26,19 +26,13 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "@babel/core": "^7.18.10",
-        "@babel/preset-react": "^7.18.6",
-        "@babel/preset-typescript": "^7.18.6",
         "@types/node": "^12.0.0",
         "@types/react": "18",
-        "@types/react-dom": "^18.0.6",
         "react": "^16.13.0",
-        "react-dom": "^16.13.0",
         "tsup": "^8.0.1",
         "typescript": "^4.5.5"
     },
     "peerDependencies": {
-        "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-        "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
     }
 }
