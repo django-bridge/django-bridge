@@ -36,7 +36,11 @@ export class NavigationController {
 
     closeListeners: (() => void)[] = [];
 
-    constructor(mode: Mode, parent: NavigationController | null, unpackContext: (data: any) => Record<string, unknown>) {
+    constructor(
+        mode: Mode,
+        parent: NavigationController | null,
+        unpackContext: (data: any) => Record<string, unknown>
+    ) {
         this.mode = mode;
         this.parent = parent;
         this.unpackContext = unpackContext;

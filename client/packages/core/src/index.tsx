@@ -3,8 +3,6 @@ import React, { ReactElement, FunctionComponent } from "react";
 import produce from "immer";
 
 import Browser from "./components/Browser";
-import ToastMessages from "./components/ToastMessages";
-import ModalWindow from "./components/ModalWindow";
 import { Message, ShellResponse } from "./fetch";
 
 import { NavigationController } from "./navigation";
@@ -14,9 +12,24 @@ export interface ShellProps {
     views: Map<string, FunctionComponent>;
     initialResponse: ShellResponse;
     unpackContext(data: any): Record<string, unknown>;
+    ModalWindowComponent: FunctionComponent<{
+        children: ReactElement;
+        side: "left" | "right";
+        onClose: () => void;
+        requestClose: boolean;
+    }>;
+    MessagesComponent: FunctionComponent<{
+        messages: Message[];
+    }>;
 }
 
-function Shell({ views, initialResponse, unpackContext }: ShellProps): ReactElement {
+function Shell({
+    views,
+    initialResponse,
+    unpackContext,
+    ModalWindowComponent,
+    MessagesComponent,
+}: ShellProps): ReactElement {
     const [navigationController] = React.useState(
         () => new NavigationController("browser", null, unpackContext)
     );
@@ -178,12 +191,12 @@ function Shell({ views, initialResponse, unpackContext }: ShellProps): ReactElem
     return (
         <div style={{ height: "100vh" }}>
             <DirtyFormScope handleBrowserUnload>
-                <ToastMessages messages={messages} />
+                <MessagesComponent messages={messages} />
                 {modal &&
                     modal.navigationController.currentFrame.view !==
                         "loading" && (
                         <DirtyFormScope>
-                            <ModalWindow
+                            <ModalWindowComponent
                                 side={modal.side}
                                 onClose={() => {
                                     setModal(null);
@@ -199,7 +212,7 @@ function Shell({ views, initialResponse, unpackContext }: ShellProps): ReactElem
                                     openModal={() => {}}
                                     pushMessage={pushMessage}
                                 />
-                            </ModalWindow>
+                            </ModalWindowComponent>
                         </DirtyFormScope>
                     )}
                 <div
@@ -223,8 +236,6 @@ function Shell({ views, initialResponse, unpackContext }: ShellProps): ReactElem
 }
 
 export default Shell;
-export { ModalWindowControlsContext } from "./components/ModalWindow";
-export type { ModalWindowControls } from "./components/ModalWindow";
 export {
     ShellNavigationContext,
     FormWidgetChangeNotificationContext,

@@ -25,9 +25,7 @@
         ]
     },
     "dependencies": {
-        "focus-trap-react": "^10.0.0",
         "immer": "^9.0.12",
-        "styled-components": "^5.3.5"
     },
     "devDependencies": {
         "@babel/core": "^7.18.10",
@@ -36,7 +34,6 @@
         "@types/node": "^12.0.0",
         "@types/react": "18",
         "@types/react-dom": "^18.0.6",
-        "@types/styled-components": "^5.1.26",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
         "tsup": "^8.0.1",
