@@ -5,6 +5,10 @@
     "workspaces": [
         "packages/*"
     ],
+    "scripts": {
+        "check-format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,yaml}\"",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,yaml}\""
+    },
     "dependencies": {
         "prettier": "^2.7.1"
     }
