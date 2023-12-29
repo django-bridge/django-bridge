@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent } from "react";
+import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 
 import Browser from "./components/Browser";
 import { Message, ShellResponse } from "./fetch";
@@ -10,23 +10,21 @@ export interface ShellProps {
     views: Map<string, FunctionComponent>;
     initialResponse: ShellResponse;
     unpackContext(data: Record<string, unknown>): Record<string, unknown>;
-    ModalWindowComponent: FunctionComponent<{
-        children: ReactElement;
-        side: "left" | "right";
-        onClose: () => void;
-        requestClose: boolean;
-    }>;
-    MessagesComponent: FunctionComponent<{
-        messages: Message[];
-    }>;
+    renderModal(
+        contents: JSX.Element,
+        side: "left" | "right",
+        onClose: () => void,
+        requestClose: boolean,
+    ): ReactElement;
+    renderMessages(messages: Message[]): ReactElement;
 }
 
 function Shell({
     views,
     initialResponse,
     unpackContext,
-    ModalWindowComponent,
-    MessagesComponent,
+    renderModal,
+    renderMessages,
 }: ShellProps): ReactElement {
     const [navigationController] = React.useState(
         () => new NavigationController("browser", null, unpackContext)
@@ -190,19 +188,12 @@ function Shell({
     return (
         <div>
             <DirtyFormScope handleBrowserUnload>
-                <MessagesComponent messages={messages} />
+                {renderMessages(messages)}
                 {modal &&
                     modal.navigationController.currentFrame.view !==
                         "loading" && (
                         <DirtyFormScope>
-                            <ModalWindowComponent
-                                side={modal.side}
-                                onClose={() => {
-                                    setModal(null);
-                                    setRequestModalClose(false);
-                                }}
-                                requestClose={requestModalClose}
-                            >
+                            {renderModal(
                                 <Browser
                                     views={views}
                                     navigationController={
@@ -210,8 +201,14 @@ function Shell({
                                     }
                                     openModal={() => {}}
                                     pushMessage={pushMessage}
-                                />
-                            </ModalWindowComponent>
+                                />,
+                                modal.side,
+                                () => {
+                                    setModal(null);
+                                    setRequestModalClose(false);
+                                },
+                                requestModalClose
+                            )}
                         </DirtyFormScope>
                     )}
                 <Browser
