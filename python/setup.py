@@ -33,12 +33,5 @@ setup(
         "Framework :: Django :: 4.0",
     ],
     install_requires=["Django>=4.0,<5.0", "telepath>=0.3,<0.4"],
-    extras_require={
-        "dev": [
-            "black>=22,<23",
-            "flake8>=5,<6",
-            "isort>=5,<6",
-        ],
-    },
     zip_safe=False,
 )
