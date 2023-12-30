@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
       <>
         Build React SPAs backed by Django views and URL routing. No need to create a REST/GraphQL API.
 
-        Djream-enabled views return JSON that is passed to a React component as props.
+        Djream-enabled views return JSON that is passed to React components as props.
       </>
     ),
   },
@@ -25,10 +25,9 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Get the performance and user experience of a React SPA without giving up what's great about Django.
-
-        Keep your business logic in Django views, use Django forms for validation, and
-        test with Django test framework.
+        Get the performance and user experience of a React SPA,
+        keep your business logic in Django views, use Django forms
+        for validation, and test with Django test framework.
       </>
     ),
   },
@@ -37,8 +36,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Djream is 3.6KB minified, gzipped. As routing and business logic is handled by Django,
-        your React app can be built with very few plugins.
+        Djream is 3.6KB (minified, gzipped). As routing and business logic is handled by Django,
+        your React frontend can be built with very few plugins.
       </>
     ),
   },
