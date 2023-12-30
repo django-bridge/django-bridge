@@ -27,7 +27,7 @@ jobs:
           python -m pip install tox
       - name: Test
         run: |
-          cd server
+          cd python
           tox
         env:
           TOXENV: python${{ matrix.python }}-django${{ matrix.django }}

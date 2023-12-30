@@ -16,22 +16,22 @@ jobs:
           python-version: "3.10"
       - name: Install dev dependencies
         run: |
-          cd server
+          cd python
           python -m pip install .[dev]
 
       - name: Flake8
         run: |
-          cd server
+          cd python
           flake8 .
 
       - name: ISort
         run: |
-          cd server
+          cd python
           isort --check .
 
       - name: Black
         run: |
-          cd server
+          cd python
           black --check .
 
   lint_client:
@@ -44,21 +44,18 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: |
-          cd client
           yarn install
 
       - name: Prettier
         run: |
-          cd client
           yarn run check-format
 
       - name: ESLint
         run: |
-          cd client
           yarn run lint
 
       - name: Tsc
         run: |
-          cd client/packages/core
+          cd packages/core
           yarn install
           yarn run check-types
