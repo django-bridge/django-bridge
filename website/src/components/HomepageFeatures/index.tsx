@@ -10,46 +10,58 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Seamless Django Integration',
+    title: 'Build React SPAs for Django apps without an API',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Use Django's URL patterns and views. No need to create a REST/GraphQL API.
-        Djream-enabled views return JSON that is converted to props
-        and rendered by your React app.
+        Build React SPAs backed by Django views and URL routing. No need to create a REST/GraphQL API.
+
+        Return JSON from a Django view and Djream will render it with a React component.
       </>
     ),
   },
   {
-    title: 'Extremely lightweight React frontends',
+    title: 'Don\'t give up what\'s great about Django',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Routing is handled by Django, so your React app can
-        be built with very few plugins. Djream is only 10KB minified JS.
+        Get the performance and user experience of a React SPA without giving up what's great about Django.
+
+        Keep your business logic in Django views, use Django forms for validation, and
+        test with Django test framework.
       </>
     ),
   },
   {
-    title: 'Open URLs in Modals',
+    title: 'Keep JavaScript bundles small',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    description: (
+      <>
+        Djream is 3.6KB minified, gzipped. As routing and business logic is handled by Django,
+        your React app can be built with very few plugins.
+      </>
+    ),
+  },
+  {
+    title: 'Create modal workflows with Django views',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Djream-enabled views can be opened  a modal instead of a new page.
+        Djream-enabled views can be opened in a modal instead of a new page.
         This makes it easy to create a modal workflows using Django views.
       </>
     ),
   },
-  {
-    title: 'Intelligent dirty-form checking',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        When users navigate away with unsaved changes, Djream will prompt them to
-        confirm before leaving. This works for closing modals too.
-      </>
-    ),
-  },
+  // {
+  //   title: 'Intelligent dirty-form checking',
+  //   Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+  //   description: (
+  //     <>
+  //       When users navigate away with unsaved changes, Djream will prompt them to
+  //       confirm before leaving. This works for closing modals too.
+  //     </>
+  //   ),
+  // },
   {
     title: 'Mix with traditional Django views',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
@@ -62,7 +74,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Hot reloading with Vite',
+    title: 'Iterate fast with Vite hot reloading',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
