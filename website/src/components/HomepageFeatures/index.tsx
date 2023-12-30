@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
       <>
         Build React SPAs backed by Django views and URL routing. No need to create a REST/GraphQL API.
 
-        Return JSON from a Django view and Djream will render it with a React component.
+        Djream-enabled views return JSON that is passed to a React component as props.
       </>
     ),
   },
@@ -47,7 +47,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Djream-enabled views can be opened in a modal instead of a new page.
+        Djream-rendered views can be opened in a modal instead of a new page.
         This makes it easy to create a modal workflows using Django views.
       </>
     ),
@@ -63,13 +63,13 @@ const FeatureList: FeatureItem[] = [
   //   ),
   // },
   {
-    title: 'Mix with traditional Django views',
+    title: 'Mix with template-rendered views',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        You can use Djream-enabled views alongside traditional Django views in the
-        same URL configuration and users can navigate between them. This makes it easier
-        to migrate your app to Djream or use third-party apps that don't support Djream.
+        Djream-rendered views can be created alongside traditional views rendered with templates
+        allowing you to incrementally migrate your app to a React SPA or use third-party apps
+        that don't have a React frontend.
       </>
     ),
   },
@@ -78,8 +78,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        If you use Vite to build your React app, Djream will automatically
-        enable hot reloading in development.
+        If you use Vite to build your React app, Djream will enable hot reloading in development.
       </>
     ),
   },
