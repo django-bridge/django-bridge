@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0rem 2rem;
+  padding: 0rem 1rem;
 }
 
 .steps {
@@ -11,6 +11,8 @@
   width: 100%;
   max-width: 50rem;
   gap: 1rem;
+  padding: 0;
+  list-style-type: none;
 }
 
 .steps pre {
