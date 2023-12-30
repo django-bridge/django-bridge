@@ -14,9 +14,9 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-        React frontends for Django made easy.
+          {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">Build lightweight, single-page React frontends for Django without the boilerplate.</p>
+        <p className="hero__subtitle">{siteConfig.tagline}.</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
@@ -38,8 +38,8 @@ export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`Djream - ${siteConfig.title}}`}
+      description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <HomepageFeatures />
