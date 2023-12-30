@@ -1,7 +1,19 @@
 .codeexample {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0rem 2rem;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  max-width: 50rem;
   gap: 1rem;
+}
+
+.steps pre {
+  font-size: 0.7rem;
+  line-height: 1.2rem;
 }
