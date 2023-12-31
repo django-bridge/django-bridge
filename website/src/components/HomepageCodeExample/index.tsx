@@ -76,8 +76,8 @@ export default function PostFormView({
 }`}</CodeBlock>
   },
   {
-    title: "Add the component to the views map in App.tsx",
-    description: "Pass a map of view components to the Djream app, this will render the component that matches the name in the DjreamResponse.",
+    title: "Create a Djream app",
+    description: "Pass a map of view components to the DjreamApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.",
     code: <CodeBlock language="tsx" title="App.tsx">{`import { App as DjreamApp } from "@djream/core";
 import PostFormView from "./views/PostForm";
 
