@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { ShellNavigation, ShellNavigationContext } from "djream";
+import { Navigation, NavigationContext } from "djream";
 
 export interface LinkProps extends React.HTMLProps<HTMLAnchorElement> {
   skipDirtyFormCheck?: boolean;
@@ -7,7 +7,7 @@ export interface LinkProps extends React.HTMLProps<HTMLAnchorElement> {
 
 export function buildLinkElement(
   { children, href, skipDirtyFormCheck = false, ...props }: LinkProps,
-  { navigate }: ShellNavigation,
+  { navigate }: Navigation,
   ref:
     | ((instance: HTMLAnchorElement | null) => void)
     | React.MutableRefObject<HTMLAnchorElement | null>
@@ -39,7 +39,7 @@ const Link = React.forwardRef<
     skipDirtyFormCheck?: boolean;
   }
 >((props: LinkProps, ref): ReactElement => {
-  const navigationContext = React.useContext(ShellNavigationContext);
+  const navigationContext = React.useContext(NavigationContext);
   const build = React.useContext(BuildLinkElement);
 
   return build(props, navigationContext, ref);

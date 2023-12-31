@@ -20,9 +20,9 @@ def djream_view(fn):
         if response.status_code == 301:
             return response
 
-        # If the request was made by djream
+        # If the request was made by Djream
         # (using `fetch()`, rather than a regular browser request)
-        if request.META.get("HTTP_X_REQUESTED_WITH") == "Shell":
+        if request.META.get("HTTP_X_REQUESTED_WITH") == "Djream":
             if isinstance(response, BaseDjreamResponse):
                 return response
 
@@ -30,7 +30,7 @@ def djream_view(fn):
                 return DjreamRedirectResponse(response["Location"])
 
             else:
-                # Response couldn't be converted into a djream response. Reload the page
+                # Response couldn't be converted into a Djream response. Reload the page
                 return DjreamLoadItResponse()
 
         # Regular browser request

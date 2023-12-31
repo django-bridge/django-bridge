@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import Shell, { ShellResponse } from "djream";
+import { App as DjreamApp, DjreamResponse } from "djream";
 
 import LoginView from "./auth/views/Login";
 import UserProfileView from "./users/views/Profile";
@@ -21,11 +21,11 @@ function App(): ReactElement {
   if (initialResponse && globals) {
     return (
       <GlobalsContext.Provider value={JSON.parse(globals) as Globals}>
-        <Shell
+        <DjreamApp
           views={views}
           initialResponse={
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            JSON.parse(initialResponse) as ShellResponse
+            JSON.parse(initialResponse) as DjreamResponse
           }
         />
       </GlobalsContext.Provider>

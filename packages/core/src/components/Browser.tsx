@@ -6,7 +6,7 @@ import { NavigationController } from "../navigation";
 import {
     NavigateOptions,
     OpenModalOptions,
-    ShellNavigationContext,
+    NavigationContext,
 } from "../contexts";
 
 export interface BrowserProps {
@@ -39,7 +39,7 @@ function Browser({
     const { isDirty, requestUnload, cancelUnload } =
         React.useContext(DirtyFormContext);
 
-    const ShellNavigationUtils = React.useMemo(
+    const NavigationUtils = React.useMemo(
         () => ({
             frameId: currentFrame.id,
             path: currentFrame.path,
@@ -87,11 +87,11 @@ function Browser({
 
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return (
-        <ShellNavigationContext.Provider value={ShellNavigationUtils}>
+        <NavigationContext.Provider value={NavigationUtils}>
             <div key={currentFrame.id}>
                 <View {...currentFrame.context} />
             </div>
-        </ShellNavigationContext.Provider>
+        </NavigationContext.Provider>
     );
 }
 

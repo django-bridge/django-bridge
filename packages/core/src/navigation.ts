@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, Mode, shellGet, shellPost, ShellResponse } from "./fetch";
+import { Message, Mode, djreamGet, djreamPost, DjreamResponse } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -66,8 +66,8 @@ export class NavigationController {
     }
 
     // Private
-    shellFetch = async (
-        fetcher: () => Promise<ShellResponse>,
+    fetch = async (
+        fetcher: () => Promise<DjreamResponse>,
         url: string,
         pushState: boolean,
         neverReload = false
@@ -97,7 +97,7 @@ export class NavigationController {
 
     // Private
     handleResponse = (
-        response: ShellResponse,
+        response: DjreamResponse,
         path: string,
         pushState = true,
         neverReload = false
@@ -186,8 +186,8 @@ export class NavigationController {
             path = urlObj.pathname + urlObj.search;
         }
 
-        return this.shellFetch(
-            () => shellGet(path, this.mode),
+        return this.fetch(
+            () => djreamGet(path, this.mode),
             path,
             pushState
         );
@@ -266,7 +266,7 @@ export class NavigationController {
     };
 
     submitForm = (url: string, data: FormData): Promise<void> =>
-        this.shellFetch(() => shellPost(url, data, this.mode), url, true);
+        this.fetch(() => djreamPost(url, data, this.mode), url, true);
 
     refreshContext = (): Promise<void> => {
         const url =
@@ -274,8 +274,8 @@ export class NavigationController {
             window.location.search +
             window.location.hash;
 
-        return this.shellFetch(
-            () => shellGet(url, this.mode),
+        return this.fetch(
+            () => djreamGet(url, this.mode),
             url,
             false,
             true
@@ -288,7 +288,7 @@ export class NavigationController {
     // that needs to navigate the whole page somewhere else, that response is escalated
     // from the modal NavigationController to the main window NavigationController using
     // this method.
-    escalate = (url: string, response: ShellResponse): Promise<void> =>
+    escalate = (url: string, response: DjreamResponse): Promise<void> =>
         this.handleResponse(response, url);
 
     addNavigationListener = (

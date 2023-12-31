@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { ReactElement } from "react";
-import { ShellNavigationContext, DirtyFormMarker } from "djream";
+import { NavigationContext, DirtyFormMarker } from "djream";
 import {
   FormSubmissionStatus,
   FormWidgetChangeNotificationContext,
@@ -19,7 +19,7 @@ function Form({
   disableDirtyCheck = false,
   ...props
 }: FormProps): ReactElement {
-  const { submitForm, navigate } = React.useContext(ShellNavigationContext);
+  const { submitForm, navigate } = React.useContext(NavigationContext);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDirty, setIsDirty] = React.useState(isInitiallyDirty);
 

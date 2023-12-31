@@ -18,7 +18,7 @@ def profile(request):
             form.save()
 
             # If the form is opened in a modal, close it
-            if request.META.get("HTTP_X_SHELL_MODE", "browser") == "modal":
+            if request.META.get("HTTP_X_DJREAM_MODE", "browser") == "modal":
                 return DjreamCloseModalResponse()
     else:
         form = UserChangeForm(instance=request.user)

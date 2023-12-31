@@ -14,16 +14,16 @@ export interface HTMLMessage {
 
 export type Message = TextMessage | HTMLMessage;
 
-interface ShellResponseLoadIt {
+interface DjreamResponseLoadIt {
     status: "load-it";
 }
 
-interface ShellResponseRedirect {
+interface DjreamResponseRedirect {
     status: "redirect";
     path: string;
 }
 
-interface ShellResponseRender {
+interface DjreamResponseRender {
     status: "render";
     mode: Mode;
     title: string;
@@ -32,36 +32,36 @@ interface ShellResponseRender {
     messages: Message[];
 }
 
-interface ShellResponseCloseModal {
+interface DjreamResponseCloseModal {
     status: "close-modal";
     messages: Message[];
 }
 
-interface ShellResponseServerError {
+interface DjreamResponseServerError {
     status: "server-error";
 }
 
-interface ShellResponseNetworkError {
+interface DjreamResponseNetworkError {
     status: "network-error";
 }
 
-export type ShellResponse =
-    | ShellResponseLoadIt
-    | ShellResponseRedirect
-    | ShellResponseRender
-    | ShellResponseCloseModal
-    | ShellResponseServerError
-    | ShellResponseNetworkError;
+export type DjreamResponse =
+    | DjreamResponseLoadIt
+    | DjreamResponseRedirect
+    | DjreamResponseRender
+    | DjreamResponseCloseModal
+    | DjreamResponseServerError
+    | DjreamResponseNetworkError;
 
-export async function shellGet(
+export async function djreamGet(
     url: string,
     mode: Mode
-): Promise<ShellResponse> {
+): Promise<DjreamResponse> {
     let response: Response;
 
     try {
         response = await fetch(url, {
-            headers: { "X-Requested-With": "Shell", "X-Shell-Mode": mode },
+            headers: { "X-Requested-With": "Djream", "X-Djream-Mode": mode },
         });
     } catch (e) {
         return {
@@ -74,29 +74,29 @@ export async function shellGet(
             status: "server-error",
         };
     }
-    if (!response.headers.get("X-Shell-Status")) {
+    if (!response.headers.get("X-Djream-Status")) {
         // eslint-disable-next-line no-console
         console.warn(
-            "Shell Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
+            "Djream Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
         );
         return {
             status: "load-it",
         };
     }
-    return response.json() as Promise<ShellResponse>;
+    return response.json() as Promise<DjreamResponse>;
 }
 
-export async function shellPost(
+export async function djreamPost(
     url: string,
     data: FormData,
     mode: Mode
-): Promise<ShellResponse> {
+): Promise<DjreamResponse> {
     let response: Response;
 
     try {
         response = await fetch(url, {
             method: "post",
-            headers: { "X-Requested-With": "Shell", "X-Shell-Mode": mode },
+            headers: { "X-Requested-With": "Djream", "X-Djream-Mode": mode },
             body: data,
         });
     } catch (e) {
@@ -110,14 +110,14 @@ export async function shellPost(
             status: "server-error",
         };
     }
-    if (!response.headers.get("X-Shell-Status")) {
+    if (!response.headers.get("X-Djream-Status")) {
         // eslint-disable-next-line no-console
         console.warn(
-            "Shell Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
+            "Djream Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
         );
         return {
             status: "load-it",
         };
     }
-    return response.json() as Promise<ShellResponse>;
+    return response.json() as Promise<DjreamResponse>;
 }

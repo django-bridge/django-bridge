@@ -1,14 +1,14 @@
 import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, ShellResponse } from "./fetch";
+import { Message, DjreamResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 
-export interface ShellProps {
+export interface AppProps {
     views: Map<string, FunctionComponent>;
-    initialResponse: ShellResponse;
+    initialResponse: DjreamResponse;
     unpackContext(data: Record<string, unknown>): Record<string, unknown>;
     renderModal(
         contents: JSX.Element,
@@ -19,13 +19,13 @@ export interface ShellProps {
     renderMessages(messages: Message[]): ReactElement;
 }
 
-function Shell({
+export function App({
     views,
     initialResponse,
     unpackContext,
     renderModal,
     renderMessages,
-}: ShellProps): ReactElement {
+}: AppProps): ReactElement {
     const [navigationController] = React.useState(
         () => new NavigationController("browser", null, unpackContext)
     );
@@ -222,17 +222,16 @@ function Shell({
     );
 }
 
-export default Shell;
 export {
-    ShellNavigationContext,
+    NavigationContext,
     FormWidgetChangeNotificationContext,
     FormSubmissionStatus,
 } from "./contexts";
-export type { ShellNavigation } from "./contexts";
+export type { Navigation } from "./contexts";
 export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-export type { ShellResponse };
+export type { DjreamResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };

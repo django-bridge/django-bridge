@@ -24,7 +24,7 @@ def get_messages(request):
 
 class BaseDjreamResponse(JsonResponse):
     """
-    Base class for all djream responses.
+    Base class for all Djream responses.
     """
 
     status = None
@@ -36,10 +36,10 @@ class BaseDjreamResponse(JsonResponse):
         }
         data.update(js_context.pack(self.get_data(*args, **kwargs)))
         super().__init__(data, status=http_status)
-        self["X-Shell-Status"] = self.status
+        self["X-Djream-Status"] = self.status
 
         # Make sure that djream responses are never cached by browsers
-        # We need to do this because Shell responses are given on the same URLs that
+        # We need to do this because Djream responses are given on the same URLs that
         # users would otherwise get HTML responses on if they visited those URLs
         # directly.
         # If djream response is cached, there's a chance that a user could see the
@@ -65,7 +65,7 @@ class DjreamResponse(BaseDjreamResponse):
         super().__init__(*args, **kwargs)
 
     def get_mode(self):
-        requested_mode = self.request.META.get("HTTP_X_SHELL_MODE", "browser")
+        requested_mode = self.request.META.get("HTTP_X_DJREAM_MODE", "browser")
         if requested_mode in self.supported_modes:
             return requested_mode
 

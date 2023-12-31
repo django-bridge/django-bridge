@@ -11,7 +11,7 @@ export interface OpenModalOptions {
     side?: "left" | "right";
 }
 
-export interface ShellNavigation {
+export interface Navigation {
     frameId: number;
     path: string;
     context: Record<string, unknown>;
@@ -32,39 +32,39 @@ export interface ShellNavigation {
     pushMessage(message: Message): void;
 }
 
-export const ShellNavigationContext = React.createContext<ShellNavigation>({
+export const NavigationContext = React.createContext<Navigation>({
     frameId: 0,
     path: "/",
     context: {},
     navigate: () => {
         // eslint-disable-next-line no-console
-        console.error("navigate() called from outside a Shell Browser");
+        console.error("navigate() called from outside a Djream Browser");
 
         return Promise.resolve();
     },
     pushFrame: () => {
         // eslint-disable-next-line no-console
-        console.error("pushFrame() called from outside a Shell Browser");
+        console.error("pushFrame() called from outside a Djream Browser");
     },
     replacePath: () => {
         // eslint-disable-next-line no-console
-        console.error("replacePath() called from outside a Shell Browser");
+        console.error("replacePath() called from outside a Djream Browser");
     },
     submitForm: () => {
         // eslint-disable-next-line no-console
-        console.error("submitForm() called from outside a Shell Browser");
+        console.error("submitForm() called from outside a Djream Browser");
 
         return Promise.resolve();
     },
     openModal: () => {
         // eslint-disable-next-line no-console
-        console.error("openModal() called from outside a Shell Browser");
+        console.error("openModal() called from outside a Djream Browser");
 
         throw new Error("Modal cannot be opened here");
     },
     refreshContext: () => {
         // eslint-disable-next-line no-console
-        console.error("refreshContext() called from outside a Shell Browser");
+        console.error("refreshContext() called from outside a Djream Browser");
 
         return Promise.resolve();
     },
