@@ -1,7 +1,8 @@
 {
   "name": "create-djream-app",
   "version": "0.1.0alpha.1",
-  "description": "Set up a new Django/React project with one command",
+  "description": "Set up a new Djream (Django React) project with one command",
+  "repository": "https://github.com/kaedroho/djream",
   "scripts": {
     "build": "tsup src/index.tsx --format cjs --dts --minify --clean --sourcemap --out-dir dist"
   },

@@ -17,7 +17,12 @@ setup(
     long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
-    url="",
+    url="https://djream.io",
+    project_urls={
+        "Documentation": "https://dream.io/docs/",
+        "Source": "https://github.com/kaedroho/djream/",
+        "Tracker": "https://github.com/kaedroho/djream/issues",
+    },
     packages=find_packages(),
     include_package_data=True,
     license="BSD-3-Clause",
