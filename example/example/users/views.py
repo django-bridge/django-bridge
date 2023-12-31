@@ -3,14 +3,14 @@ import hashlib
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.urls import reverse
-from djream.decorators import djream_enable
+from djream.decorators import djream_view
 from djream.response import DjreamCloseModalResponse, DjreamResponse
 
 from .forms import UserChangeForm
 
 
 @login_required
-@djream_enable
+@djream_view
 def profile(request):
     if request.method == "POST":
         form = UserChangeForm(request.POST, instance=request.user)

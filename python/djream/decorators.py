@@ -1,5 +1,5 @@
 import json
-from functools import update_wrapper, wraps
+from functools import wraps
 from pathlib import Path
 
 from django.conf import settings
@@ -8,32 +8,13 @@ from django.shortcuts import render
 from .response import BaseDjreamResponse, DjreamLoadItResponse, DjreamRedirectResponse
 
 
-def _decorate_urlpatterns(urlpatterns, decorator):
+def djream_view(fn):
     """
-    Decorate all the views in the passed urlpatterns list with the given decorator
-    """
-    for pattern in urlpatterns:
-        if hasattr(pattern, "url_patterns"):
-            # this is an included RegexURLResolver; recursively decorate the views
-            # contained in it
-            _decorate_urlpatterns(pattern.url_patterns, decorator)
-
-        if getattr(pattern, "callback", None):
-            pattern.callback = update_wrapper(
-                decorator(pattern.callback), pattern.callback
-            )
-
-    return urlpatterns
-
-
-def djream_enable(fn):
-    """
-    Wraps a view to make it load with djream
+    Wraps a view to make it load with Djream
     """
 
     @wraps(fn)
     def wrapper(request, *args, **kwargs):
-        request.djream_enabled = True
         response = fn(request, *args, **kwargs)
 
         if response.status_code == 301:
@@ -53,6 +34,8 @@ def djream_enable(fn):
                 return DjreamLoadItResponse()
 
         # Regular browser request
+        # If the response is a Djream response, wrap it in our bootstrap template
+        # to load the React SPA and render the response data.
         if isinstance(response, BaseDjreamResponse):
             if settings.DJREAM_VITE_SERVER_ORIGIN:
                 # Development - Fetch JS/CSS from Vite server
@@ -91,24 +74,7 @@ def djream_enable(fn):
             new_response.cookies = response.cookies
 
             return new_response
-        else:
-            return response
+
+        return response
 
     return wrapper
-
-
-def djream_exempt(fn):
-    """
-    Excludes a view from djream to override djream_enable_urlpatterns.
-    """
-
-    @wraps(fn)
-    def wrapper(request, *args, **kwargs):
-        request.djream_enabled = False
-        return fn(request, *args, **kwargs)
-
-    return wrapper
-
-
-def djream_enable_urlpatterns(urlpatterns):
-    return _decorate_urlpatterns(urlpatterns, djream_enable)

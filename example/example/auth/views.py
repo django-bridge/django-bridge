@@ -10,11 +10,11 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-from djream.decorators import djream_enable
+from djream.decorators import djream_view
 from djream.response import DjreamResponse
 
 
-@djream_enable
+@djream_view
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache

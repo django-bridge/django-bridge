@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin, View
 
-from .decorators import djream_enable
+from .decorators import djream_view
 from .response import DjreamNotFoundResponse, DjreamResponse
 
 
@@ -37,7 +37,7 @@ class DjreamView(DjreamResponseMixin, ContextMixin, View):
     Render a djream view. Pass keyword arguments from the URLconf to the context.
     """
 
-    @method_decorator(djream_enable)
+    @method_decorator(djream_view)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -46,6 +46,6 @@ class DjreamView(DjreamResponseMixin, ContextMixin, View):
         return self.render_to_response(context)
 
 
-@djream_enable
+@djream_view
 def handler_404(request, exception=None):
     return DjreamNotFoundResponse(request)
