@@ -1,6 +1,6 @@
 {
   "name": "create-djream-app",
-  "version": "0.1.0alpha.1",
+  "version": "0.1.0alpha.2",
   "description": "Set up a new Djream (Django React) project with one command",
   "repository": "https://github.com/kaedroho/djream",
   "scripts": {
