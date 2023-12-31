@@ -20,8 +20,8 @@ const FeatureList: FeatureItem[] = [
     title: 'Seamless Django integration',
     description: (
       <>
-        Get the performance of a React SPA, keep your business logic in Django views, and use Django forms
-        for validation. Mix and match with template-rendered views in the same app.
+        Rapidly build your application using Django models, views, and forms.
+        Render with React components in an SPA to create a modern user experience.
       </>
     ),
   },
