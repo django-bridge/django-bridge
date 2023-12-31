@@ -6,7 +6,14 @@ const steps = [
     title: "Create a Djream-enabled view",
     description: "Djream-enabled views return a DjreamResponse containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.",
     code: <><CodeBlock language="python" title="views.py">
-      {`@djream_view
+      {`from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
+from djream import djream_view, DjreamResponse
+
+from .forms import PostForm
+
+
+@djream_view
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
@@ -36,7 +43,16 @@ def post_edit(request, post_id):
   {
     title: "Create a React component to render the view",
     description: "The component will receive the props from the DjreamResponse. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.",
-    code: <CodeBlock language="tsx" title="PostForm.tsx">{`export default function PostFormView({
+    code: <CodeBlock language="tsx" title="views/PostForm.tsx">{`import { Button, Form, FormDef } from "@djream/ui";
+
+interface PostFormViewProps {
+  title: string;
+  form: FormDef;
+  form_action: string;
+  csrf_token: string;
+}
+
+export default function PostFormView({
   title,
   form,
   form_action,
@@ -61,8 +77,11 @@ def post_edit(request, post_id):
   },
   {
     title: "Add the component to the views map in App.tsx",
-    description: "Pass a map of view components to the DjreamShell, this will render the component that matches the name in the DjreamResponse.",
-    code: <CodeBlock language="tsx" title="App.tsx">{`// List of views that can be rendered by Djream
+    description: "Pass a map of view components to the Djream app, this will render the component that matches the name in the DjreamResponse.",
+    code: <CodeBlock language="tsx" title="App.tsx">{`import { App as DjreamApp } from "@djream/core";
+import PostFormView from "./views/PostForm";
+
+// List of views that can be rendered by Djream
 const views = new Map();
 views.set("PostForm", PostFormView);
 
@@ -74,7 +93,7 @@ function App(): ReactElement {
   const initialResponse = rootElement.dataset.initialResponse;
 
   return (
-    <DjreamShell
+    <DjreamApp
       views={views}
       initialResponse={JSON.parse(initialResponse)}
     />
