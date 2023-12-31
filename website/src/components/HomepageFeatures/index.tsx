@@ -4,36 +4,29 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Build React SPAs for Django apps without an API',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'No API required',
     description: (
       <>
         Build React SPAs backed by Django views and URL routing. No need to create a REST/GraphQL API.
-
-        Djream-enabled views return JSON that is passed to React components as props.
       </>
     ),
   },
   {
-    title: 'Don\'t give up what\'s great about Django',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Seamless Django integration',
     description: (
       <>
-        Get the performance and user experience of a React SPA,
-        keep your business logic in Django views, use Django forms
-        for validation, and test with Django test framework.
+        Get the performance of a React SPA, keep your business logic in Django views, and use Django forms
+        for validation. Mix and match with template-rendered views in the same app.
       </>
     ),
   },
   {
-    title: 'Keep JavaScript bundles small',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Lightweight',
     description: (
       <>
         Djream is 3.6KB (minified, gzipped). As routing and business logic is handled by Django,
@@ -41,54 +34,50 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
   },
-  {
-    title: 'Create modal workflows with Django views',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Djream-rendered views can be opened in a modal instead of a new page.
-        This makes it easy to create a modal workflows using Django views.
-      </>
-    ),
-  },
   // {
-  //   title: 'Intelligent dirty-form checking',
-  //   Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+  //   title: 'Create modal workflows with Django views',
   //   description: (
   //     <>
-  //       When users navigate away with unsaved changes, Djream will prompt them to
-  //       confirm before leaving. This works for closing modals too.
+  //       Djream-rendered views can be opened in a modal instead of a new page.
+  //       This makes it easy to create a modal workflows using Django views.
   //     </>
   //   ),
   // },
-  {
-    title: 'Mix with template-rendered views',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Djream-rendered views can be created alongside traditional views rendered with templates
-        allowing you to incrementally migrate your app to a React SPA or use third-party apps
-        that don't have a React frontend.
-      </>
-    ),
-  },
-  {
-    title: 'Iterate fast with Vite hot reloading',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        If you use Vite to build your React app, Djream will enable hot reloading in development.
-      </>
-    ),
-  },
+  // // {
+  // //   title: 'Intelligent dirty-form checking',
+  // //   description: (
+  // //     <>
+  // //       When users navigate away with unsaved changes, Djream will prompt them to
+  // //       confirm before leaving. This works for closing modals too.
+  // //     </>
+  // //   ),
+  // // },
+  // {
+  //   title: 'Mix with template-rendered views',
+  //   description: (
+  //     <>
+  //       Djream-rendered views can be created alongside traditional views rendered with templates
+  //       allowing you to incrementally migrate your app to a React SPA or use third-party apps
+  //       that don't have a React frontend.
+  //     </>
+  //   ),
+  // },
+  // {
+  //   title: 'Iterate fast with Vite hot reloading',
+  //   description: (
+  //     <>
+  //       If you use Vite to build your React app, Djream will enable hot reloading in development.
+  //     </>
+  //   ),
+  // },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
+      {/* <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
-      </div>
+      </div> */}
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>

@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'React frontends for Django made easy.',
-  tagline: 'Djream is a framework for building lightweight React SPAs for Django, using Django views and forms for backend logic and React for presentation.',
+  tagline: 'Djream allows you to build lightweight React SPAs for Django views and forms.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
