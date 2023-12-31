@@ -8,7 +8,7 @@ import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 
 export interface AppProps {
     views: Map<string, FunctionComponent>;
-    initialResponse: DjreamResponse;
+    initialResponse: DjreamResponse | JSON;
     unpackContext(data: Record<string, unknown>): Record<string, unknown>;
     renderModal(
         contents: JSX.Element,
@@ -74,7 +74,7 @@ export function App({
         // Handle initial response
         // eslint-disable-next-line no-void
         void navigationController
-            .handleResponse(initialResponse, window.location.pathname)
+            .handleResponse(initialResponse as DjreamResponse, window.location.pathname)
             .then(() => {
                 // Remove the loading screen
                 const loadingScreen = document.querySelector(".loading-screen");
