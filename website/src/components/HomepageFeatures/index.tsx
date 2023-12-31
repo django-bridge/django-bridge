@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
+import clsx from "clsx";
+import Heading from "@theme/Heading";
+import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
@@ -9,28 +9,31 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'No API required',
+    title: "No API required",
     description: (
       <>
-        Build React SPAs backed by Django views and URL routing. No need to create a REST/GraphQL API.
+        Build React SPAs backed by Django views and URL routing. No need to
+        create a REST/GraphQL API.
       </>
     ),
   },
   {
-    title: 'Seamless Django integration',
+    title: "Seamless Django integration",
     description: (
       <>
         Rapidly build your application using Django models, views, and forms.
-        Render with React components in an SPA to create a modern user experience.
+        Render with React components in an SPA to create a modern user
+        experience.
       </>
     ),
   },
   {
-    title: 'Lightweight',
+    title: "Lightweight",
     description: (
       <>
-        Djream is 3.6KB (minified, gzipped). As routing and business logic is handled by Django,
-        your React frontend can be built with very few plugins.
+        Djream is 3.6KB (minified, gzipped). As routing and business logic is
+        handled by Django, your React frontend can be built with very few
+        plugins.
       </>
     ),
   },
@@ -72,9 +75,9 @@ const FeatureList: FeatureItem[] = [
   // },
 ];
 
-function Feature({title, description}: FeatureItem) {
+function Feature({ title, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       {/* <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div> */}

@@ -3,6 +3,7 @@ import hashlib
 from django.contrib.auth.decorators import login_required
 from django.middleware.csrf import get_token
 from django.urls import reverse
+
 from djream.decorators import djream_view
 from djream.response import DjreamCloseModalResponse, DjreamResponse
 

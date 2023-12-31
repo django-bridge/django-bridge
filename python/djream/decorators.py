@@ -5,7 +5,8 @@ from pathlib import Path
 from django.conf import settings
 from django.shortcuts import render
 
-from .response import BaseDjreamResponse, DjreamLoadItResponse, DjreamRedirectResponse
+from .response import (BaseDjreamResponse, DjreamLoadItResponse,
+                       DjreamRedirectResponse)
 
 
 def djream_view(fn):

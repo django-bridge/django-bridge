@@ -1,42 +1,42 @@
 {
-    "name": "@djream/storybook",
-    "version": "0.1.0-alpha.3",
-    "description": "Djream is a framework for building React frontends for Django projects.",
-    "repository": "https://github.com/kaedroho/djream",
-    "license": "BSD-3-Clause",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "files": [
-        "/dist"
+  "name": "@djream/storybook",
+  "version": "0.1.0-alpha.3",
+  "description": "Djream is a framework for building React frontends for Django projects.",
+  "repository": "https://github.com/kaedroho/djream",
+  "license": "BSD-3-Clause",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx --format cjs --dts --minify --clean --out-dir dist",
+    "check-types": "tsc --noEmit"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "scripts": {
-        "build": "tsup src/index.tsx --format cjs --dts --minify --clean --out-dir dist",
-        "check-types": "tsc --noEmit"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "dependencies": {
-        "@storybook/addon-links": "^7.1.0"
-    },
-    "devDependencies": {
-        "@types/node": "^12.0.0",
-        "@types/react": "18",
-        "react": "^18.2.0",
-        "tsup": "^8.0.1",
-        "typescript": "^5.3.3"
-    },
-    "peerDependencies": {
-        "@djream/core": "^0.1.0-alpha.3",
-        "react": "^18.2.0"
-    }
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@storybook/addon-links": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "18",
+    "react": "^18.2.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@djream/core": "^0.1.0-alpha.3",
+    "react": "^18.2.0"
+  }
 }

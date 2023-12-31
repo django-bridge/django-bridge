@@ -1,12 +1,15 @@
-import styles from './styles.module.css';
-import CodeBlock from '@theme/CodeBlock';
+import styles from "./styles.module.css";
+import CodeBlock from "@theme/CodeBlock";
 
 const steps = [
   {
     title: "Create a Djream-enabled view",
-    description: "Djream-enabled views return a DjreamResponse containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.",
-    code: <><CodeBlock language="python" title="views.py">
-      {`from django.shortcuts import get_object_or_404, redirect
+    description:
+      "Djream-enabled views return a DjreamResponse containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.",
+    code: (
+      <>
+        <CodeBlock language="python" title="views.py">
+          {`from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from djream import djream_view, DjreamResponse
 
@@ -27,9 +30,9 @@ def post_edit(request, post_id):
         "form": form,
         "form_action": reverse("post_edit", args=[post.id]),
     })`}
-      </CodeBlock>
-      <CodeBlock language="python" title="urls.py">
-      {`urlpatterns = [
+        </CodeBlock>
+        <CodeBlock language="python" title="urls.py">
+          {`urlpatterns = [
     ...
 
     path(
@@ -37,13 +40,19 @@ def post_edit(request, post_id):
         views.post_edit, name="post_edit"
     ),
 ]`}
-      </CodeBlock>
+        </CodeBlock>
       </>
+    ),
   },
   {
     title: "Create a React component to render the view",
-    description: "The component will receive the props from the DjreamResponse. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.",
-    code: <CodeBlock language="tsx" title="views/PostForm.tsx">{`import { Button, Form, FormDef } from "@djream/ui";
+    description:
+      "The component will receive the props from the DjreamResponse. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.",
+    code: (
+      <CodeBlock
+        language="tsx"
+        title="views/PostForm.tsx"
+      >{`import { Button, Form, FormDef } from "@djream/ui";
 
 interface PostFormViewProps {
   title: string;
@@ -74,11 +83,17 @@ export default function PostFormView({
     </>
   );
 }`}</CodeBlock>
+    ),
   },
   {
     title: "Create a Djream app",
-    description: "Pass a map of view components to the DjreamApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.",
-    code: <CodeBlock language="tsx" title="App.tsx">{`import * as Djream from "@djream/core";
+    description:
+      "Pass a map of view components to the DjreamApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.",
+    code: (
+      <CodeBlock
+        language="tsx"
+        title="App.tsx"
+      >{`import * as Djream from "@djream/core";
 import PostFormView from "./views/PostForm";
 
 // List of views that can be rendered by Djream
@@ -101,7 +116,8 @@ function App(): ReactElement {
 }
 
 export default App;`}</CodeBlock>
-  }
+    ),
+  },
 ];
 
 export default function HomepageCodeExample(): JSX.Element {
