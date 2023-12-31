@@ -75,10 +75,6 @@ export async function djreamGet(
         };
     }
     if (!response.headers.get("X-Djream-Status")) {
-        // eslint-disable-next-line no-console
-        console.warn(
-            "Djream Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
-        );
         return {
             status: "load-it",
         };
@@ -111,10 +107,6 @@ export async function djreamPost(
         };
     }
     if (!response.headers.get("X-Djream-Status")) {
-        // eslint-disable-next-line no-console
-        console.warn(
-            "Djream Warning: A non-JSON response was returned from the server. Did you forget to add the 'download' attribute to an '<a>' tag?"
-        );
         return {
             status: "load-it",
         };
