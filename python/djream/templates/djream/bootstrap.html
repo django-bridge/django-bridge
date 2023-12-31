@@ -25,7 +25,7 @@
   {% endfor %}
 
   <style>
-    .loading-screen {
+    .djream-load {
       position: absolute;
       left: 0;
       top: 0;
@@ -37,11 +37,11 @@
       transition: opacity 0.2s;
     }
 
-    .loading-screen--hidden {
+    .djream-load--hidden {
       opacity: 0;
     }
 
-    .loading-screen__spinner {
+    .djream-load__spinner {
       opacity: 0;
       transition: opacity 0.2s;
 
@@ -50,11 +50,11 @@
       top: calc(50% - 40px)
     }
 
-    .loading-screen--show-spinner .loading-screen__spinner {
+    .djream-load--show-spinner .djream-load__spinner {
       opacity: 1;
     }
 
-    .loading-screen__text {
+    .djream-load__text {
       position: absolute;
       top: 32px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -68,8 +68,8 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
 
-  <div class="loading-screen">
-    <div class="loading-screen__spinner">
+  <div class="djream-load">
+    <div class="djream-load__spinner">
       <svg width="80" height="80" viewBox="0 0 200 200" color="#4c3fdd" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="spinner-secondHalf">
@@ -94,7 +94,7 @@
           dur="1300ms" />
       </svg>
 
-      <div class="loading-screen__text">Loading</div>
+      <div class="djream-load__text">Loading</div>
     </div>
   </div>
 
@@ -113,7 +113,7 @@
   {% for src in js %}
   <script type="module" src="{{ src }}" async defer></script>
   {% endfor %}
-  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.loading-screen').classList.add('loading-screen--show-spinner') }, 100) });</script>
+  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.djream-load').classList.add('djream-load--show-spinner') }, 100) });</script>
 </body>
 
 </html>

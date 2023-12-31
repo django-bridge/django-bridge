@@ -77,9 +77,9 @@ export function App({
             .handleResponse(initialResponse as DjreamResponse, window.location.pathname)
             .then(() => {
                 // Remove the loading screen
-                const loadingScreen = document.querySelector(".loading-screen");
+                const loadingScreen = document.querySelector(".djream-load");
                 if (loadingScreen instanceof HTMLElement) {
-                    loadingScreen.classList.add("loading-screen--hidden");
+                    loadingScreen.classList.add("djream-load--hidden");
                     setTimeout(() => {
                         loadingScreen.remove();
                     }, 200);
