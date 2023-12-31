@@ -25,7 +25,7 @@ export class NavigationController {
 
     parent: NavigationController | null;
 
-    unpackContext: (data: Record<string, unknown>) => Record<string, unknown>;
+    unpackContext: (data: JSON) => Record<string, unknown>;
 
     nextFetchId = 1;
 
@@ -46,7 +46,7 @@ export class NavigationController {
         mode: Mode,
         parent: NavigationController | null,
         unpackContext: (
-            data: Record<string, unknown>
+            data: JSON
         ) => Record<string, unknown>
     ) {
         this.mode = mode;
@@ -129,9 +129,7 @@ export class NavigationController {
             }
 
             // Unpack context
-            const context = this.unpackContext(
-                response.context as unknown as Record<string, unknown>
-            );
+            const context = this.unpackContext(response.context);
 
             // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
             // If it does, call it to see if we should reload the view or just update its context

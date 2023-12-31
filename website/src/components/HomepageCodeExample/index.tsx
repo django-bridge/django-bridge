@@ -78,12 +78,12 @@ export default function PostFormView({
   {
     title: "Create a Djream app",
     description: "Pass a map of view components to the DjreamApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.",
-    code: <CodeBlock language="tsx" title="App.tsx">{`import { App as DjreamApp } from "@djream/core";
+    code: <CodeBlock language="tsx" title="App.tsx">{`import * as Djream from "@djream/core";
 import PostFormView from "./views/PostForm";
 
 // List of views that can be rendered by Djream
-const views = new Map();
-views.set("PostForm", PostFormView);
+const config = new Djream.Config();
+config.addView("PostForm", PostFormView);
 
 function App(): ReactElement {
   // Get the initial response from the server
@@ -93,8 +93,8 @@ function App(): ReactElement {
   const initialResponse = rootElement.dataset.initialResponse;
 
   return (
-    <DjreamApp
-      views={views}
+    <Djream.App
+      config={config}
       initialResponse={JSON.parse(initialResponse)}
     />
   );

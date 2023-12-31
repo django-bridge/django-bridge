@@ -5,11 +5,11 @@ import { Message, DjreamResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
+import { Config } from "./config";
 
 export interface AppProps {
-    views: Map<string, FunctionComponent>;
+    config: Config;
     initialResponse: DjreamResponse | JSON;
-    unpackContext(data: Record<string, unknown>): Record<string, unknown>;
     renderModal(
         contents: JSX.Element,
         side: "left" | "right",
@@ -20,14 +20,13 @@ export interface AppProps {
 }
 
 export function App({
-    views,
+    config,
     initialResponse,
-    unpackContext,
     renderModal,
     renderMessages,
 }: AppProps): ReactElement {
     const [navigationController] = React.useState(
-        () => new NavigationController("browser", null, unpackContext)
+        () => new NavigationController("browser", null, config.unpackContext)
     );
     const [modal, setModal] = React.useState<{
         navigationController: NavigationController;
@@ -139,7 +138,7 @@ export function App({
         const modalNavigationController = new NavigationController(
             "modal",
             navigationController,
-            unpackContext
+            config.unpackContext
         );
         modalNavigationController.addNavigationListener(() => {
             // HACK: Update some state to force a re-render
@@ -195,7 +194,7 @@ export function App({
                         <DirtyFormScope>
                             {renderModal(
                                 <Browser
-                                    views={views}
+                                    views={config.views}
                                     navigationController={
                                         modal.navigationController
                                     }
@@ -212,7 +211,7 @@ export function App({
                         </DirtyFormScope>
                     )}
                 <Browser
-                    views={views}
+                    views={config.views}
                     navigationController={navigationController}
                     openModal={(url, options) => openModal(url, options)}
                     pushMessage={pushMessage}
@@ -235,3 +234,4 @@ export type { Frame } from "./navigation";
 export type { DjreamResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
+export { Config };
