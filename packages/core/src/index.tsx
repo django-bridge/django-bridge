@@ -6,25 +6,19 @@ import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import { Config } from "./config";
+import ModalWindow, {
+  ModalWindowControls,
+  ModalWindowControlsContext,
+  ModalWindowWarningMessage,
+} from "./components/ModalWindow";
+import Messages from "./components/Messages";
 
 export interface AppProps {
   config: Config;
   initialResponse: DjreamResponse | JSON;
-  renderModal(
-    contents: JSX.Element,
-    side: "left" | "right",
-    onClose: () => void,
-    requestClose: boolean
-  ): ReactElement;
-  renderMessages(messages: Message[]): ReactElement;
 }
 
-export function App({
-  config,
-  initialResponse,
-  renderModal,
-  renderMessages,
-}: AppProps): ReactElement {
+export function App({ config, initialResponse }: AppProps): ReactElement {
   const [navigationController] = React.useState(
     () => new NavigationController("browser", null, config.unpackContext)
   );
@@ -182,24 +176,27 @@ export function App({
   return (
     <div>
       <DirtyFormScope handleBrowserUnload>
-        {renderMessages(messages)}
+        <Messages messages={messages} />
         {modal &&
           modal.navigationController.currentFrame.view !== "loading" && (
             <DirtyFormScope>
-              {renderModal(
+              <ModalWindow
+                side={modal.side}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                onClose={() => {
+                  setModal(null);
+                  setRequestModalClose(false);
+                }}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                requestClose={requestModalClose}
+              >
                 <Browser
                   views={config.views}
                   navigationController={modal.navigationController}
                   openModal={() => {}}
                   pushMessage={pushMessage}
-                />,
-                modal.side,
-                () => {
-                  setModal(null);
-                  setRequestModalClose(false);
-                },
-                requestModalClose
-              )}
+                />
+              </ModalWindow>
             </DirtyFormScope>
           )}
         <Browser
@@ -227,3 +224,5 @@ export type { DjreamResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
+export type { ModalWindowControls, ModalWindowWarningMessage };
+export { ModalWindowControlsContext };
