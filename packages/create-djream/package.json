@@ -1,0 +1,32 @@
+{
+  "name": "create-djream",
+  "type": "module",
+  "version": "0.1.0alpha.1",
+  "description": "Create a new Django + React project with a single command",
+  "repository": "https://github.com/kaedroho/djream",
+  "bin": {
+    "create-djream": "index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --out-dir dist"
+  },
+  "keywords": [
+    "react",
+    "django"
+  ],
+  "author": "Karl Hobley <karl@kaed.uk>",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^20.10.6",
+    "@types/prompts": "^2.4.9",
+    "kolorist": "^1.8.0",
+    "minimist": "^1.2.8",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "files": [
+    "dist",
+    "template"
+  ]
+}
