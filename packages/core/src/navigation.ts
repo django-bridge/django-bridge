@@ -63,8 +63,7 @@ export class NavigationController {
     };
   }
 
-  // Private
-  fetch = async (
+  private fetch = async (
     fetcher: () => Promise<DjreamResponse>,
     url: string,
     pushState: boolean,
@@ -93,7 +92,6 @@ export class NavigationController {
     await this.handleResponse(response, url, pushState, neverReload);
   };
 
-  // Private
   handleResponse = (
     response: DjreamResponse,
     path: string,
@@ -273,7 +271,7 @@ export class NavigationController {
   // that needs to navigate the whole page somewhere else, that response is escalated
   // from the modal NavigationController to the main window NavigationController using
   // this method.
-  escalate = (url: string, response: DjreamResponse): Promise<void> =>
+  private escalate = (url: string, response: DjreamResponse): Promise<void> =>
     this.handleResponse(response, url);
 
   addNavigationListener = (
