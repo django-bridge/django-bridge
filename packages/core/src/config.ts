@@ -20,7 +20,10 @@ export class Config {
     return this;
   }
 
-  public addDeserializer<Cls>(name: string, ctor: { new (): Cls }): Config {
+  public addDeserializer<Cls>(
+    name: string,
+    ctor: { new (...args: any[]): Cls }
+  ): Config {
     this.telepathRegistry.register(name, ctor);
     return this;
   }
