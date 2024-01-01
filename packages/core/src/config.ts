@@ -15,20 +15,23 @@ export class Config {
     this.addDeserializer("Date", Date);
   }
 
-  public addView<P>(name: string, component: FunctionComponent<P>): Config {
+  public addView = <P>(
+    name: string,
+    component: FunctionComponent<P>
+  ): Config => {
     this.views.set(name, component as FunctionComponent<{}>);
     return this;
-  }
+  };
 
-  public addDeserializer<Cls>(
+  public addDeserializer = <Cls>(
     name: string,
     ctor: { new (...args: any[]): Cls }
-  ): Config {
+  ): Config => {
     this.telepathRegistry.register(name, ctor);
     return this;
-  }
+  };
 
-  public unpackContext(data: JSON): Record<string, unknown> {
+  public unpackContext = (data: JSON): Record<string, unknown> => {
     return this.telepathRegistry.unpack(data);
-  }
+  };
 }
