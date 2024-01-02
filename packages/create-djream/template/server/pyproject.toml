@@ -8,7 +8,7 @@ packages = [{ include = "__projectname__" }]
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0"
-djream = "^0.1a3"
+djream = "^0.1a6"
 
 [build-system]
 requires = ["poetry-core"]

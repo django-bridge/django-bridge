@@ -1,6 +1,6 @@
 {
   "name": "@djream/storybook",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.6",
   "description": "Storybook Helpers for Djream projects.",
   "repository": "https://github.com/kaedroho/djream",
   "license": "BSD-3-Clause",
