@@ -72,19 +72,25 @@ async function init() {
   };
 
   renderDirectory(templateDir, root);
+  console.log(`\nDone.\n`);
 
-  const cdProjectName = path.relative(cwd, root);
-  console.log(`\nDone. Now run:\n`);
-  if (root !== cwd) {
-    console.log(
-      `  cd ${
-        cdProjectName.includes(" ") ? `"${cdProjectName}"` : cdProjectName
-      }`
-    );
+  console.log(`To run your app:`);
+  const cdClient = path.relative(cwd, path.join(root, "client"));
+  if (cdClient !== cwd) {
+    console.log(`  cd ${cdClient.includes(" ") ? `"${cdClient}"` : cdClient}`);
   }
   console.log(`  npm install`);
-  console.log(`  npm run dev`);
+  console.log(`  npm run dev\n`);
+
+  console.log(`And in a separate terminal:`);
+  const cdServer = path.relative(cwd, path.join(root, "server"));
+  if (cdServer !== cwd) {
+    console.log(`  cd ${cdServer.includes(" ") ? `"${cdServer}"` : cdServer}`);
+  }
+  console.log(`  poetry install`);
+  console.log(`  poetry run python manage.py runserver`);
   console.log();
+  console.log(`Then visit your new Djream app on http://localhost:8000`);
 }
 
 function formatTargetDir(targetDir: string | undefined) {
