@@ -127,7 +127,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Djream settings
 
-DJREAM_VITE_SERVER_ORIGIN = os.environ.get(
-    "VITE_SERVER_ORIGIN", "http://localhost:5173"
+DJREAM_VITE_BUNDLE_DIR = os.environ.get("DJREAM_VITE_BUNDLE_DIR")
+DJREAM_VITE_DEVSERVER_URL = os.environ.get(
+    "DJREAM_VITE_DEVSERVER_URL", "http://localhost:5173/static"
 )
 DJREAM_GLOBAL_CONTEXT_PROVIDERS = {}
