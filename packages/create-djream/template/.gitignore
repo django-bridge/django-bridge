@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 __pycache__
+/server/db.sqlite3
 
 # Editor directories and files
 .vscode/*

@@ -1,10 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import * as Djream from "@djream/core";
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+import HomeView from "./views/Home";
+
+// Add your views here
+const djreamConfig = new Djream.Config();
+djreamConfig.addView("Home", HomeView);
+
+const rootElement = document.getElementById("root")!;
+const initialResponse = rootElement.dataset.initialResponse!;
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
+    <Djream.App config={djreamConfig} initialResponse={JSON.parse(initialResponse)} />
   </React.StrictMode>
 );

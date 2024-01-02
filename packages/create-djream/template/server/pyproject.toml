@@ -3,11 +3,12 @@ name = "__projectname__"
 version = "0.0.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-packages = [{include = "__projectname__"}]
+packages = [{ include = "__projectname__" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0"
+djream = "^0.1a3"
 
 [build-system]
 requires = ["poetry-core"]

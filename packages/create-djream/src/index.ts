@@ -46,32 +46,32 @@ async function init() {
     "../../template"
   );
 
-  const renderFile = (file: string) => {
-    const targetPath = path
-      .join(root, file)
-      .replace(/__projectname__/g, projectName);
-
-    // Ensure the destination directory exists
-    const dir = path.dirname(targetPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-
+  const renderFile = (file: string, targetFile: string) => {
     const content = fs
-      .readFileSync(path.join(templateDir, file), "utf-8")
+      .readFileSync(file, "utf-8")
       .replace(/__projectname__/g, projectName);
-    fs.writeFileSync(targetPath, content, "utf-8");
+    fs.writeFileSync(targetFile, content, "utf-8");
   };
 
-  const files = fs.readdirSync(templateDir, { recursive: true }) as string[];
-  for (const file of files) {
-    // Ignore directories
-    if (fs.lstatSync(path.join(templateDir, file)).isDirectory()) {
-      continue;
+  const renderDirectory = (dir: string, targetDir: string) => {
+    // Ensure the destination directory exists
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive: true });
     }
 
-    renderFile(file);
-  }
+    const files = fs.readdirSync(dir) as string[];
+    for (const file of files) {
+      const targetFile = file.replace(/__projectname__/g, projectName);
+
+      if (fs.lstatSync(path.join(dir, file)).isDirectory()) {
+        renderDirectory(path.join(dir, file), path.join(targetDir, targetFile));
+      } else {
+        renderFile(path.join(dir, file), path.join(targetDir, targetFile));
+      }
+    }
+  };
+
+  renderDirectory(templateDir, root);
 
   const cdProjectName = path.relative(cwd, root);
   console.log(`\nDone. Now run:\n`);
