@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Fast React frontends for Django with less code.",
+  title: "Djream",
   tagline:
     "Rapidly build lightweight React SPAs with Django views and forms.",
   favicon: "img/favicon.ico",
