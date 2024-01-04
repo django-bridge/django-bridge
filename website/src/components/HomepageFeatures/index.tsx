@@ -9,7 +9,7 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "No API required",
+    title: "Rapid development",
     description: (
       <>
         Use Django views and URL routing to create a backend for your React SPA.
@@ -28,12 +28,12 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: "Lightweight",
+    title: "Lightweight and fast",
     description: (
       <>
-        Djream is 3.6KB (minified, gzipped). All data necessary to render a view
-        is included in the initial page load, so it loads instantly. It doesn't require
-        any extra frontend dependencies apart from React.
+        Pages load instantly as all necessary data is sent in the initial response.
+        Djream itself is 3.6KB gzipped and only depends on React. No need to install
+        a separate router or state management library.
       </>
     ),
   },
