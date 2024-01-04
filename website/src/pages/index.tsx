@@ -6,7 +6,6 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
-import HomepageCodeExample from "../components/HomepageCodeExample";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -38,13 +37,12 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Djream - ${siteConfig.title}}`}
+      title={siteConfig.title}
       description={siteConfig.tagline}
     >
       <HomepageHeader />
       <main>
         <HomepageFeatures />
-        <HomepageCodeExample />
       </main>
     </Layout>
   );
