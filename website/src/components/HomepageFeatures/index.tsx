@@ -12,8 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: "No API required",
     description: (
       <>
-        Build React SPAs backed by Django views and URL routing. No need to
-        create a REST/GraphQL API.
+        Use Django views and URL routing to create a backend for your React SPA,
+        so you can focus on building features, not glue code.
       </>
     ),
   },
@@ -21,9 +21,9 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Rapidly build your application using Django models, views, and forms.
-        Render with React components in an SPA to create a modern user
-        experience.
+        Djream works with Django's built-in features, like forms, and can render
+        Django views in modals. It can also be used alongside traditional
+        template-rendered views.
       </>
     ),
   },
@@ -31,9 +31,9 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight",
     description: (
       <>
-        Djream is 3.6KB (minified, gzipped). As routing and business logic is
-        handled by Django, your React frontend can be built with very few
-        plugins.
+        Djream is 3.6KB (minified, gzipped). All data necessary to render a view
+        is included in the initial page load, so it loads instantly. It doesn't require
+        any extra frontend dependencies apart from React.
       </>
     ),
   },
