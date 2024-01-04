@@ -12,8 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: "No API required",
     description: (
       <>
-        Use Django views and URL routing to create a backend for your React SPA,
-        so you can focus on building features, not glue code.
+        Use Django views and URL routing to create a backend for your React SPA.
+        Djream provides the glue so you can focus on building features.
       </>
     ),
   },
@@ -21,9 +21,9 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Djream works with Django's built-in features, like forms, and can render
-        Django views in modals. It can also be used alongside traditional
-        template-rendered views.
+        Djream works with Django's built-in features, like forms, and can be
+        used alongside traditional template-rendered views. Build modal workflows
+        with Django views and use third-party apps that don't have a React frontend.
       </>
     ),
   },
