@@ -16,6 +16,24 @@
   }
 }
 
+.heroBanner h1 {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroBanner h1 img {
+  flex-shrink: 1;
+  max-width: 200px;
+}
+
+@media screen and (max-width: 500px) {
+  .heroBanner h1 img {
+    max-width: 150px;
+  }
+}
+
 .buttons {
   display: flex;
   align-items: center;

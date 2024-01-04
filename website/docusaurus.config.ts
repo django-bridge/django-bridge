@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Djream: a Django/React SPA Framework",
+  title: "Djream",
   tagline:
     "Rapidly build lightweight React SPAs with Django views and forms.",
   favicon: "img/favicon.ico",
@@ -52,7 +52,7 @@ const config: Config = {
       title: "Djream",
       logo: {
         alt: "Djream Logo",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       items: [
         {
