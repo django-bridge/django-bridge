@@ -6,6 +6,7 @@ import Heading from "@theme/Heading";
 import logoUrl from '@site/static/img/logo.png';
 
 import styles from "./index.module.css";
+import Link from "@docusaurus/Link";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -23,11 +24,11 @@ function HomepageHeader() {
             to="/docs/start">
             Get started
           </Link>
-          {/*<Link
+          <a
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            href="https://demo.djream.io">
             Demo
-          </Link>*/}
+          </a>
         </div>
       </div>
     </header>

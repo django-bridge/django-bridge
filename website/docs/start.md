@@ -7,10 +7,5 @@ sidebar_position: 1
 ## Quick start
 
 ```
-npx create-djream-app my-app
-cp my-app
-make setup
-make start
+npm create djream my-app
 ```
-
-Then open http://localhost:8000 to see your app.

@@ -38,6 +38,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           editUrl: "https://github.com/kaedroho/djream/tree/main/website/",
         },
+        blog: false,
         theme: {
           customCss: "./src/css/custom.css",
         },
