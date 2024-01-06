@@ -53,7 +53,7 @@ const config: Config = {
       title: "Djream",
       logo: {
         alt: "Djream Logo",
-        src: "img/logo.png",
+        src: "img/logo_icon.png",
       },
       items: [
         {
