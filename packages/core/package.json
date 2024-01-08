@@ -1,6 +1,6 @@
 {
   "name": "@djream/core",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.8",
   "description": "Djream is a framework for building React frontends for Django projects.",
   "repository": "https://github.com/kaedroho/djream",
   "license": "BSD-3-Clause",
