@@ -1,0 +1,25 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+      target: dev
+    init: true
+    command: django-admin runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./server:/app/
+      - ./client:/client/
+
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+      target: dev
+    init: true
+    command: npm run dev -- --host
+    volumes:
+      - ./client:/app/
+    ports:
+      - 5173:5173
