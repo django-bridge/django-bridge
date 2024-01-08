@@ -7,6 +7,9 @@ services:
     init: true
     command: django-admin runserver 0.0.0.0:8000
     environment:
+      DJANGO_SECRET_KEY: secret
+      DJANGO_DEBUG: "true"
+      DJANGO_ALLOWED_HOSTS: "*"
       DATABASE_URL: postgres://postgres@postgres/postgres
     ports:
       - 8000:8000
