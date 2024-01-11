@@ -60,7 +60,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Overview',
+          label: 'Docs',
         },
         {
           href: "https://github.com/kaedroho/djream",
@@ -72,15 +72,19 @@ const config: Config = {
     footer: {
       style: "dark",
       links: [
-        // {
-        //   title: 'Docs',
-        //   items: [
-        //     {
-        //       label: 'Tutorial',
-        //       to: '/docs/intro',
-        //     },
-        //   ],
-        // },
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Getting Started',
+              to: '/docs/start',
+            },
+            {
+               label: 'Overview',
+              to: '/docs/overview',
+            },
+          ],
+        },
         {
           title: "Community",
           items: [

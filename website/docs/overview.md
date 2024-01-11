@@ -1,6 +1,6 @@
 # Overview
 
-The goal of this document is to give you an idea of how Djream works by showing how to create a Django view that's rendered with React.
+This doc gives a quick overview of how a Djream app is constructed.
 
 ## 1. Create a view
 
