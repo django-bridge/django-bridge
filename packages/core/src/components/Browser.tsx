@@ -1,18 +1,18 @@
-import React, { ReactElement, FunctionComponent } from "react";
+import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 import { DirtyFormContext } from "../dirtyform";
 import { Message } from "../fetch";
 
 import { NavigationController } from "../navigation";
 import {
   NavigateOptions,
-  OpenModalOptions,
+  OpenOverlayOptions,
   NavigationContext,
 } from "../contexts";
 
 export interface BrowserProps {
   views: Map<string, FunctionComponent>;
   navigationController: NavigationController;
-  openOverlay(path: string, options?: OpenModalOptions): void;
+  openOverlay(path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions): void;
   pushMessage(message: Message): void;
 }
 

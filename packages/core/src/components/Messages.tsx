@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import styled, { css } from "styled-components";
 import { Message } from "../fetch";
 import Icon from "./Icon";

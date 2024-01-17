@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Message } from "./fetch";
 
 export interface NavigateOptions {
@@ -6,10 +6,23 @@ export interface NavigateOptions {
   skipDirtyFormCheck?: boolean;
 }
 
-export interface OpenModalOptions {
+export interface OpenOverlayOptions {
   onClose?: () => void;
-  side?: "left" | "right";
 }
+
+export interface OverlayContextType {
+  overlay: boolean;
+  close: (options?: { skipDirtyFormCheck?: boolean }) => void;
+}
+
+export const OverlayContext =
+  React.createContext<OverlayContextType>({
+    overlay: false,
+    close: () => {
+      // eslint-disable-next-line no-console
+      console.error("OverlayContext.close() called from outside an overlay");
+    },
+  });
 
 export interface Navigation {
   frameId: number;
@@ -29,7 +42,7 @@ export interface Navigation {
   ) => void;
   replacePath: (frameId: number, path: string) => void;
   submitForm: (path: string, data: FormData) => Promise<void>;
-  openOverlay: (path: string, options?: OpenModalOptions) => void;
+  openOverlay: (path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions) => void;
   refreshProps: () => Promise<void>;
   pushMessage(message: Message): void;
 }

@@ -6,11 +6,6 @@ import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import { Config } from "./config";
-import ModalWindow, {
-  ModalWindowControls,
-  ModalWindowControlsContext,
-  ModalWindowWarningMessage,
-} from "./components/ModalWindow";
 import Messages from "./components/Messages";
 
 export interface AppProps {
@@ -24,7 +19,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   );
   const [overlay, setOverlay] = React.useState<{
     navigationController: NavigationController;
-    side: "left" | "right";
+    render(content: ReactNode, onClose: () => void, requestClose: boolean): ReactNode;
   } | null>(null);
   const [requestModalClose, setRequestOverlayClose] = React.useState(false);
   const overlayCloseListener = React.useRef<(() => void) | null>(null);
@@ -121,10 +116,10 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
   const openOverlay = (
     path: string,
+    renderOverlay: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode,
     {
       onClose,
-      side = "right",
-    }: { onClose?: () => void; side?: "left" | "right" } = {}
+    }: { onClose?: () => void } = {}
   ) => {
     // Set up a new navigation controller
     const overlayNavigationController = new NavigationController(
@@ -149,7 +144,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
     setOverlay({
       navigationController: overlayNavigationController,
-      side,
+      render: renderOverlay,
     });
     setRequestOverlayClose(false);
   };
@@ -179,29 +174,25 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
         {overlay &&
           overlay.navigationController.currentFrame.view !== "loading" && (
             <DirtyFormScope>
-              <ModalWindow
-                side={overlay.side}
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                onClose={() => {
-                  setOverlay(null);
-                  setRequestOverlayClose(false);
-                }}
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                requestClose={requestModalClose}
-              >
+              {overlay.render(
                 <Browser
                   views={config.views}
                   navigationController={overlay.navigationController}
                   openOverlay={() => {}}
                   pushMessage={pushMessage}
-                />
-              </ModalWindow>
+                />,
+                () => {
+                  setOverlay(null);
+                  setRequestOverlayClose(false);
+                },
+                requestModalClose
+              )}
             </DirtyFormScope>
           )}
         <Browser
           views={config.views}
           navigationController={navigationController}
-          openOverlay={(url, options) => openOverlay(url, options)}
+          openOverlay={(url, render, options) => openOverlay(url, render, options)}
           pushMessage={pushMessage}
         />
       </DirtyFormScope>
@@ -223,5 +214,3 @@ export type { DjreamResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
-export type { ModalWindowControls, ModalWindowWarningMessage };
-export { ModalWindowControlsContext };
