@@ -16,17 +16,17 @@ class DjreamResponseMixin:
     def get_title(self):
         return self.title
 
-    def render_to_response(self, context):
+    def render_to_response(self, props):
         """
         Return a response, using the `response_class` for this view, with a
-        view rendered with the given context.
+        view rendered with the given props.
 
         Pass response_kwargs to the constructor of the response class.
         """
         return self.response_class(
             self.request,
             self.view_name,
-            context,
+            props,
             supported_modes=self.supported_modes,
             title=self.title,
         )

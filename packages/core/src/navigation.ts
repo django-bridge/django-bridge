@@ -4,15 +4,15 @@ import { Message, Mode, djreamGet, djreamPost, DjreamResponse } from "./fetch";
 
 let nextFrameId = 1;
 
-export interface Frame<Context = Record<string, unknown>> {
+export interface Frame<Props = Record<string, unknown>> {
   id: number;
   path: string;
   title: string;
   view: string;
-  context: Context;
+  props: Props;
   serverMessages: Message[];
   pushState: boolean;
-  shouldReloadCallback?: (newPath: string, newContext: Context) => boolean;
+  shouldReloadCallback?: (newPath: string, newProps: Props) => boolean;
 }
 
 interface HistoryState {
@@ -25,7 +25,7 @@ export class NavigationController {
 
   parent: NavigationController | null;
 
-  unpackContext: (data: JSON) => Record<string, unknown>;
+  unpackProps: (data: JSON) => Record<string, unknown>;
 
   nextFetchId = 1;
 
@@ -45,11 +45,11 @@ export class NavigationController {
   constructor(
     mode: Mode,
     parent: NavigationController | null,
-    unpackContext: (data: JSON) => Record<string, unknown>
+    unpackProps: (data: JSON) => Record<string, unknown>
   ) {
     this.mode = mode;
     this.parent = parent;
-    this.unpackContext = unpackContext;
+    this.unpackProps = unpackProps;
 
     nextFrameId += 1;
     this.currentFrame = {
@@ -57,7 +57,7 @@ export class NavigationController {
       path: window.location.pathname,
       title: "Loading",
       view: "loading",
-      context: {},
+      props: {},
       serverMessages: [],
       pushState: false,
     };
@@ -124,25 +124,25 @@ export class NavigationController {
         );
       }
 
-      // Unpack context
-      const context = this.unpackContext(response.context);
+      // Unpack props
+      const props = this.unpackProps(response.props);
 
       // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
-      // If it does, call it to see if we should reload the view or just update its context
+      // If it does, call it to see if we should reload the view or just update its props
       let reload = !neverReload;
       if (
         reload &&
         response.view === this.currentFrame.view &&
         this.currentFrame.shouldReloadCallback
       ) {
-        reload = this.currentFrame.shouldReloadCallback(path, context);
+        reload = this.currentFrame.shouldReloadCallback(path, props);
       }
 
       this.pushFrame(
         path,
         response.title,
         response.view,
-        context,
+        props,
         response.messages,
         pushState,
         reload
@@ -187,7 +187,7 @@ export class NavigationController {
     path: string,
     title: string,
     view: string,
-    context: Record<string, unknown>,
+    props: Record<string, unknown>,
     serverMessages: Message[],
     pushState = true,
     reload = true
@@ -205,7 +205,7 @@ export class NavigationController {
       path,
       title,
       view,
-      context,
+      props,
       serverMessages,
       pushState,
     };
@@ -258,7 +258,7 @@ export class NavigationController {
   submitForm = (url: string, data: FormData): Promise<void> =>
     this.fetch(() => djreamPost(url, data, this.mode), url, true);
 
-  refreshContext = (): Promise<void> => {
+  refreshProps = (): Promise<void> => {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
 

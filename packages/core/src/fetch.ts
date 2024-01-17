@@ -28,7 +28,7 @@ interface DjreamResponseRender {
   mode: Mode;
   title: string;
   view: string;
-  context: any;
+  props: any;
   messages: Message[];
 }
 

@@ -20,7 +20,7 @@ export interface AppProps {
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
   const [navigationController] = React.useState(
-    () => new NavigationController("browser", null, config.unpackContext)
+    () => new NavigationController("browser", null, config.unpackProps)
   );
   const [modal, setModal] = React.useState<{
     navigationController: NavigationController;
@@ -130,7 +130,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     const modalNavigationController = new NavigationController(
       "modal",
       navigationController,
-      config.unpackContext
+      config.unpackProps
     );
     modalNavigationController.addNavigationListener(() => {
       // HACK: Update some state to force a re-render
@@ -160,7 +160,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   React.useEffect(() => {
     const navigationListener = (_frame: Frame | null, newFrame: boolean) => {
       // Only close modal if a new frame is being pushed
-      // This prevents the modal from closing when refreshContext is called
+      // This prevents the modal from closing when refreshProps is called
       if (modal && newFrame) {
         setRequestModalClose(true);
       }

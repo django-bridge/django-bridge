@@ -28,7 +28,7 @@ function Browser({
     pushFrame,
     replacePath,
     submitForm,
-    refreshContext,
+    refreshProps,
   } = navigationController;
 
   if (currentFrame.serverMessages) {
@@ -43,7 +43,7 @@ function Browser({
     () => ({
       frameId: currentFrame.id,
       path: currentFrame.path,
-      context: currentFrame.context,
+      props: currentFrame.props,
       navigate: (url: string, options: NavigateOptions = {}) => {
         // If there is a dirty form, block navigation until unload has been confirmed
         if (!isDirty || options.skipDirtyFormCheck === true) {
@@ -60,7 +60,7 @@ function Browser({
       replacePath,
       submitForm,
       openModal,
-      refreshContext,
+      refreshProps: refreshProps,
       pushMessage,
     }),
     [
@@ -73,7 +73,7 @@ function Browser({
       requestUnload,
       cancelUnload,
       navigate,
-      refreshContext,
+      refreshProps,
       pushMessage,
     ]
   );
@@ -87,7 +87,7 @@ function Browser({
   return (
     <NavigationContext.Provider value={NavigationUtils}>
       <div key={currentFrame.id}>
-        <View {...currentFrame.context} />
+        <View {...currentFrame.props} />
       </div>
     </NavigationContext.Provider>
   );

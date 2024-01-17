@@ -63,7 +63,7 @@ export function OverrideLinks({
     () => ({
       frameId: 0,
       path: "/",
-      context: {},
+      props: {},
       navigate,
       pushFrame: () => {
         // eslint-disable-next-line no-console
@@ -74,7 +74,7 @@ export function OverrideLinks({
       replacePath: () => {},
       submitForm: navigate,
       openModal: navigate,
-      refreshContext: () => Promise.resolve(),
+      refreshProps: () => Promise.resolve(),
       pushMessage: () => {},
     }),
     []

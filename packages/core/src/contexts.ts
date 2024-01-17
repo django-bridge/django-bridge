@@ -14,13 +14,13 @@ export interface OpenModalOptions {
 export interface Navigation {
   frameId: number;
   path: string;
-  context: Record<string, unknown>;
+  props: Record<string, unknown>;
   navigate: (path: string, options?: NavigateOptions) => Promise<void>;
   pushFrame: (
     path: string,
     title: string,
     view: string,
-    context: Record<string, unknown>,
+    props: Record<string, unknown>,
     serverMessages: Message[],
     pushState?: boolean,
     reload?: boolean
@@ -28,14 +28,14 @@ export interface Navigation {
   replacePath: (frameId: number, path: string) => void;
   submitForm: (path: string, data: FormData) => Promise<void>;
   openModal: (path: string, options?: OpenModalOptions) => void;
-  refreshContext: () => Promise<void>;
+  refreshProps: () => Promise<void>;
   pushMessage(message: Message): void;
 }
 
 export const NavigationContext = React.createContext<Navigation>({
   frameId: 0,
   path: "/",
-  context: {},
+  props: {},
   navigate: () => {
     // eslint-disable-next-line no-console
     console.error("navigate() called from outside a Djream Browser");
@@ -62,9 +62,9 @@ export const NavigationContext = React.createContext<Navigation>({
 
     throw new Error("Modal cannot be opened here");
   },
-  refreshContext: () => {
+  refreshProps: () => {
     // eslint-disable-next-line no-console
-    console.error("refreshContext() called from outside a Djream Browser");
+    console.error("refreshProps() called from outside a Djream Browser");
 
     return Promise.resolve();
   },
