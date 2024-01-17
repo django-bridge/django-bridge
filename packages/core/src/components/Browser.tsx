@@ -7,20 +7,19 @@ import {
   NavigateOptions,
   OpenOverlayOptions,
   NavigationContext,
+  MessagesContext,
 } from "../contexts";
 
 export interface BrowserProps {
   views: Map<string, FunctionComponent>;
   navigationController: NavigationController;
   openOverlay(path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions): void;
-  pushMessage(message: Message): void;
 }
 
 function Browser({
   views,
   navigationController,
   openOverlay,
-  pushMessage,
 }: BrowserProps): ReactElement {
   const {
     currentFrame,
@@ -31,6 +30,8 @@ function Browser({
     refreshProps,
   } = navigationController;
 
+  // Push any messages from the server
+  const { pushMessage } = React.useContext(MessagesContext);
   if (currentFrame.serverMessages) {
     currentFrame.serverMessages.forEach(pushMessage);
     currentFrame.serverMessages = [];
@@ -62,7 +63,6 @@ function Browser({
       submitForm,
       openOverlay,
       refreshProps: refreshProps,
-      pushMessage,
     }),
     [
       currentFrame,
@@ -75,7 +75,6 @@ function Browser({
       cancelUnload,
       navigate,
       refreshProps,
-      pushMessage,
     ]
   );
   // Get the view component

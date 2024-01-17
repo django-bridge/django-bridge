@@ -6,7 +6,7 @@ import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import { Config } from "./config";
-import Messages from "./components/Messages";
+import { MessagesContext } from "./contexts";
 
 export interface AppProps {
   config: Config;
@@ -170,31 +170,30 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   return (
     <div>
       <DirtyFormScope handleBrowserUnload>
-        <Messages messages={messages} />
-        {overlay &&
-          overlay.navigationController.currentFrame.view !== "loading" && (
-            <DirtyFormScope>
-              {overlay.render(
-                <Browser
-                  views={config.views}
-                  navigationController={overlay.navigationController}
-                  openOverlay={() => {}}
-                  pushMessage={pushMessage}
-                />,
-                () => {
-                  setOverlay(null);
-                  setRequestOverlayClose(false);
-                },
-                requestModalClose
-              )}
-            </DirtyFormScope>
-          )}
-        <Browser
-          views={config.views}
-          navigationController={navigationController}
-          openOverlay={(url, render, options) => openOverlay(url, render, options)}
-          pushMessage={pushMessage}
-        />
+        <MessagesContext.Provider value={{messages, pushMessage}}>
+          {overlay &&
+            overlay.navigationController.currentFrame.view !== "loading" && (
+              <DirtyFormScope>
+                {overlay.render(
+                  <Browser
+                    views={config.views}
+                    navigationController={overlay.navigationController}
+                    openOverlay={() => {}}
+                  />,
+                  () => {
+                    setOverlay(null);
+                    setRequestOverlayClose(false);
+                  },
+                  requestModalClose
+                )}
+              </DirtyFormScope>
+            )}
+          <Browser
+            views={config.views}
+            navigationController={navigationController}
+            openOverlay={(url, render, options) => openOverlay(url, render, options)}
+          />
+        </MessagesContext.Provider>
       </DirtyFormScope>
     </div>
   );

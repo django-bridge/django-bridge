@@ -44,7 +44,6 @@ export interface Navigation {
   submitForm: (path: string, data: FormData) => Promise<void>;
   openOverlay: (path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions) => void;
   refreshProps: () => Promise<void>;
-  pushMessage(message: Message): void;
 }
 
 export const NavigationContext = React.createContext<Navigation>({
@@ -84,7 +83,6 @@ export const NavigationContext = React.createContext<Navigation>({
 
     return Promise.resolve();
   },
-  pushMessage() {},
 });
 
 // This context is used to allow form widgets to notify their forms that data has changed
@@ -95,3 +93,13 @@ export const FormWidgetChangeNotificationContext = React.createContext(
 // This context is used to notify components within a form if the form is currently submitting
 // This is used to display spinners in submit buttons
 export const FormSubmissionStatus = React.createContext(false);
+
+export interface Messages {
+  messages: Message[];
+  pushMessage: (message: Message) => void;
+}
+
+export const MessagesContext = React.createContext<Messages>({
+  messages: [],
+  pushMessage: () => {},
+})
