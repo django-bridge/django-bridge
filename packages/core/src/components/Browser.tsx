@@ -44,6 +44,7 @@ function Browser({
       frameId: currentFrame.id,
       path: currentFrame.path,
       props: currentFrame.props,
+      context: currentFrame.context,
       navigate: (url: string, options: NavigateOptions = {}) => {
         // If there is a dirty form, block navigation until unload has been confirmed
         if (!isDirty || options.skipDirtyFormCheck === true) {

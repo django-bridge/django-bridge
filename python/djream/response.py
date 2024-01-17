@@ -72,16 +72,15 @@ class DjreamResponse(BaseDjreamResponse):
         return "browser"
 
     def get_data(self, view, props):
-        combined_props = {
-            name: import_string(provider)(self.request)
-            for name, provider in settings.DJREAM_GLOBAL_CONTEXT_PROVIDERS.items()
-        }
-        combined_props.update(props)
         return {
             "view": view,
             "mode": self.get_mode(),
             "title": self.title,
-            "props": combined_props,
+            "props": props,
+            "context": {
+                name: import_string(provider)(self.request)
+                for name, provider in settings.DJREAM_CONTEXT_PROVIDERS.items()
+            },
             "messages": get_messages(self.request),
         }
 

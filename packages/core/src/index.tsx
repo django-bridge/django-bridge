@@ -20,7 +20,7 @@ export interface AppProps {
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
   const [navigationController] = React.useState(
-    () => new NavigationController("browser", null, config.unpackProps)
+    () => new NavigationController("browser", null, config.unpack)
   );
   const [modal, setModal] = React.useState<{
     navigationController: NavigationController;
@@ -130,7 +130,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     const modalNavigationController = new NavigationController(
       "modal",
       navigationController,
-      config.unpackProps
+      config.unpack
     );
     modalNavigationController.addNavigationListener(() => {
       // HACK: Update some state to force a re-render

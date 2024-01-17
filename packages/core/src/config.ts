@@ -31,7 +31,7 @@ export class Config {
     return this;
   };
 
-  public unpackProps = (data: JSON): Record<string, unknown> => {
+  public unpack = (data: Record<string, unknown>): Record<string, unknown> => {
     return this.telepathRegistry.unpack(data);
   };
 }

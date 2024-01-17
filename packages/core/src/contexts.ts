@@ -15,12 +15,14 @@ export interface Navigation {
   frameId: number;
   path: string;
   props: Record<string, unknown>;
+  context: Record<string, unknown>;
   navigate: (path: string, options?: NavigateOptions) => Promise<void>;
   pushFrame: (
     path: string,
     title: string,
     view: string,
     props: Record<string, unknown>,
+    context: Record<string, unknown>,
     serverMessages: Message[],
     pushState?: boolean,
     reload?: boolean
@@ -36,6 +38,7 @@ export const NavigationContext = React.createContext<Navigation>({
   frameId: 0,
   path: "/",
   props: {},
+  context: {},
   navigate: () => {
     // eslint-disable-next-line no-console
     console.error("navigate() called from outside a Djream Browser");

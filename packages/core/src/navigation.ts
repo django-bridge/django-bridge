@@ -10,6 +10,7 @@ export interface Frame<Props = Record<string, unknown>> {
   title: string;
   view: string;
   props: Props;
+  context: Record<string, unknown>;
   serverMessages: Message[];
   pushState: boolean;
   shouldReloadCallback?: (newPath: string, newProps: Props) => boolean;
@@ -25,7 +26,7 @@ export class NavigationController {
 
   parent: NavigationController | null;
 
-  unpackProps: (data: JSON) => Record<string, unknown>;
+  unpack: (data: Record<string, unknown>) => Record<string, unknown>;
 
   nextFetchId = 1;
 
@@ -45,11 +46,11 @@ export class NavigationController {
   constructor(
     mode: Mode,
     parent: NavigationController | null,
-    unpackProps: (data: JSON) => Record<string, unknown>
+    unpack: (data: Record<string, unknown>) => Record<string, unknown>
   ) {
     this.mode = mode;
     this.parent = parent;
-    this.unpackProps = unpackProps;
+    this.unpack = unpack;
 
     nextFrameId += 1;
     this.currentFrame = {
@@ -58,6 +59,7 @@ export class NavigationController {
       title: "Loading",
       view: "loading",
       props: {},
+      context: {},
       serverMessages: [],
       pushState: false,
     };
@@ -124,8 +126,9 @@ export class NavigationController {
         );
       }
 
-      // Unpack props
-      const props = this.unpackProps(response.props);
+      // Unpack props and context
+      const props = this.unpack(response.props);
+      const context = this.unpack(response.context);
 
       // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
       // If it does, call it to see if we should reload the view or just update its props
@@ -143,6 +146,7 @@ export class NavigationController {
         response.title,
         response.view,
         props,
+        context,
         response.messages,
         pushState,
         reload
@@ -188,6 +192,7 @@ export class NavigationController {
     title: string,
     view: string,
     props: Record<string, unknown>,
+    context: Record<string, unknown>,
     serverMessages: Message[],
     pushState = true,
     reload = true
@@ -206,6 +211,7 @@ export class NavigationController {
       title,
       view,
       props,
+      context,
       serverMessages,
       pushState,
     };
