@@ -59,11 +59,12 @@ export function OverrideLinks({
     return Promise.resolve();
   };
 
-  const shellNavigation: Navigation = React.useMemo(
+  const navigation: Navigation = React.useMemo(
     () => ({
       frameId: 0,
       path: "/",
       props: {},
+      context: {},
       navigate,
       pushFrame: () => {
         // eslint-disable-next-line no-console
@@ -75,13 +76,12 @@ export function OverrideLinks({
       submitForm: navigate,
       openOverlay: navigate,
       refreshProps: () => Promise.resolve(),
-      pushMessage: () => {},
     }),
     []
   );
 
   return (
-    <NavigationContext.Provider value={shellNavigation}>
+    <NavigationContext.Provider value={navigation}>
       <BuildLinkElement.Provider value={buildLinkElement}>
         {children}
       </BuildLinkElement.Provider>
