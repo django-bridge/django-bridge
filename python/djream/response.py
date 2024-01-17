@@ -58,23 +58,16 @@ class DjreamResponse(BaseDjreamResponse):
 
     status = "render"
 
-    def __init__(self, request, *args, supported_modes=None, title="", **kwargs):
+    def __init__(self, request, *args, overlay=False, title="", **kwargs):
         self.request = request
-        self.supported_modes = supported_modes or ["browser"]
+        self.overlay = overlay
         self.title = title
         super().__init__(*args, **kwargs)
-
-    def get_mode(self):
-        requested_mode = self.request.META.get("HTTP_X_DJREAM_MODE", "browser")
-        if requested_mode in self.supported_modes:
-            return requested_mode
-
-        return "browser"
 
     def get_data(self, view, props):
         return {
             "view": view,
-            "mode": self.get_mode(),
+            "overlay": self.overlay,
             "title": self.title,
             "props": props,
             "context": {
@@ -102,8 +95,8 @@ class DjreamRedirectResponse(BaseDjreamResponse):
         }
 
 
-class DjreamCloseModalResponse(BaseDjreamResponse):
-    status = "close-modal"
+class DjreamCloseOverlayResponse(BaseDjreamResponse):
+    status = "close-overlay"
 
     def __init__(self, request, *args, **kwargs):
         self.request = request

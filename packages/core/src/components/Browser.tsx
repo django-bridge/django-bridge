@@ -12,14 +12,14 @@ import {
 export interface BrowserProps {
   views: Map<string, FunctionComponent>;
   navigationController: NavigationController;
-  openModal(path: string, options?: OpenModalOptions): void;
+  openOverlay(path: string, options?: OpenModalOptions): void;
   pushMessage(message: Message): void;
 }
 
 function Browser({
   views,
   navigationController,
-  openModal,
+  openOverlay,
   pushMessage,
 }: BrowserProps): ReactElement {
   const {
@@ -60,7 +60,7 @@ function Browser({
       pushFrame,
       replacePath,
       submitForm,
-      openModal,
+      openOverlay,
       refreshProps: refreshProps,
       pushMessage,
     }),
@@ -69,7 +69,7 @@ function Browser({
       pushFrame,
       replacePath,
       submitForm,
-      openModal,
+      openOverlay,
       isDirty,
       requestUnload,
       cancelUnload,

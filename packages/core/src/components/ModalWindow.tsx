@@ -245,7 +245,7 @@ function ModalWindow({
 }: React.PropsWithChildren<ModalWindowProps>): ReactElement {
   const id = useRef<string | null>(null);
   if (!id.current) {
-    id.current = `modal-${nextModalId}`;
+    id.current = `overlay-${nextModalId}`;
     nextModalId += 1;
   }
 

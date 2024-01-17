@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, Mode, djreamGet, djreamPost, DjreamResponse } from "./fetch";
+import { Message, djreamGet, djreamPost, DjreamResponse } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -22,8 +22,6 @@ interface HistoryState {
 }
 
 export class NavigationController {
-  mode: Mode;
-
   parent: NavigationController | null;
 
   unpack: (data: Record<string, unknown>) => Record<string, unknown>;
@@ -44,11 +42,9 @@ export class NavigationController {
   closeListeners: (() => void)[] = [];
 
   constructor(
-    mode: Mode,
     parent: NavigationController | null,
     unpack: (data: Record<string, unknown>) => Record<string, unknown>
   ) {
-    this.mode = mode;
     this.parent = parent;
     this.unpack = unpack;
 
@@ -101,29 +97,20 @@ export class NavigationController {
     neverReload = false
   ): Promise<void> => {
     if (response.status === "load-it") {
-      if (this.mode === "browser") {
+      if (!this.parent) {
         window.location.href = path;
-      } else if (this.mode === "modal" && this.parent) {
-        // load-it responses require reloading the entire page.
+      } else {
+        // load-it responses require reloading the entire page, but this is an overlay
         // Escalate this response to the page's navigation controller instead
         return this.parent.escalate(path, response);
-      } else {
-        // eslint-disable-next-line no-console
-        console.error("Unable to handle a 'load-it' response here.");
       }
     } else if (response.status === "redirect") {
       return this.navigate(response.path);
     } else if (response.status === "render") {
-      // If this navigation controller is handling a modal, make sure the response can be
-      // loaded in a modal. Otherwise, escalate it
-      if (this.mode === "modal" && response.mode !== "modal") {
-        if (this.parent) {
-          return this.parent.escalate(path, response);
-        }
-        // eslint-disable-next-line no-console
-        console.warn(
-          "Response does not support rendering in a modal, but no method of escalation was given."
-        );
+      // If this navigation controller is handling an overlay, make sure the response can be
+      // loaded in a overlay. Otherwise, escalate it to parent
+      if (this.parent && !response.overlay) {
+        return this.parent.escalate(path, response);
       }
 
       // Unpack props and context
@@ -151,8 +138,8 @@ export class NavigationController {
         pushState,
         reload
       );
-    } else if (response.status === "close-modal") {
-      // Call close listeners. One of these should close the modal
+    } else if (response.status === "close-overlay") {
+      // Call close listeners. One of these should close the overlay
       this.closeListeners.forEach((func) => func());
 
       // Push any messages
@@ -184,7 +171,7 @@ export class NavigationController {
       path = urlObj.pathname + urlObj.search;
     }
 
-    return this.fetch(() => djreamGet(path, this.mode), path, pushState);
+    return this.fetch(() => djreamGet(path, !!this.parent), path, pushState);
   };
 
   pushFrame = (
@@ -216,7 +203,7 @@ export class NavigationController {
       pushState,
     };
 
-    if (this.mode === "browser") {
+    if (!this.parent) {
       document.title = title;
 
       if (this.currentFrame.pushState) {
@@ -254,7 +241,7 @@ export class NavigationController {
       // Change the path using replaceState
       this.currentFrame.path = path;
 
-      if (this.mode === "browser") {
+      if (!this.parent) {
         // eslint-disable-next-line no-restricted-globals
         history.replaceState({}, "", this.currentFrame.path);
       }
@@ -262,20 +249,20 @@ export class NavigationController {
   };
 
   submitForm = (url: string, data: FormData): Promise<void> =>
-    this.fetch(() => djreamPost(url, data, this.mode), url, true);
+    this.fetch(() => djreamPost(url, data, !!this.parent), url, true);
 
   refreshProps = (): Promise<void> => {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
 
-    return this.fetch(() => djreamGet(url, this.mode), url, false, true);
+    return this.fetch(() => djreamGet(url, !!this.parent), url, false, true);
   };
 
   // Called by a child NavigationController when it cannot handle a response.
   // For example, say this NavigationController controls the main window and there's a
-  // modal open that has a different NavigationController. If the user clicks a link
+  // overlay open that has a different NavigationController. If the user clicks a link
   // that needs to navigate the whole page somewhere else, that response is escalated
-  // from the modal NavigationController to the main window NavigationController using
+  // from the overlay NavigationController to the main window NavigationController using
   // this method.
   private escalate = (url: string, response: DjreamResponse): Promise<void> =>
     this.handleResponse(response, url);

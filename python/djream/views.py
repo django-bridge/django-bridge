@@ -10,7 +10,7 @@ class DjreamResponseMixin:
 
     title = None
     view_name = None
-    supported_modes = ["browser"]
+    overlay = False
     response_class = DjreamResponse
 
     def get_title(self):
@@ -27,7 +27,7 @@ class DjreamResponseMixin:
             self.request,
             self.view_name,
             props,
-            supported_modes=self.supported_modes,
+            supported_modes=self.overlay,
             title=self.title,
         )
 

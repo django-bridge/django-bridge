@@ -29,7 +29,7 @@ export interface Navigation {
   ) => void;
   replacePath: (frameId: number, path: string) => void;
   submitForm: (path: string, data: FormData) => Promise<void>;
-  openModal: (path: string, options?: OpenModalOptions) => void;
+  openOverlay: (path: string, options?: OpenModalOptions) => void;
   refreshProps: () => Promise<void>;
   pushMessage(message: Message): void;
 }
@@ -59,9 +59,9 @@ export const NavigationContext = React.createContext<Navigation>({
 
     return Promise.resolve();
   },
-  openModal: () => {
+  openOverlay: () => {
     // eslint-disable-next-line no-console
-    console.error("openModal() called from outside a Djream Browser");
+    console.error("openOverlay() called from outside a Djream Browser");
 
     throw new Error("Modal cannot be opened here");
   },

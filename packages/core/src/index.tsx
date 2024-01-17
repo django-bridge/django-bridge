@@ -20,14 +20,14 @@ export interface AppProps {
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
   const [navigationController] = React.useState(
-    () => new NavigationController("browser", null, config.unpack)
+    () => new NavigationController(null, config.unpack)
   );
-  const [modal, setModal] = React.useState<{
+  const [overlay, setOverlay] = React.useState<{
     navigationController: NavigationController;
     side: "left" | "right";
   } | null>(null);
-  const [requestModalClose, setRequestModalClose] = React.useState(false);
-  const modalCloseListener = React.useRef<(() => void) | null>(null);
+  const [requestModalClose, setRequestOverlayClose] = React.useState(false);
+  const overlayCloseListener = React.useRef<(() => void) | null>(null);
 
   const [render, setRender] = React.useState(0);
 
@@ -98,28 +98,28 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Call modal close listener if the modal has been closed
+  // Call overlay close listener if the overlay has been closed
   React.useEffect(() => {
-    if (modal === null && modalCloseListener.current) {
-      modalCloseListener.current();
-      modalCloseListener.current = null;
+    if (overlay === null && overlayCloseListener.current) {
+      overlayCloseListener.current();
+      overlayCloseListener.current = null;
     }
-  }, [modal]);
+  }, [overlay]);
 
-  // Add listener to raise any server errors that the modal navigation controller encounters
+  // Add listener to raise any server errors that the overlay navigation controller encounters
   React.useEffect(() => {
-    if (modal) {
-      modal.navigationController.addServerErrorListener(onServerError);
+    if (overlay) {
+      overlay.navigationController.addServerErrorListener(onServerError);
 
       return () => {
-        modal.navigationController.removeServerErrorListener(onServerError);
+        overlay.navigationController.removeServerErrorListener(onServerError);
       };
     }
 
     return () => {};
-  }, [modal, onServerError]);
+  }, [overlay, onServerError]);
 
-  const openModal = (
+  const openOverlay = (
     path: string,
     {
       onClose,
@@ -127,42 +127,41 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     }: { onClose?: () => void; side?: "left" | "right" } = {}
   ) => {
     // Set up a new navigation controller
-    const modalNavigationController = new NavigationController(
-      "modal",
+    const overlayNavigationController = new NavigationController(
       navigationController,
       config.unpack
     );
-    modalNavigationController.addNavigationListener(() => {
+    overlayNavigationController.addNavigationListener(() => {
       // HACK: Update some state to force a re-render
       setRender(render + Math.random());
     });
     // eslint-disable-next-line no-void
-    void modalNavigationController.navigate(path);
+    void overlayNavigationController.navigate(path);
 
-    // Add a listener to listen for when the modal is closed by the server
-    modalNavigationController.addCloseListener(() =>
-      setRequestModalClose(true)
+    // Add a listener to listen for when the overlay is closed by the server
+    overlayNavigationController.addCloseListener(() =>
+      setRequestOverlayClose(true)
     );
 
     if (onClose) {
-      modalCloseListener.current = onClose;
+      overlayCloseListener.current = onClose;
     }
 
-    setModal({
-      navigationController: modalNavigationController,
+    setOverlay({
+      navigationController: overlayNavigationController,
       side,
     });
-    setRequestModalClose(false);
+    setRequestOverlayClose(false);
   };
 
-  // Close modal when we navigate the main window
+  // Close overlay when we navigate the main window
   // We can force close in this situation, since we've already checked if there are any dirty forms
   React.useEffect(() => {
     const navigationListener = (_frame: Frame | null, newFrame: boolean) => {
-      // Only close modal if a new frame is being pushed
-      // This prevents the modal from closing when refreshProps is called
-      if (modal && newFrame) {
-        setRequestModalClose(true);
+      // Only close overlay if a new frame is being pushed
+      // This prevents the overlay from closing when refreshProps is called
+      if (overlay && newFrame) {
+        setRequestOverlayClose(true);
       }
     };
 
@@ -177,23 +176,23 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     <div>
       <DirtyFormScope handleBrowserUnload>
         <Messages messages={messages} />
-        {modal &&
-          modal.navigationController.currentFrame.view !== "loading" && (
+        {overlay &&
+          overlay.navigationController.currentFrame.view !== "loading" && (
             <DirtyFormScope>
               <ModalWindow
-                side={modal.side}
+                side={overlay.side}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 onClose={() => {
-                  setModal(null);
-                  setRequestModalClose(false);
+                  setOverlay(null);
+                  setRequestOverlayClose(false);
                 }}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 requestClose={requestModalClose}
               >
                 <Browser
                   views={config.views}
-                  navigationController={modal.navigationController}
-                  openModal={() => {}}
+                  navigationController={overlay.navigationController}
+                  openOverlay={() => {}}
                   pushMessage={pushMessage}
                 />
               </ModalWindow>
@@ -202,7 +201,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
         <Browser
           views={config.views}
           navigationController={navigationController}
-          openModal={(url, options) => openModal(url, options)}
+          openOverlay={(url, options) => openOverlay(url, options)}
           pushMessage={pushMessage}
         />
       </DirtyFormScope>

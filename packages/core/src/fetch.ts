@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type Mode = "browser" | "modal";
-
 export interface TextMessage {
   level: "success" | "warning" | "error";
   text: string;
@@ -25,7 +23,7 @@ interface DjreamResponseRedirect {
 
 interface DjreamResponseRender {
   status: "render";
-  mode: Mode;
+  overlay: boolean;
   title: string;
   view: string;
   props: Record<string, unknown>;
@@ -33,8 +31,8 @@ interface DjreamResponseRender {
   messages: Message[];
 }
 
-interface DjreamResponseCloseModal {
-  status: "close-modal";
+interface DjreamResponseCloseOverlay {
+  status: "close-overlay";
   messages: Message[];
 }
 
@@ -50,20 +48,23 @@ export type DjreamResponse =
   | DjreamResponseLoadIt
   | DjreamResponseRedirect
   | DjreamResponseRender
-  | DjreamResponseCloseModal
+  | DjreamResponseCloseOverlay
   | DjreamResponseServerError
   | DjreamResponseNetworkError;
 
 export async function djreamGet(
   url: string,
-  mode: Mode
+  overlay: boolean
 ): Promise<DjreamResponse> {
   let response: Response;
 
+  const headers: HeadersInit = { "X-Requested-With": "Djream" };
+  if (overlay) {
+    headers["X-Djream-Overlay"] = "true";
+  }
+
   try {
-    response = await fetch(url, {
-      headers: { "X-Requested-With": "Djream", "X-Djream-Mode": mode },
-    });
+    response = await fetch(url, { headers });
   } catch (e) {
     return {
       status: "network-error",
@@ -86,14 +87,19 @@ export async function djreamGet(
 export async function djreamPost(
   url: string,
   data: FormData,
-  mode: Mode
+  overlay: boolean,
 ): Promise<DjreamResponse> {
   let response: Response;
+
+  const headers: HeadersInit = { "X-Requested-With": "Djream" };
+  if (overlay) {
+    headers["X-Djream-Overlay"] = "true";
+  }
 
   try {
     response = await fetch(url, {
       method: "post",
-      headers: { "X-Requested-With": "Djream", "X-Djream-Mode": mode },
+      headers,
       body: data,
     });
   } catch (e) {
