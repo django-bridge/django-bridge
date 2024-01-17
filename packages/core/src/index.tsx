@@ -213,3 +213,4 @@ export type { DjreamResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
+export { Form } from "./components/Form";
