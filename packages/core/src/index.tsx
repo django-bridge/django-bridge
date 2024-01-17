@@ -201,8 +201,10 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
 export {
   NavigationContext,
+  OverlayContext,
   FormWidgetChangeNotificationContext,
   FormSubmissionStatus,
+  MessagesContext,
 } from "./contexts";
 export type { Navigation } from "./contexts";
 export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
