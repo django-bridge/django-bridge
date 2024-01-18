@@ -1,7 +1,7 @@
 {
   "name": "create-djream",
   "type": "module",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.9",
   "description": "Create a new Django + React project with a single command",
   "repository": "https://github.com/kaedroho/djream",
   "bin": {
