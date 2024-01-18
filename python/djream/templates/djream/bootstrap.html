@@ -1,29 +1,16 @@
-<!DOCTYPE html>{% load static %}
-<html lang="en">
+<!DOCTYPE html>{% load static %}{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
   <meta charset="utf-8" />
-
-  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
-  <link rel="apple-touch-icon" sizes="57x57" href="{% static 'apple-touch-icon-57x57.png' %}" />
-  <link rel="apple-touch-icon" sizes="114x114" href="{% static 'apple-touch-icon-114x114.png' %}" />
-  <link rel="apple-touch-icon" sizes="72x72" href="{% static 'apple-touch-icon-72x72.png' %}" />
-  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'apple-touch-icon-144x144.png' %}" />
-  <link rel="apple-touch-icon" sizes="120x120" href="{% static 'apple-touch-icon-120x120.png' %}" />
-  <link rel="apple-touch-icon" sizes="152x152" href="{% static 'apple-touch-icon-152x152.png' %}" />
-  <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
-  <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
-  <meta name="msapplication-TileColor" content="#FFFFFF" />
-  <meta name="msapplication-TileImage" content="{% static 'mstile-144x144.png' %}" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <title>Loading</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% endblock %}</title>
 
   {% for src in css %}
   <link href="{% static src %}" rel="stylesheet" />
   {% endfor %}
-
+  {% block loader_css %}
   <style>
     .djream-load {
       position: absolute;
@@ -63,11 +50,18 @@
       text-align: center;
     }
   </style>
+  {% endblock %}
+
+  {% block extra_head %}
+  {% endblock %}
 </head>
 
 <body>
+  {% block noscript %}
   <noscript>You need to enable JavaScript to run this app.</noscript>
+  {% endblock %}
 
+  {% block loader %}
   <div class="djream-load">
     <div class="djream-load__spinner">
       <svg width="80" height="80" viewBox="0 0 200 200" color="#4c3fdd" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,6 +91,7 @@
       <div class="djream-load__text">Loading</div>
     </div>
   </div>
+  {% endblock %}
 
   <div id="root" data-initial-response="{{ data }}"></div>
 
@@ -109,11 +104,14 @@
     window.__vite_plugin_react_preamble_installed__ = true
   </script>
   {% endif %}
-
   {% for src in js %}
   <script type="module" src="{{ src }}" async defer></script>
   {% endfor %}
+  {% block loader_js %}
   <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.djream-load').classList.add('djream-load--show-spinner') }, 100) });</script>
+  {% endblock %}
+  {% block extra_body %}
+  {% endblock %}
 </body>
 
 </html>
