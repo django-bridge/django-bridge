@@ -4,8 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "Djream",
-  tagline:
-    "Build React SPAs with Django views and forms.",
+  tagline: "Build React SPAs with Django views and forms.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -57,10 +56,10 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Docs',
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Docs",
         },
         {
           href: "https://github.com/kaedroho/djream",
@@ -73,15 +72,15 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: 'Docs',
+          title: "Docs",
           items: [
             {
-              label: 'Getting Started',
-              to: '/docs/start',
+              label: "Getting Started",
+              to: "/docs/start",
             },
             {
-               label: 'Overview',
-              to: '/docs/overview',
+              label: "Overview",
+              to: "/docs/overview",
             },
           ],
         },

@@ -15,14 +15,13 @@ export interface OverlayContextType {
   close: (options?: { skipDirtyFormCheck?: boolean }) => void;
 }
 
-export const OverlayContext =
-  React.createContext<OverlayContextType>({
-    overlay: false,
-    close: () => {
-      // eslint-disable-next-line no-console
-      console.error("OverlayContext.close() called from outside an overlay");
-    },
-  });
+export const OverlayContext = React.createContext<OverlayContextType>({
+  overlay: false,
+  close: () => {
+    // eslint-disable-next-line no-console
+    console.error("OverlayContext.close() called from outside an overlay");
+  },
+});
 
 export interface Navigation {
   frameId: number;
@@ -42,7 +41,15 @@ export interface Navigation {
   ) => void;
   replacePath: (frameId: number, path: string) => void;
   submitForm: (path: string, data: FormData) => Promise<void>;
-  openOverlay: (path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions) => void;
+  openOverlay: (
+    path: string,
+    render: (
+      content: ReactNode,
+      onClose: () => void,
+      requestClose: boolean
+    ) => ReactNode,
+    options?: OpenOverlayOptions
+  ) => void;
   refreshProps: () => Promise<void>;
 }
 
@@ -102,4 +109,4 @@ export interface Messages {
 export const MessagesContext = React.createContext<Messages>({
   messages: [],
   pushMessage: () => {},
-})
+});

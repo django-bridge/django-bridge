@@ -43,7 +43,9 @@ def djream_view(fn):
             if settings.DJREAM_VITE_BUNDLE_DIR:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
                 asset_manifest = json.loads(
-                    (Path(settings.DJREAM_VITE_BUNDLE_DIR) / ".vite/manifest.json").read_text()
+                    (
+                        Path(settings.DJREAM_VITE_BUNDLE_DIR) / ".vite/manifest.json"
+                    ).read_text()
                 )
 
                 js = [

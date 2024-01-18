@@ -1,10 +1,7 @@
 import React, { ReactElement } from "react";
+import { DirtyFormContext, DirtyFormMarker } from "../dirtyform";
 import {
-  DirtyFormContext,
-  DirtyFormMarker,
-} from "../dirtyform";
-import {
-    NavigationContext,
+  NavigationContext,
   FormSubmissionStatus,
   FormWidgetChangeNotificationContext,
 } from "../contexts";
@@ -70,7 +67,7 @@ export function Form({
         // Note: Don't need to switch setIsSubmitting back to false on .then(), since the Form should be unmounted at that point
         // eslint-disable-next-line no-void
         void submitForm(e.target.action, data).catch(() =>
-          setIsSubmitting(false),
+          setIsSubmitting(false)
         );
       } else if (e.target.method === "get") {
         e.preventDefault();
@@ -79,8 +76,8 @@ export function Form({
           .map(
             (x) =>
               `${encodeURIComponent(x[0])}=${encodeURIComponent(
-                x[1] as string,
-              )}`,
+                x[1] as string
+              )}`
           )
           .join("&");
 

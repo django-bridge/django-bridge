@@ -87,7 +87,7 @@ export async function djreamGet(
 export async function djreamPost(
   url: string,
   data: FormData,
-  overlay: boolean,
+  overlay: boolean
 ): Promise<DjreamResponse> {
   let response: Response;
 

@@ -19,7 +19,11 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   );
   const [overlay, setOverlay] = React.useState<{
     navigationController: NavigationController;
-    render(content: ReactNode, onClose: () => void, requestClose: boolean): ReactNode;
+    render(
+      content: ReactNode,
+      onClose: () => void,
+      requestClose: boolean
+    ): ReactNode;
   } | null>(null);
   const [requestModalClose, setRequestOverlayClose] = React.useState(false);
   const overlayCloseListener = React.useRef<(() => void) | null>(null);
@@ -116,10 +120,12 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
   const openOverlay = (
     path: string,
-    renderOverlay: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode,
-    {
-      onClose,
-    }: { onClose?: () => void } = {}
+    renderOverlay: (
+      content: ReactNode,
+      onClose: () => void,
+      requestClose: boolean
+    ) => ReactNode,
+    { onClose }: { onClose?: () => void } = {}
   ) => {
     // Set up a new navigation controller
     const overlayNavigationController = new NavigationController(
@@ -170,7 +176,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   return (
     <div>
       <DirtyFormScope handleBrowserUnload>
-        <MessagesContext.Provider value={{messages, pushMessage}}>
+        <MessagesContext.Provider value={{ messages, pushMessage }}>
           {overlay &&
             overlay.navigationController.currentFrame.view !== "loading" && (
               <DirtyFormScope>
@@ -191,7 +197,9 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
           <Browser
             views={config.views}
             navigationController={navigationController}
-            openOverlay={(url, render, options) => openOverlay(url, render, options)}
+            openOverlay={(url, render, options) =>
+              openOverlay(url, render, options)
+            }
           />
         </MessagesContext.Provider>
       </DirtyFormScope>

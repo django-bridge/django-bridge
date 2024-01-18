@@ -3,7 +3,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
-import logoUrl from '@site/static/img/logo.png';
+import logoUrl from "@site/static/img/logo.png";
 
 import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
@@ -21,12 +21,14 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/start">
+            to="/docs/start"
+          >
             Get started
           </Link>
           <a
             className="button button--secondary button--lg"
-            href="https://demo.djream.io">
+            href="https://demo.djream.io"
+          >
             Demo
           </a>
         </div>
@@ -38,10 +40,7 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={siteConfig.title}
-      description={siteConfig.tagline}
-    >
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <HomepageFeatures />

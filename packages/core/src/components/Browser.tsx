@@ -13,7 +13,15 @@ import {
 export interface BrowserProps {
   views: Map<string, FunctionComponent>;
   navigationController: NavigationController;
-  openOverlay(path: string, render: (content: ReactNode, onClose: () => void, requestClose: boolean) => ReactNode, options?: OpenOverlayOptions): void;
+  openOverlay(
+    path: string,
+    render: (
+      content: ReactNode,
+      onClose: () => void,
+      requestClose: boolean
+    ) => ReactNode,
+    options?: OpenOverlayOptions
+  ): void;
 }
 
 function Browser({

@@ -22,8 +22,9 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Djream works with Django's built-in features, like forms, and can be
-        used alongside traditional template-rendered views. Build modal workflows
-        with Django views and use third-party apps that don't have a React frontend.
+        used alongside traditional template-rendered views. Build modal
+        workflows with Django views and use third-party apps that don't have a
+        React frontend.
       </>
     ),
   },
@@ -31,9 +32,9 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Pages load instantly as all necessary data is sent in the initial response.
-        Djream itself is 5.5KB gzipped and only depends on React. No need to install
-        a separate router or state management library.
+        Pages load instantly as all necessary data is sent in the initial
+        response. Djream itself is 5.5KB gzipped and only depends on React. No
+        need to install a separate router or state management library.
       </>
     ),
   },
