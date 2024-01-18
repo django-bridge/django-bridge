@@ -1,6 +1,6 @@
 {
   "name": "@djream/storybook",
-  "version": "0.1.0-alpha.9",
+  "version": "0.1.0-alpha.11",
   "description": "Storybook Helpers for Djream projects.",
   "repository": "https://github.com/kaedroho/djream",
   "license": "BSD-3-Clause",
@@ -36,7 +36,7 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@djream/core": "^0.1.0-alpha.9",
+    "@djream/core": "^0.1.0-alpha.11",
     "react": "^18.2.0"
   }
 }
