@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = djream/*
+include = meze/*
 omit = */migrations/*,*/tests/*
 
 [report]

@@ -1,12 +1,12 @@
 *.pyc
 /build
 /dist
-/djream.egg-info
+/meze.egg-info
 /.coverage
 /htmlcov
 /.tox
 /venv
 /site
-/test_djream.db
+/test_meze.db
 /test-static
 /test-media

@@ -12,16 +12,16 @@ export interface HTMLMessage {
 
 export type Message = TextMessage | HTMLMessage;
 
-interface DjreamResponseLoadIt {
+interface MezeResponseLoadIt {
   status: "load-it";
 }
 
-interface DjreamResponseRedirect {
+interface MezeResponseRedirect {
   status: "redirect";
   path: string;
 }
 
-interface DjreamResponseRender {
+interface MezeResponseRender {
   status: "render";
   overlay: boolean;
   title: string;
@@ -31,36 +31,36 @@ interface DjreamResponseRender {
   messages: Message[];
 }
 
-interface DjreamResponseCloseOverlay {
+interface MezeResponseCloseOverlay {
   status: "close-overlay";
   messages: Message[];
 }
 
-interface DjreamResponseServerError {
+interface MezeResponseServerError {
   status: "server-error";
 }
 
-interface DjreamResponseNetworkError {
+interface MezeResponseNetworkError {
   status: "network-error";
 }
 
-export type DjreamResponse =
-  | DjreamResponseLoadIt
-  | DjreamResponseRedirect
-  | DjreamResponseRender
-  | DjreamResponseCloseOverlay
-  | DjreamResponseServerError
-  | DjreamResponseNetworkError;
+export type MezeResponse =
+  | MezeResponseLoadIt
+  | MezeResponseRedirect
+  | MezeResponseRender
+  | MezeResponseCloseOverlay
+  | MezeResponseServerError
+  | MezeResponseNetworkError;
 
-export async function djreamGet(
+export async function mezeGet(
   url: string,
   overlay: boolean
-): Promise<DjreamResponse> {
+): Promise<MezeResponse> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "Djream" };
+  const headers: HeadersInit = { "X-Requested-With": "Meze" };
   if (overlay) {
-    headers["X-Djream-Overlay"] = "true";
+    headers["X-Meze-Overlay"] = "true";
   }
 
   try {
@@ -76,24 +76,24 @@ export async function djreamGet(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-Djream-Status")) {
+  if (!response.headers.get("X-Meze-Status")) {
     return {
       status: "load-it",
     };
   }
-  return response.json() as Promise<DjreamResponse>;
+  return response.json() as Promise<MezeResponse>;
 }
 
-export async function djreamPost(
+export async function mezePost(
   url: string,
   data: FormData,
   overlay: boolean
-): Promise<DjreamResponse> {
+): Promise<MezeResponse> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "Djream" };
+  const headers: HeadersInit = { "X-Requested-With": "Meze" };
   if (overlay) {
-    headers["X-Djream-Overlay"] = "true";
+    headers["X-Meze-Overlay"] = "true";
   }
 
   try {
@@ -113,10 +113,10 @@ export async function djreamPost(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-Djream-Status")) {
+  if (!response.headers.get("X-Meze-Status")) {
     return {
       status: "load-it",
     };
   }
-  return response.json() as Promise<DjreamResponse>;
+  return response.json() as Promise<MezeResponse>;
 }

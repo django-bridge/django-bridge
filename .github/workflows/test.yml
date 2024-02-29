@@ -1,4 +1,4 @@
-name: Djream CI
+name: Meze CI
 
 on:
   push:

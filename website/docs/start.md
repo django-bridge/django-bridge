@@ -6,13 +6,13 @@ sidebar_position: 1
 
 ## Using the project template
 
-To start a new project, use the `create-djream` npm start template:
+To start a new project, use the `create-meze` npm start template:
 
 ```
-npm create djream myapp
+npm create meze myapp
 ```
 
-This will generate a minimal project with Django, React, Djream, and Vite.
+This will generate a minimal project with Django, React, Meze, and Vite.
 
 ### Project structure
 

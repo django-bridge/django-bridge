@@ -1,8 +1,8 @@
 {
-  "name": "@djream/core",
+  "name": "@meze/core",
   "version": "0.1.0-alpha.11",
-  "description": "Djream is a framework for building React frontends for Django projects.",
-  "repository": "https://github.com/kaedroho/djream",
+  "description": "Meze is a framework for building React frontends for Django projects.",
+  "repository": "https://github.com/kaedroho/meze",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

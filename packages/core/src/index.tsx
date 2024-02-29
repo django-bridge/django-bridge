@@ -1,7 +1,7 @@
 import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, DjreamResponse } from "./fetch";
+import { Message, MezeResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
@@ -10,7 +10,7 @@ import { MessagesContext } from "./contexts";
 
 export interface AppProps {
   config: Config;
-  initialResponse: DjreamResponse | JSON;
+  initialResponse: MezeResponse | JSON;
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
@@ -67,14 +67,14 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     // eslint-disable-next-line no-void
     void navigationController
       .handleResponse(
-        initialResponse as DjreamResponse,
+        initialResponse as MezeResponse,
         window.location.pathname
       )
       .then(() => {
         // Remove the loading screen
-        const loadingScreen = document.querySelector(".djream-load");
+        const loadingScreen = document.querySelector(".meze-load");
         if (loadingScreen instanceof HTMLElement) {
-          loadingScreen.classList.add("djream-load--hidden");
+          loadingScreen.classList.add("meze-load--hidden");
           setTimeout(() => {
             loadingScreen.remove();
           }, 200);
@@ -219,7 +219,7 @@ export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-export type { DjreamResponse };
+export type { MezeResponse };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };

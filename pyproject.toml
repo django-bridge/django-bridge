@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "djream-root"
+name = "meze-root"
 version = "1.0"
 description = ""
 authors = ["Karl Hobley <karl@kaed.uk>"]

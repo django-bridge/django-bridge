@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Djream",
+  title: "Meze",
   tagline: "Build React SPAs with Django views and forms.",
   favicon: "img/favicon.ico",
 
@@ -16,7 +16,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "kaedroho", // Usually your GitHub org/user name.
-  projectName: "djream", // Usually your repo name.
+  projectName: "meze", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -35,7 +35,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/kaedroho/djream/tree/main/website/",
+          editUrl: "https://github.com/kaedroho/meze/tree/main/website/",
         },
         blog: false,
         theme: {
@@ -49,9 +49,9 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "Djream",
+      title: "Meze",
       logo: {
-        alt: "Djream Logo",
+        alt: "Meze Logo",
         src: "img/logo_icon.png",
       },
       items: [
@@ -62,7 +62,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          href: "https://github.com/kaedroho/djream",
+          href: "https://github.com/kaedroho/meze",
           label: "GitHub",
           position: "right",
         },
@@ -89,7 +89,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub Discussions",
-              href: "https://github.com/kaedroho/djream/discussions",
+              href: "https://github.com/kaedroho/meze/discussions",
             },
             {
               label: "Twitter",
@@ -102,7 +102,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/kaedroho/djream",
+              href: "https://github.com/kaedroho/meze",
             },
           ],
         },

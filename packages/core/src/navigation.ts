@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, djreamGet, djreamPost, DjreamResponse } from "./fetch";
+import { Message, mezeGet, mezePost, MezeResponse } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -62,7 +62,7 @@ export class NavigationController {
   }
 
   private fetch = async (
-    fetcher: () => Promise<DjreamResponse>,
+    fetcher: () => Promise<MezeResponse>,
     url: string,
     pushState: boolean,
     neverReload = false
@@ -91,7 +91,7 @@ export class NavigationController {
   };
 
   handleResponse = (
-    response: DjreamResponse,
+    response: MezeResponse,
     path: string,
     pushState = true,
     neverReload = false
@@ -171,7 +171,7 @@ export class NavigationController {
       path = urlObj.pathname + urlObj.search;
     }
 
-    return this.fetch(() => djreamGet(path, !!this.parent), path, pushState);
+    return this.fetch(() => mezeGet(path, !!this.parent), path, pushState);
   };
 
   pushFrame = (
@@ -249,13 +249,13 @@ export class NavigationController {
   };
 
   submitForm = (url: string, data: FormData): Promise<void> =>
-    this.fetch(() => djreamPost(url, data, !!this.parent), url, true);
+    this.fetch(() => mezePost(url, data, !!this.parent), url, true);
 
   refreshProps = (): Promise<void> => {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
 
-    return this.fetch(() => djreamGet(url, !!this.parent), url, false, true);
+    return this.fetch(() => mezeGet(url, !!this.parent), url, false, true);
   };
 
   // Called by a child NavigationController when it cannot handle a response.
@@ -264,7 +264,7 @@ export class NavigationController {
   // that needs to navigate the whole page somewhere else, that response is escalated
   // from the overlay NavigationController to the main window NavigationController using
   // this method.
-  private escalate = (url: string, response: DjreamResponse): Promise<void> =>
+  private escalate = (url: string, response: MezeResponse): Promise<void> =>
     this.handleResponse(response, url);
 
   addNavigationListener = (

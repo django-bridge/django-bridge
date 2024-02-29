@@ -4,14 +4,14 @@ from os import path
 
 from setuptools import find_packages, setup
 
-from djream import __version__
+from meze import __version__
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="djream",
+    name="meze",
     version=__version__,
     description="A framework for building React frontends for Django projects",
     long_description=long_description,
@@ -21,8 +21,8 @@ setup(
     url="https://djream.io",
     project_urls={
         "Documentation": "https://dream.io/docs/",
-        "Source": "https://github.com/kaedroho/djream/",
-        "Tracker": "https://github.com/kaedroho/djream/issues",
+        "Source": "https://github.com/kaedroho/meze/",
+        "Tracker": "https://github.com/kaedroho/meze/issues",
     },
     packages=find_packages(),
     include_package_data=True,

@@ -1,8 +1,8 @@
 {
-  "name": "@djream/storybook",
+  "name": "@meze/storybook",
   "version": "0.1.0-alpha.11",
-  "description": "Storybook Helpers for Djream projects.",
-  "repository": "https://github.com/kaedroho/djream",
+  "description": "Storybook Helpers for Meze projects.",
+  "repository": "https://github.com/kaedroho/meze",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@djream/core": "^0.1.0-alpha.11",
+    "@meze/core": "^0.1.0-alpha.11",
     "react": "^18.2.0"
   }
 }
