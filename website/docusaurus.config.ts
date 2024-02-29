@@ -50,10 +50,10 @@ const config: Config = {
     image: "img/docusaurus-social-card.jpg",
     navbar: {
       title: "Meze",
-      logo: {
-        alt: "Meze Logo",
-        src: "img/logo_icon.png",
-      },
+      // logo: {
+      //   alt: "Meze Logo",
+      //   src: "img/logo_icon.png",
+      // },
       items: [
         {
           type: "docSidebar",
