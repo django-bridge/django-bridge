@@ -27,7 +27,7 @@ function HomepageHeader() {
           </Link>
           <a
             className="button button--secondary button--lg"
-            href="https://demo.djream.io"
+            href="https://demo.mezeproject.org"
           >
             Demo
           </a>

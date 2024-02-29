@@ -18,7 +18,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
-    url="https://djream.io",
+    url="https://mezeproject.org",
     project_urls={
         "Documentation": "https://dream.io/docs/",
         "Source": "https://github.com/kaedroho/meze/",

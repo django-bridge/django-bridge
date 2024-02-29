@@ -8,7 +8,7 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://djream.io",
+  url: "https://mezeproject.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -118,7 +118,7 @@ const config: Config = {
     {
       src: "https://plausible.io/js/script.js",
       defer: true,
-      "data-domain": "djream.io",
+      "data-domain": "mezeproject.org",
     },
   ],
 };
