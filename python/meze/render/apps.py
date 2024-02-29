@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class MezeAppConfig(AppConfig):
-    label = "meze"
-    name = "meze"
+class MezeRenderAppConfig(AppConfig):
+    label = "mezerender"
+    name = "meze.render"
     verbose_name = "Meze"
     default_auto_field = "django.db.models.BigAutoField"
 

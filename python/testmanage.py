@@ -28,7 +28,7 @@ def parse_args(args=None):
 def runtests():
     args, rest = parse_args()
 
-    only_wagtail = r"^wagtail(\.|$)"
+    only_meze = r"^meze(\.|$)"
     if args.deprecation == "all":
         # Show all deprecation warnings from all packages
         warnings.simplefilter("default", DeprecationWarning)
@@ -36,15 +36,15 @@ def runtests():
     elif args.deprecation == "pending":
         # Show all deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_wagtail
+            "default", category=DeprecationWarning, module=only_meze
         )
         warnings.filterwarnings(
-            "default", category=PendingDeprecationWarning, module=only_wagtail
+            "default", category=PendingDeprecationWarning, module=only_meze
         )
     elif args.deprecation == "imminent":
         # Show only imminent deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_wagtail
+            "default", category=DeprecationWarning, module=only_meze
         )
     elif args.deprecation == "none":
         # Deprecation warnings are ignored by default
