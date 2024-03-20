@@ -2,9 +2,8 @@
 
 from os import path
 
-from setuptools import find_packages, setup
-
 from djrender import __version__
+from setuptools import find_packages, setup
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
@@ -18,11 +17,11 @@ setup(
     long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
-    url="https://djrenderproject.org",
+    url="https://django-render.org",
     project_urls={
         "Documentation": "https://dream.io/docs/",
-        "Source": "https://github.com/kaedroho/djrender/",
-        "Tracker": "https://github.com/kaedroho/djrender/issues",
+        "Source": "https://github.com/kaedroho/django-render/",
+        "Tracker": "https://github.com/kaedroho/django-render/issues",
     },
     packages=find_packages(),
     include_package_data=True,

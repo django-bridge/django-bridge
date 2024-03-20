@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0-alpha.11",
   "description": "Create a new Django + React project with a single command",
-  "repository": "https://github.com/kaedroho/djrender",
+  "repository": "https://github.com/kaedroho/django-render",
   "bin": {
     "create-djrender": "index.js"
   },

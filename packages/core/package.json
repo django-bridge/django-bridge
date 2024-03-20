@@ -2,7 +2,7 @@
   "name": "@djrender/core",
   "version": "0.1.0-alpha.11",
   "description": "Django Render is a framework for building React frontends for Django projects.",
-  "repository": "https://github.com/kaedroho/djrender",
+  "repository": "https://github.com/kaedroho/django-render",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

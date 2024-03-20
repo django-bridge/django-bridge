@@ -2,7 +2,7 @@
   "name": "@djrender/storybook",
   "version": "0.1.0-alpha.11",
   "description": "Storybook Helpers for Django Render projects.",
-  "repository": "https://github.com/kaedroho/djrender",
+  "repository": "https://github.com/kaedroho/django-render",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

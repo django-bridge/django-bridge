@@ -35,7 +35,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/kaedroho/djrender/tree/main/website/",
+          editUrl: "https://github.com/kaedroho/django-render/tree/main/website/",
         },
         blog: false,
         theme: {
@@ -62,7 +62,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          href: "https://github.com/kaedroho/djrender",
+          href: "https://github.com/kaedroho/django-render",
           label: "GitHub",
           position: "right",
         },
@@ -89,7 +89,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub Discussions",
-              href: "https://github.com/kaedroho/djrender/discussions",
+              href: "https://github.com/kaedroho/django-render/discussions",
             },
             {
               label: "Twitter",
@@ -102,7 +102,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/kaedroho/djrender",
+              href: "https://github.com/kaedroho/django-render",
             },
           ],
         },
@@ -118,7 +118,7 @@ const config: Config = {
     {
       src: "https://plausible.io/js/script.js",
       defer: true,
-      "data-domain": "djrenderproject.org",
+      "data-domain": "django-render.org",
     },
   ],
 };

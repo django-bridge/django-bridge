@@ -27,7 +27,7 @@ function HomepageHeader() {
           </Link>
           <a
             className="button button--secondary button--lg"
-            href="https://demo.djrenderproject.org"
+            href="https://demo.django-render.org"
           >
             Demo
           </a>
