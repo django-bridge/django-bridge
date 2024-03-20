@@ -1,8 +1,8 @@
 {
-  "name": "@meze/storybook",
+  "name": "@djrender/storybook",
   "version": "0.1.0-alpha.11",
-  "description": "Storybook Helpers for Meze projects.",
-  "repository": "https://github.com/kaedroho/meze",
+  "description": "Storybook Helpers for Django Render projects.",
+  "repository": "https://github.com/kaedroho/djrender",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@meze/core": "^0.1.0-alpha.11",
+    "@djrender/core": "^0.1.0-alpha.11",
     "react": "^18.2.0"
   }
 }

@@ -12,16 +12,16 @@ export interface HTMLMessage {
 
 export type Message = TextMessage | HTMLMessage;
 
-interface MezeResponseLoadIt {
-  status: "load-it";
+interface ReloadResponse {
+  status: "reload";
 }
 
-interface MezeResponseRedirect {
+interface RedirectResponse {
   status: "redirect";
   path: string;
 }
 
-interface MezeResponseRender {
+interface RenderResponse {
   status: "render";
   overlay: boolean;
   title: string;
@@ -31,36 +31,36 @@ interface MezeResponseRender {
   messages: Message[];
 }
 
-interface MezeResponseCloseOverlay {
+interface CloseOverlayResponse {
   status: "close-overlay";
   messages: Message[];
 }
 
-interface MezeResponseServerError {
+interface ServerErrorResponse {
   status: "server-error";
 }
 
-interface MezeResponseNetworkError {
+interface NetworkErrorResponse {
   status: "network-error";
 }
 
-export type MezeResponse =
-  | MezeResponseLoadIt
-  | MezeResponseRedirect
-  | MezeResponseRender
-  | MezeResponseCloseOverlay
-  | MezeResponseServerError
-  | MezeResponseNetworkError;
+export type Response =
+  | ReloadResponse
+  | RedirectResponse
+  | RenderResponse
+  | CloseOverlayResponse
+  | ServerErrorResponse
+  | NetworkErrorResponse;
 
-export async function mezeGet(
+export async function djrenderGet(
   url: string,
   overlay: boolean
-): Promise<MezeResponse> {
+): Promise<Response> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "Meze" };
+  const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
   if (overlay) {
-    headers["X-Meze-Overlay"] = "true";
+    headers["X-DjangoRender-Overlay"] = "true";
   }
 
   try {
@@ -76,24 +76,24 @@ export async function mezeGet(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-Meze-Status")) {
+  if (!response.headers.get("X-DjangoRender-Status")) {
     return {
-      status: "load-it",
+      status: "reload",
     };
   }
-  return response.json() as Promise<MezeResponse>;
+  return response.json() as Promise<Response>;
 }
 
-export async function mezePost(
+export async function djrenderPost(
   url: string,
   data: FormData,
   overlay: boolean
-): Promise<MezeResponse> {
+): Promise<Response> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "Meze" };
+  const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
   if (overlay) {
-    headers["X-Meze-Overlay"] = "true";
+    headers["X-DjangoRender-Overlay"] = "true";
   }
 
   try {
@@ -113,10 +113,10 @@ export async function mezePost(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-Meze-Status")) {
+  if (!response.headers.get("X-DjangoRender-Status")) {
     return {
-      status: "load-it",
+      status: "reload",
     };
   }
-  return response.json() as Promise<MezeResponse>;
+  return response.json() as Promise<Response>;
 }

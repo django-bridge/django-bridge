@@ -14,7 +14,7 @@ function HomepageHeader() {
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {/* <img alt="Meze logo" src={logoUrl} /> */}
+          {/* <img alt="Django Render logo" src={logoUrl} /> */}
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
@@ -27,7 +27,7 @@ function HomepageHeader() {
           </Link>
           <a
             className="button button--secondary button--lg"
-            href="https://demo.mezeproject.org"
+            href="https://demo.djrenderproject.org"
           >
             Demo
           </a>

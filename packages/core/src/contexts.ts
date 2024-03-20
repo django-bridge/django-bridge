@@ -60,33 +60,33 @@ export const NavigationContext = React.createContext<Navigation>({
   context: {},
   navigate: () => {
     // eslint-disable-next-line no-console
-    console.error("navigate() called from outside a Meze Browser");
+    console.error("navigate() called from outside a Django Render Browser");
 
     return Promise.resolve();
   },
   pushFrame: () => {
     // eslint-disable-next-line no-console
-    console.error("pushFrame() called from outside a Meze Browser");
+    console.error("pushFrame() called from outside a Django Render Browser");
   },
   replacePath: () => {
     // eslint-disable-next-line no-console
-    console.error("replacePath() called from outside a Meze Browser");
+    console.error("replacePath() called from outside a Django Render Browser");
   },
   submitForm: () => {
     // eslint-disable-next-line no-console
-    console.error("submitForm() called from outside a Meze Browser");
+    console.error("submitForm() called from outside a Django Render Browser");
 
     return Promise.resolve();
   },
   openOverlay: () => {
     // eslint-disable-next-line no-console
-    console.error("openOverlay() called from outside a Meze Browser");
+    console.error("openOverlay() called from outside a Django Render Browser");
 
     throw new Error("Modal cannot be opened here");
   },
   refreshProps: () => {
     // eslint-disable-next-line no-console
-    console.error("refreshProps() called from outside a Meze Browser");
+    console.error("refreshProps() called from outside a Django Render Browser");
 
     return Promise.resolve();
   },

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, mezeGet, mezePost, MezeResponse } from "./fetch";
+import { Message, djrenderGet, djrenderPost, Response } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -62,7 +62,7 @@ export class NavigationController {
   }
 
   private fetch = async (
-    fetcher: () => Promise<MezeResponse>,
+    fetcher: () => Promise<Response>,
     url: string,
     pushState: boolean,
     neverReload = false
@@ -91,16 +91,16 @@ export class NavigationController {
   };
 
   handleResponse = (
-    response: MezeResponse,
+    response: Response,
     path: string,
     pushState = true,
     neverReload = false
   ): Promise<void> => {
-    if (response.status === "load-it") {
+    if (response.status === "reload") {
       if (!this.parent) {
         window.location.href = path;
       } else {
-        // load-it responses require reloading the entire page, but this is an overlay
+        // reload responses require reloading the entire page, but this is an overlay
         // Escalate this response to the page's navigation controller instead
         return this.parent.escalate(path, response);
       }
@@ -171,7 +171,7 @@ export class NavigationController {
       path = urlObj.pathname + urlObj.search;
     }
 
-    return this.fetch(() => mezeGet(path, !!this.parent), path, pushState);
+    return this.fetch(() => djrenderGet(path, !!this.parent), path, pushState);
   };
 
   pushFrame = (
@@ -249,13 +249,13 @@ export class NavigationController {
   };
 
   submitForm = (url: string, data: FormData): Promise<void> =>
-    this.fetch(() => mezePost(url, data, !!this.parent), url, true);
+    this.fetch(() => djrenderPost(url, data, !!this.parent), url, true);
 
   refreshProps = (): Promise<void> => {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
 
-    return this.fetch(() => mezeGet(url, !!this.parent), url, false, true);
+    return this.fetch(() => djrenderGet(url, !!this.parent), url, false, true);
   };
 
   // Called by a child NavigationController when it cannot handle a response.
@@ -264,7 +264,7 @@ export class NavigationController {
   // that needs to navigate the whole page somewhere else, that response is escalated
   // from the overlay NavigationController to the main window NavigationController using
   // this method.
-  private escalate = (url: string, response: MezeResponse): Promise<void> =>
+  private escalate = (url: string, response: Response): Promise<void> =>
     this.handleResponse(response, url);
 
   addNavigationListener = (

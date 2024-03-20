@@ -1,4 +1,4 @@
 include LICENSE *.rst *.txt *.md
-graft meze
+graft djrender
 global-exclude __pycache__
 global-exclude *.py[co]

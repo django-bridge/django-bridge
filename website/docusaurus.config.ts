@@ -3,12 +3,12 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Meze",
+  title: "Django Render",
   tagline: "Build React SPAs with Django views and forms.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://mezeproject.org",
+  url: "https://djrenderproject.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -16,7 +16,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "kaedroho", // Usually your GitHub org/user name.
-  projectName: "meze", // Usually your repo name.
+  projectName: "djrender", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -35,7 +35,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/kaedroho/meze/tree/main/website/",
+          editUrl: "https://github.com/kaedroho/djrender/tree/main/website/",
         },
         blog: false,
         theme: {
@@ -49,9 +49,9 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "Meze",
+      title: "Django Render",
       // logo: {
-      //   alt: "Meze Logo",
+      //   alt: "Django Render Logo",
       //   src: "img/logo_icon.png",
       // },
       items: [
@@ -62,7 +62,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          href: "https://github.com/kaedroho/meze",
+          href: "https://github.com/kaedroho/djrender",
           label: "GitHub",
           position: "right",
         },
@@ -89,7 +89,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub Discussions",
-              href: "https://github.com/kaedroho/meze/discussions",
+              href: "https://github.com/kaedroho/djrender/discussions",
             },
             {
               label: "Twitter",
@@ -102,7 +102,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/kaedroho/meze",
+              href: "https://github.com/kaedroho/djrender",
             },
           ],
         },
@@ -118,7 +118,7 @@ const config: Config = {
     {
       src: "https://plausible.io/js/script.js",
       defer: true,
-      "data-domain": "mezeproject.org",
+      "data-domain": "djrenderproject.org",
     },
   ],
 };

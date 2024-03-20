@@ -1,8 +1,8 @@
 {
-  "name": "@meze/core",
+  "name": "@djrender/core",
   "version": "0.1.0-alpha.11",
-  "description": "Meze is a framework for building React frontends for Django projects.",
-  "repository": "https://github.com/kaedroho/meze",
+  "description": "Django Render is a framework for building React frontends for Django projects.",
+  "repository": "https://github.com/kaedroho/djrender",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

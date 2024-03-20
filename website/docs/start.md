@@ -6,13 +6,13 @@ sidebar_position: 1
 
 ## Using the project template
 
-To start a new project, use the `create-meze` npm start template:
+To start a new project, use the `create-djrender` npm start template:
 
 ```
-npm create meze myapp
+npm create djrender myapp
 ```
 
-This will generate a minimal project with Django, React, Meze, and Vite.
+This will generate a minimal project with Django, React, Django Render, and Vite.
 
 ### Project structure
 

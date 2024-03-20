@@ -1,12 +1,12 @@
 *.pyc
 /build
 /dist
-/meze.egg-info
+/djrender.egg-info
 /.coverage
 /htmlcov
 /.tox
 /venv
 /site
-/test_meze.db
+/test_djrender.db
 /test-static
 /test-media

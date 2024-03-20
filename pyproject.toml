@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "meze-root"
+name = "djrender-root"
 version = "1.0"
 description = ""
 authors = ["Karl Hobley <karl@kaed.uk>"]

@@ -4,25 +4,25 @@ from os import path
 
 from setuptools import find_packages, setup
 
-from meze import __version__
+from djrender import __version__
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="meze",
+    name="djrender",
     version=__version__,
     description="A framework for building React frontends for Django projects",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
-    url="https://mezeproject.org",
+    url="https://djrenderproject.org",
     project_urls={
         "Documentation": "https://dream.io/docs/",
-        "Source": "https://github.com/kaedroho/meze/",
-        "Tracker": "https://github.com/kaedroho/meze/issues",
+        "Source": "https://github.com/kaedroho/djrender/",
+        "Tracker": "https://github.com/kaedroho/djrender/issues",
     },
     packages=find_packages(),
     include_package_data=True,

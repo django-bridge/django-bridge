@@ -1,4 +1,4 @@
-name: Meze CI
+name: Django Render CI
 
 on:
   push:

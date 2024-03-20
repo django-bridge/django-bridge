@@ -8,7 +8,7 @@ import warnings
 
 from django.core.management import execute_from_command_line
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "meze.test.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "djrender.test.settings"
 
 
 def make_parser():
@@ -28,7 +28,7 @@ def parse_args(args=None):
 def runtests():
     args, rest = parse_args()
 
-    only_meze = r"^meze(\.|$)"
+    only_djrender = r"^djrender(\.|$)"
     if args.deprecation == "all":
         # Show all deprecation warnings from all packages
         warnings.simplefilter("default", DeprecationWarning)
@@ -36,15 +36,15 @@ def runtests():
     elif args.deprecation == "pending":
         # Show all deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_meze
+            "default", category=DeprecationWarning, module=only_djrender
         )
         warnings.filterwarnings(
-            "default", category=PendingDeprecationWarning, module=only_meze
+            "default", category=PendingDeprecationWarning, module=only_djrender
         )
     elif args.deprecation == "imminent":
         # Show only imminent deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_meze
+            "default", category=DeprecationWarning, module=only_djrender
         )
     elif args.deprecation == "none":
         # Deprecation warnings are ignored by default
@@ -55,7 +55,7 @@ def runtests():
     try:
         execute_from_command_line(argv)
     finally:
-        from meze.test.settings import MEDIA_ROOT, STATIC_ROOT
+        from djrender.test.settings import MEDIA_ROOT, STATIC_ROOT
 
         shutil.rmtree(STATIC_ROOT, ignore_errors=True)
         shutil.rmtree(MEDIA_ROOT, ignore_errors=True)

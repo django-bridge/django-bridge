@@ -1,20 +1,20 @@
 # Overview
 
-This doc gives a quick overview of how a Meze app is constructed.
+This doc gives a quick overview of how a Django Render app is constructed.
 
 ## 1. Create a view
 
-Meze-enabled views return a MezeResponse containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.
+Django Render-enabled views return a Response containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.
 
 ```python title="views.py
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from meze import meze_view, MezeResponse
+from djrender import djrender_view, Response
 
 from .forms import PostForm
 
 
-@meze_view
+@djrender_view
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
@@ -23,7 +23,7 @@ def post_edit(request, post_id):
         form.save()
         return redirect("post_detail", post_id=post.id)
 
-    return MezeResponse(request, "PostForm", {
+    return Response(request, "PostForm", {
         "title": post.title,
         "form": form,
         "form_action": reverse("post_edit", args=[post.id]),
@@ -44,10 +44,10 @@ urlpatterns = [
 
 ## 2. Create a React component to render the view
 
-The component will receive the props from the MezeResponse. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.
+The component will receive the props from the Response. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.
 
 ```tsx title="views/PostForm.tsx"
-import { Button, Form, FormDef } from "@meze/ui";
+import { Button, Form, FormDef } from "@djrender/ui";
 
 interface PostFormViewProps {
   title: string;
@@ -80,16 +80,16 @@ export default function PostFormView({
 }
 ```
 
-## 3. Create a Meze app
+## 3. Create a Django Render app
 
-Pass a map of view components to the MezeApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.
+Pass a map of view components to the Django RenderApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.
 
 ```tsx title="app.tsx"
-import * as Meze from "@meze/core";
+import * as DjangoRender from "@djrender/core";
 import PostFormView from "./views/PostForm";
 
-// List of views that can be rendered by Meze
-const config = new Meze.Config();
+// List of views that can be rendered by Django Render
+const config = new DjangoRender.Config();
 config.addView("PostForm", PostFormView);
 
 function App(): ReactElement {
@@ -100,7 +100,7 @@ function App(): ReactElement {
   const initialResponse = rootElement.dataset.initialResponse;
 
   return (
-    <Meze.App
+    <DjangoRender.App
       config={config}
       initialResponse={JSON.parse(initialResponse)}
     />

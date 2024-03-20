@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = meze/*
+include = djrender/*
 omit = */migrations/*,*/tests/*
 
 [report]

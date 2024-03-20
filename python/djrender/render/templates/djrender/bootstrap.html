@@ -1,0 +1,117 @@
+<!DOCTYPE html>{% load static %}{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% endblock %}</title>
+
+  {% for src in css %}
+  <link href="{% static src %}" rel="stylesheet" />
+  {% endfor %}
+  {% block loader_css %}
+  <style>
+    .djrender-load {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+
+    .djrender-load--hidden {
+      opacity: 0;
+    }
+
+    .djrender-load__spinner {
+      opacity: 0;
+      transition: opacity 0.2s;
+
+      position: absolute;
+      left: calc(50% - 40px);
+      top: calc(50% - 40px)
+    }
+
+    .djrender-load--show-spinner .djrender-load__spinner {
+      opacity: 1;
+    }
+
+    .djrender-load__text {
+      position: absolute;
+      top: 32px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 13px;
+      width: 80px;
+      text-align: center;
+    }
+  </style>
+  {% endblock %}
+
+  {% block extra_head %}
+  {% endblock %}
+</head>
+
+<body>
+  {% block noscript %}
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  {% endblock %}
+
+  {% block loader %}
+  <div class="djrender-load">
+    <div class="djrender-load__spinner">
+      <svg width="80" height="80" viewBox="0 0 200 200" color="#4c3fdd" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="spinner-secondHalf">
+            <stop offset="0%" stop-opacity="0" stop-color="currentColor" />
+            <stop offset="100%" stop-opacity="0.5" stop-color="currentColor" />
+          </linearGradient>
+          <linearGradient id="spinner-firstHalf">
+            <stop offset="0%" stop-opacity="1" stop-color="currentColor" />
+            <stop offset="100%" stop-opacity="0.5" stop-color="currentColor" />
+          </linearGradient>
+        </defs>
+
+        <g stroke-width="8">
+          <path stroke="url(#spinner-secondHalf)" d="M 4 100 A 96 96 0 0 1 196 100" />
+          <path stroke="url(#spinner-firstHalf)" d="M 196 100 A 96 96 0 0 1 4 100" />
+
+          <!-- 1deg extra path to have the round end cap -->
+          <path stroke="currentColor" stroke-linecap="round" d="M 4 100 A 96 96 0 0 1 4 98" />
+        </g>
+
+        <animateTransform from="0 0 0" to="360 0 0" attributeName="transform" type="rotate" repeatCount="indefinite"
+          dur="1300ms" />
+      </svg>
+
+      <div class="djrender-load__text">Loading</div>
+    </div>
+  </div>
+  {% endblock %}
+
+  <div id="root" data-initial-response="{{ data }}"></div>
+
+  {% if vite_react_refresh_runtime %}
+  <script type="module">
+    import RefreshRuntime from '{{ vite_react_refresh_runtime }}'
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => { }
+    window.$RefreshSig$ = () => (type) => type
+    window.__vite_plugin_react_preamble_installed__ = true
+  </script>
+  {% endif %}
+  {% for src in js %}
+  <script type="module" src="{{ src }}" async defer></script>
+  {% endfor %}
+  {% block loader_js %}
+  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.djrender-load').classList.add('djrender-load--show-spinner') }, 100) });</script>
+  {% endblock %}
+  {% block extra_body %}
+  {% endblock %}
+</body>
+
+</html>
