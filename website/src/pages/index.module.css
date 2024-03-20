@@ -45,3 +45,10 @@
   justify-content: center;
   gap: 1rem;
 }
+
+.heroFootnote {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-style: italic;
+}

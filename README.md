@@ -1,5 +1,5 @@
 # Django Render
 
-Django Render is a framework for building lightweight React SPAs for Django, using Django views and forms for backend logic and React for presentation.
+Django Render is a library for building Django applications with modern frontend frameworks.
 
-Visit [djrenderproject.org](https://djrenderproject.org) for more information
+Visit [django-render.org](https://django-render.org) for more information

@@ -4,11 +4,11 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "Django Render",
-  tagline: "Build React SPAs with Django views and forms.",
+  tagline: "Build modern frontends for Django applications using React*",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://djrenderproject.org",
+  url: "https://django-render.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -16,7 +16,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "kaedroho", // Usually your GitHub org/user name.
-  projectName: "djrender", // Usually your repo name.
+  projectName: "django-render", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",

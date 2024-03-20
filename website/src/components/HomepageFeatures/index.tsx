@@ -12,8 +12,9 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        Use Django views and URL routing to create a backend for your React SPA.
-        Django Render provides the glue so you can focus on building features.
+        Django Render provides a standard way to build React SPAs with Django
+        backends. It handles routing, data fetching, and state management so you
+        can focus on building features.
       </>
     ),
   },
@@ -21,10 +22,9 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Django Render works with Django's built-in features, like forms, and can be
-        used alongside traditional template-rendered views. Build modal
-        workflows with Django views and use third-party apps that don't have a
-        React frontend.
+        Render your Django forms with React so you can use Django's form
+        validation and error handling. Django Render also allows mixing
+        template-rendered views with React-rendered views.
       </>
     ),
   },

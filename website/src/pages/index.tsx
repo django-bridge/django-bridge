@@ -32,6 +32,9 @@ function HomepageHeader() {
             Demo
           </a>
         </div>
+        <p className={styles.heroFootnote}>
+          *Vue and Svelte support coming soon!
+        </p>
       </div>
     </header>
   );
