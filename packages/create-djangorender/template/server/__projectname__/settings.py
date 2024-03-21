@@ -114,8 +114,8 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "static/")
 
-if os.environ.get("DJANGORENDER_VITE_BUNDLE_DIR"):
-    STATICFILES_DIRS = [os.environ["DJANGORENDER_VITE_BUNDLE_DIR"]]
+if os.environ.get("VITE_BUNDLE_DIR"):
+    STATICFILES_DIRS = [os.environ["VITE_BUNDLE_DIR"]]
 
 
 # Default primary key field type
@@ -126,8 +126,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django Render settings
 
-DJANGORENDER_VITE_BUNDLE_DIR = os.environ.get("DJANGORENDER_VITE_BUNDLE_DIR")
-DJANGORENDER_VITE_DEVSERVER_URL = os.environ.get(
-    "DJANGORENDER_VITE_DEVSERVER_URL", "http://localhost:5173/static"
-)
-DJANGORENDER_CONTEXT_PROVIDERS = {}
+DJANGO_RENDER = {
+    "VITE_BUNDLE_DIR": os.environ.get("VITE_BUNDLE_DIR"),
+    "VITE_DEVSERVER_URL": os.environ.get("VITE_DEVSERVER_URL", "http://localhost:5173/static"),
+    "CONTEXT_PROVIDERS": {},
+}

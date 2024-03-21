@@ -39,11 +39,13 @@ def djangorender_view(fn):
         # If the response is a Django Render response, wrap it in our bootstrap template
         # to load the React SPA and render the response data.
         if isinstance(response, BaseResponse):
-            if settings.DJANGORENDER_VITE_BUNDLE_DIR:
+            VITE_BUNDLE_DIR = settings.DJANGO_RENDER.get("VITE_BUNDLE_DIR")
+            VITE_DEVSERVER_URL = settings.DJANGO_RENDER.get("VITE_DEVSERVER_URL")
+            if VITE_BUNDLE_DIR:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
                 asset_manifest = json.loads(
                     (
-                        Path(settings.DJANGORENDER_VITE_BUNDLE_DIR) / ".vite/manifest.json"
+                        Path(VITE_BUNDLE_DIR) / ".vite/manifest.json"
                     ).read_text()
                 )
 
@@ -53,20 +55,20 @@ def djangorender_view(fn):
                 css = asset_manifest["src/main.tsx"]["css"]
                 vite_react_refresh_runtime = None
 
-            elif settings.DJANGORENDER_VITE_DEVSERVER_URL:
+            elif VITE_DEVSERVER_URL:
                 # Development - Fetch JS/CSS from Vite server
                 js = [
-                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/@vite/client",
-                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/src/main.tsx",
+                    VITE_DEVSERVER_URL + "/@vite/client",
+                    VITE_DEVSERVER_URL + "/src/main.tsx",
                 ]
                 css = []
                 vite_react_refresh_runtime = (
-                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/@react-refresh"
+                    VITE_DEVSERVER_URL + "/@react-refresh"
                 )
 
             else:
                 raise ImproperlyConfigured(
-                    "DJANGORENDER_VITE_BUNDLE_DIR (production) or DJANGORENDER_VITE_DEVSERVER_URL (development) must be set"
+                    "DJANGO_RENDER['VITE_BUNDLE_DIR'] (production) or DJANGO_RENDER['VITE_DEVSERVER_URL'] (development) must be set"
                 )
 
             # Wrap the response with our bootstrap template
