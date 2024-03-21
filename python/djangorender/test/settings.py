@@ -30,8 +30,8 @@ ALLOWED_HOSTS = ["localhost", "testserver"]
 # Application definition
 
 INSTALLED_APPS = [
-    "djrender",
-    "djrender.test",
+    "djangorender",
+    "djangorender.test",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "djrender.test.urls"
+ROOT_URLCONF = "djangorender.test.urls"
 
 TEMPLATES = [
     {

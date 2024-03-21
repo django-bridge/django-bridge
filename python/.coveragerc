@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = djrender/*
+include = djangorender/*
 omit = */migrations/*,*/tests/*
 
 [report]

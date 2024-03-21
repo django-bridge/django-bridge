@@ -10,7 +10,7 @@ from django.templatetags.static import static
 from .response import BaseResponse, RedirectResponse, ReloadResponse
 
 
-def djrender_view(fn):
+def djangorender_view(fn):
     """
     Wraps a view to make it load with Django Render
     """
@@ -72,7 +72,7 @@ def djrender_view(fn):
             # Wrap the response with our bootstrap template
             new_response = render(
                 request,
-                "djrender/bootstrap.html",
+                "djangorender/bootstrap.html",
                 {
                     "data": response.content.decode("utf-8"),
                     "js": js,

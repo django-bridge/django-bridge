@@ -6,10 +6,10 @@ sidebar_position: 1
 
 ## Using the project template
 
-To start a new project, use the `create-djrender` npm start template:
+To start a new project, use the `create-djangorender` npm start template:
 
 ```
-npm create djrender myapp
+npm create djangorender myapp
 ```
 
 This will generate a minimal project with Django, React, Django Render, and Vite.

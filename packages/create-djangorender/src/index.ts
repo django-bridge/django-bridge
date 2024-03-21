@@ -12,7 +12,7 @@ const argv = minimist<{
 }>(process.argv.slice(2), { string: ["_"] });
 const cwd = process.cwd();
 
-const defaultTargetDir = "djrender-project";
+const defaultTargetDir = "djangorender-project";
 
 async function init() {
   const argTargetDir = formatTargetDir(argv._[0]);

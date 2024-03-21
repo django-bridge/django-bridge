@@ -72,9 +72,9 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
       )
       .then(() => {
         // Remove the loading screen
-        const loadingScreen = document.querySelector(".djrender-load");
+        const loadingScreen = document.querySelector(".djangorender-load");
         if (loadingScreen instanceof HTMLElement) {
-          loadingScreen.classList.add("djrender-load--hidden");
+          loadingScreen.classList.add("djangorender-load--hidden");
           setTimeout(() => {
             loadingScreen.remove();
           }, 200);

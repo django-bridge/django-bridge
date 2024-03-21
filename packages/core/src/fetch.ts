@@ -52,7 +52,7 @@ export type Response =
   | ServerErrorResponse
   | NetworkErrorResponse;
 
-export async function djrenderGet(
+export async function djangorenderGet(
   url: string,
   overlay: boolean
 ): Promise<Response> {
@@ -84,7 +84,7 @@ export async function djrenderGet(
   return response.json() as Promise<Response>;
 }
 
-export async function djrenderPost(
+export async function djangorenderPost(
   url: string,
   data: FormData,
   overlay: boolean

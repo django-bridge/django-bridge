@@ -7,7 +7,7 @@ import {
   buildLinkElement as originalBuildLinkElement,
   Navigation,
   NavigationContext,
-} from "@djrender/core";
+} from "@djangorender/core";
 
 // Generates a URL that will directly link to another component
 // Note, the URL must be used in a <Link> component in order for this to work

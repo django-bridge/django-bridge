@@ -9,12 +9,12 @@ Django Render-enabled views return a Response containing the component name and 
 ```python title="views.py
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from djrender import djrender_view, Response
+from djangorender import djangorender_view, Response
 
 from .forms import PostForm
 
 
-@djrender_view
+@djangorender_view
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
@@ -47,7 +47,7 @@ urlpatterns = [
 The component will receive the props from the Response. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.
 
 ```tsx title="views/PostForm.tsx"
-import { Button, Form, FormDef } from "@djrender/ui";
+import { Button, Form, FormDef } from "@djangorender/ui";
 
 interface PostFormViewProps {
   title: string;
@@ -85,7 +85,7 @@ export default function PostFormView({
 Pass a map of view components to the Django RenderApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.
 
 ```tsx title="app.tsx"
-import * as DjangoRender from "@djrender/core";
+import * as DjangoRender from "@djangorender/core";
 import PostFormView from "./views/PostForm";
 
 // List of views that can be rendered by Django Render

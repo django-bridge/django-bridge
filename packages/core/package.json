@@ -1,5 +1,5 @@
 {
-  "name": "@djrender/core",
+  "name": "@djangorender/core",
   "version": "0.1.0-alpha.11",
   "description": "Django Render is a framework for building React frontends for Django projects.",
   "repository": "https://github.com/kaedroho/django-render",

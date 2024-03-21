@@ -1,12 +1,12 @@
 from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin, View
 
-from .decorators import djrender_view
+from .decorators import djangorender_view
 from .response import NotFoundResponse, Response
 
 
 class ResponseMixin:
-    """A mixin that can be used to render djrender view."""
+    """A mixin that can be used to render djangorender view."""
 
     title = None
     view_name = None
@@ -32,12 +32,12 @@ class ResponseMixin:
         )
 
 
-class DjRenderView(ResponseMixin, ContextMixin, View):
+class djangorenderView(ResponseMixin, ContextMixin, View):
     """
-    Render a djrender view. Pass keyword arguments from the URLconf to the context.
+    Render a djangorender view. Pass keyword arguments from the URLconf to the context.
     """
 
-    @method_decorator(djrender_view)
+    @method_decorator(djangorender_view)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -46,6 +46,6 @@ class DjRenderView(ResponseMixin, ContextMixin, View):
         return self.render_to_response(context)
 
 
-@djrender_view
+@djangorender_view
 def handler_404(request, exception=None):
     return NotFoundResponse(request)

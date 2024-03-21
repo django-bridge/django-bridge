@@ -8,7 +8,7 @@ import warnings
 
 from django.core.management import execute_from_command_line
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "djrender.test.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "djangorender.test.settings"
 
 
 def make_parser():
@@ -28,7 +28,7 @@ def parse_args(args=None):
 def runtests():
     args, rest = parse_args()
 
-    only_djrender = r"^djrender(\.|$)"
+    only_djangorender = r"^djangorender(\.|$)"
     if args.deprecation == "all":
         # Show all deprecation warnings from all packages
         warnings.simplefilter("default", DeprecationWarning)
@@ -36,15 +36,15 @@ def runtests():
     elif args.deprecation == "pending":
         # Show all deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_djrender
+            "default", category=DeprecationWarning, module=only_djangorender
         )
         warnings.filterwarnings(
-            "default", category=PendingDeprecationWarning, module=only_djrender
+            "default", category=PendingDeprecationWarning, module=only_djangorender
         )
     elif args.deprecation == "imminent":
         # Show only imminent deprecation warnings from wagtail
         warnings.filterwarnings(
-            "default", category=DeprecationWarning, module=only_djrender
+            "default", category=DeprecationWarning, module=only_djangorender
         )
     elif args.deprecation == "none":
         # Deprecation warnings are ignored by default
@@ -55,7 +55,7 @@ def runtests():
     try:
         execute_from_command_line(argv)
     finally:
-        from djrender.test.settings import MEDIA_ROOT, STATIC_ROOT
+        from djangorender.test.settings import MEDIA_ROOT, STATIC_ROOT
 
         shutil.rmtree(STATIC_ROOT, ignore_errors=True)
         shutil.rmtree(MEDIA_ROOT, ignore_errors=True)

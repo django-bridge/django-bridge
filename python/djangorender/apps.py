@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class DjangoRenderAppConfig(AppConfig):
-    label = "djrenderrender"
-    name = "djrender"
+    label = "djangorender"
+    name = "djangorender"
     verbose_name = "Django Render"
     default_auto_field = "django.db.models.BigAutoField"
 

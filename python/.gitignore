@@ -1,12 +1,12 @@
 *.pyc
 /build
 /dist
-/djrender.egg-info
+/djangorender.egg-info
 /.coverage
 /htmlcov
 /.tox
 /venv
 /site
-/test_djrender.db
+/test_djangorender.db
 /test-static
 /test-media

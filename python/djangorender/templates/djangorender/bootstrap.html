@@ -12,7 +12,7 @@
   {% endfor %}
   {% block loader_css %}
   <style>
-    .djrender-load {
+    .djangorender-load {
       position: absolute;
       left: 0;
       top: 0;
@@ -24,11 +24,11 @@
       transition: opacity 0.2s;
     }
 
-    .djrender-load--hidden {
+    .djangorender-load--hidden {
       opacity: 0;
     }
 
-    .djrender-load__spinner {
+    .djangorender-load__spinner {
       opacity: 0;
       transition: opacity 0.2s;
 
@@ -37,11 +37,11 @@
       top: calc(50% - 40px)
     }
 
-    .djrender-load--show-spinner .djrender-load__spinner {
+    .djangorender-load--show-spinner .djangorender-load__spinner {
       opacity: 1;
     }
 
-    .djrender-load__text {
+    .djangorender-load__text {
       position: absolute;
       top: 32px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,8 +62,8 @@
   {% endblock %}
 
   {% block loader %}
-  <div class="djrender-load">
-    <div class="djrender-load__spinner">
+  <div class="djangorender-load">
+    <div class="djangorender-load__spinner">
       <svg width="80" height="80" viewBox="0 0 200 200" color="#4c3fdd" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="spinner-secondHalf">
@@ -88,7 +88,7 @@
           dur="1300ms" />
       </svg>
 
-      <div class="djrender-load__text">Loading</div>
+      <div class="djangorender-load__text">Loading</div>
     </div>
   </div>
   {% endblock %}
@@ -108,7 +108,7 @@
   <script type="module" src="{{ src }}" async defer></script>
   {% endfor %}
   {% block loader_js %}
-  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.djrender-load').classList.add('djrender-load--show-spinner') }, 100) });</script>
+  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.djangorender-load').classList.add('djangorender-load--show-spinner') }, 100) });</script>
   {% endblock %}
   {% block extra_body %}
   {% endblock %}

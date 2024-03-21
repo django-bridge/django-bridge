@@ -1,5 +1,5 @@
 {
-  "name": "@djrender/root",
+  "name": "@djangorender/root",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
