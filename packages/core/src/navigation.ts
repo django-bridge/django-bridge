@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, djangorenderGet, djangorenderPost, Response } from "./fetch";
+import { Message, djangorenderGet, djangorenderPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -62,7 +62,7 @@ export class NavigationController {
   }
 
   private fetch = async (
-    fetcher: () => Promise<Response>,
+    fetcher: () => Promise<DjangoRenderResponse>,
     url: string,
     pushState: boolean,
     neverReload = false
@@ -91,7 +91,7 @@ export class NavigationController {
   };
 
   handleResponse = (
-    response: Response,
+    response: DjangoRenderResponse,
     path: string,
     pushState = true,
     neverReload = false
@@ -264,7 +264,7 @@ export class NavigationController {
   // that needs to navigate the whole page somewhere else, that response is escalated
   // from the overlay NavigationController to the main window NavigationController using
   // this method.
-  private escalate = (url: string, response: Response): Promise<void> =>
+  private escalate = (url: string, response: DjangoRenderResponse): Promise<void> =>
     this.handleResponse(response, url);
 
   addNavigationListener = (

@@ -44,7 +44,7 @@ interface NetworkErrorResponse {
   status: "network-error";
 }
 
-export type Response =
+export type DjangoRenderResponse =
   | ReloadResponse
   | RedirectResponse
   | RenderResponse
@@ -55,7 +55,7 @@ export type Response =
 export async function djangorenderGet(
   url: string,
   overlay: boolean
-): Promise<Response> {
+): Promise<DjangoRenderResponse> {
   let response: Response;
 
   const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
@@ -81,14 +81,14 @@ export async function djangorenderGet(
       status: "reload",
     };
   }
-  return response.json() as Promise<Response>;
+  return response.json() as Promise<DjangoRenderResponse>;
 }
 
 export async function djangorenderPost(
   url: string,
   data: FormData,
   overlay: boolean
-): Promise<Response> {
+): Promise<DjangoRenderResponse> {
   let response: Response;
 
   const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
@@ -118,5 +118,5 @@ export async function djangorenderPost(
       status: "reload",
     };
   }
-  return response.json() as Promise<Response>;
+  return response.json() as Promise<DjangoRenderResponse>;
 }

@@ -1,7 +1,7 @@
 import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, Response } from "./fetch";
+import { Message, DjangoRenderResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
@@ -10,7 +10,7 @@ import { MessagesContext } from "./contexts";
 
 export interface AppProps {
   config: Config;
-  initialResponse: Response | JSON;
+  initialResponse: DjangoRenderResponse | JSON;
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
@@ -67,7 +67,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     // eslint-disable-next-line no-void
     void navigationController
       .handleResponse(
-        initialResponse as Response,
+        initialResponse as DjangoRenderResponse,
         window.location.pathname
       )
       .then(() => {
@@ -219,7 +219,7 @@ export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-export type { Response };
+export type { DjangoRenderResponse as Response };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
