@@ -10,7 +10,7 @@ with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="djangorender",
+    name="djrender",
     version=__version__,
     description="A framework for building React frontends for Django projects",
     long_description=long_description,
@@ -19,7 +19,7 @@ setup(
     author_email="karl@kaed.uk",
     url="https://django-render.org",
     project_urls={
-        "Documentation": "https://dream.io/docs/",
+        "Documentation": "https://django-render.org/docs/",
         "Source": "https://github.com/kaedroho/django-render/",
         "Tracker": "https://github.com/kaedroho/django-render/issues",
     },
