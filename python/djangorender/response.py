@@ -72,7 +72,7 @@ class Response(BaseResponse):
             "props": props,
             "context": {
                 name: import_string(provider)(self.request)
-                for name, provider in settings.DJREAM_CONTEXT_PROVIDERS.items()
+                for name, provider in settings.DJANGORENDER_CONTEXT_PROVIDERS.items()
             },
             "messages": get_messages(self.request),
         }

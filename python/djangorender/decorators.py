@@ -39,11 +39,11 @@ def djangorender_view(fn):
         # If the response is a Django Render response, wrap it in our bootstrap template
         # to load the React SPA and render the response data.
         if isinstance(response, BaseResponse):
-            if settings.DJREAM_VITE_BUNDLE_DIR:
+            if settings.DJANGORENDER_VITE_BUNDLE_DIR:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
                 asset_manifest = json.loads(
                     (
-                        Path(settings.DJREAM_VITE_BUNDLE_DIR) / ".vite/manifest.json"
+                        Path(settings.DJANGORENDER_VITE_BUNDLE_DIR) / ".vite/manifest.json"
                     ).read_text()
                 )
 
@@ -53,20 +53,20 @@ def djangorender_view(fn):
                 css = asset_manifest["src/main.tsx"]["css"]
                 vite_react_refresh_runtime = None
 
-            elif settings.DJREAM_VITE_DEVSERVER_URL:
+            elif settings.DJANGORENDER_VITE_DEVSERVER_URL:
                 # Development - Fetch JS/CSS from Vite server
                 js = [
-                    settings.DJREAM_VITE_DEVSERVER_URL + "/@vite/client",
-                    settings.DJREAM_VITE_DEVSERVER_URL + "/src/main.tsx",
+                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/@vite/client",
+                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/src/main.tsx",
                 ]
                 css = []
                 vite_react_refresh_runtime = (
-                    settings.DJREAM_VITE_DEVSERVER_URL + "/@react-refresh"
+                    settings.DJANGORENDER_VITE_DEVSERVER_URL + "/@react-refresh"
                 )
 
             else:
                 raise ImproperlyConfigured(
-                    "DJREAM_VITE_BUNDLE_DIR (production) or DJREAM_VITE_DEVSERVER_URL (development) must be set"
+                    "DJANGORENDER_VITE_BUNDLE_DIR (production) or DJANGORENDER_VITE_DEVSERVER_URL (development) must be set"
                 )
 
             # Wrap the response with our bootstrap template

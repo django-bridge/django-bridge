@@ -57,7 +57,7 @@ FROM base as prod
 COPY --chown=__projectname__ --from=client /client/dist /client
 
 # Collect static files
-ENV DJREAM_VITE_BUNDLE_DIR=/client
+ENV DJANGORENDER_VITE_BUNDLE_DIR=/client
 RUN DJANGO_SECRET_KEY=secret python manage.py collectstatic --noinput --clear
 
 CMD gunicorn -w 4 --threads 2 __projectname__.wsgi:application
