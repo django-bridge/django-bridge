@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Message, djangorenderGet, djangorenderPost, DjangoRenderResponse } from "./fetch";
+import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -171,7 +171,7 @@ export class NavigationController {
       path = urlObj.pathname + urlObj.search;
     }
 
-    return this.fetch(() => djangorenderGet(path, !!this.parent), path, pushState);
+    return this.fetch(() => djangoGet(path, !!this.parent), path, pushState);
   };
 
   pushFrame = (
@@ -249,13 +249,13 @@ export class NavigationController {
   };
 
   submitForm = (url: string, data: FormData): Promise<void> =>
-    this.fetch(() => djangorenderPost(url, data, !!this.parent), url, true);
+    this.fetch(() => djangoPost(url, data, !!this.parent), url, true);
 
   refreshProps = (): Promise<void> => {
     const url =
       window.location.pathname + window.location.search + window.location.hash;
 
-    return this.fetch(() => djangorenderGet(url, !!this.parent), url, false, true);
+    return this.fetch(() => djangoGet(url, !!this.parent), url, false, true);
   };
 
   // Called by a child NavigationController when it cannot handle a response.

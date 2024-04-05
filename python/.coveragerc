@@ -1,6 +1,6 @@
 [run]
 branch = True
-include = djangorender/*
+include = django_render/*
 omit = */migrations/*,*/tests/*
 
 [report]

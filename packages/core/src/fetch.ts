@@ -52,7 +52,7 @@ export type DjangoRenderResponse =
   | ServerErrorResponse
   | NetworkErrorResponse;
 
-export async function djangorenderGet(
+export async function djangoGet(
   url: string,
   overlay: boolean
 ): Promise<DjangoRenderResponse> {
@@ -84,7 +84,7 @@ export async function djangorenderGet(
   return response.json() as Promise<DjangoRenderResponse>;
 }
 
-export async function djangorenderPost(
+export async function djangoPost(
   url: string,
   data: FormData,
   overlay: boolean

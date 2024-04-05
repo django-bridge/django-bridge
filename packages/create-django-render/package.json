@@ -1,11 +1,11 @@
 {
-  "name": "create-djangorender",
+  "name": "create-django-render",
   "type": "module",
   "version": "0.1.0-alpha.11",
   "description": "Create a new Django + React project with a single command",
   "repository": "https://github.com/kaedroho/django-render",
   "bin": {
-    "create-djangorender": "index.js"
+    "create-django-render": "index.js"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --out-dir dist"

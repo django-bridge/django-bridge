@@ -1,5 +1,5 @@
 {
-  "name": "djangorender",
+  "name": "django-render",
   "version": "0.0.0",
   "private": true,
   "scripts": {

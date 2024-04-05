@@ -2,6 +2,6 @@ from django.apps import AppConfig
 
 
 class DjangoRenderTestAppConfig(AppConfig):
-    label = "djangorendertest"
-    name = "djangorender.test"
+    label = "django_render_test"
+    name = "django_render.test"
     verbose_name = "Django Render tests"

@@ -1,5 +1,5 @@
 {
-  "name": "@djangorender/storybook",
+  "name": "@django-render/storybook",
   "version": "0.1.0-alpha.11",
   "description": "Storybook Helpers for Django Render projects.",
   "repository": "https://github.com/kaedroho/django-render",
@@ -36,7 +36,7 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@djangorender/core": "^0.1.0-alpha.11",
+    "@django-render/core": "^0.1.0-alpha.11",
     "react": "^18.2.0"
   }
 }
