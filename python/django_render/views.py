@@ -27,12 +27,12 @@ class ResponseMixin:
             self.request,
             self.view_name,
             props,
-            supported_modes=self.overlay,
+            overlay=self.overlay,
             title=self.title,
         )
 
 
-class djangorenderView(ResponseMixin, ContextMixin, View):
+class DjangoRenderView(ResponseMixin, ContextMixin, View):
     """
     Render a djangorender view. Pass keyword arguments from the URLconf to the context.
     """
