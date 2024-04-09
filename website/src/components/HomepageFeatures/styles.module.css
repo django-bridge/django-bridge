@@ -3,6 +3,10 @@
   align-items: center;
   padding: 3rem 0;
   width: 100%;
+
+  b {
+    font-weight: 500;
+  }
 }
 
 .featureSvg {

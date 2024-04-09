@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Supports Django's forms, messages, session authentication, and more.
-        Uses Django's URL routing so you can also mix-and-match React and
+        Uses Django's URL routing allowing you to mix-and-match React and
         template-rendered views.
       </>
     ),

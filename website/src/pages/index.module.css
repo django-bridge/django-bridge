@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 1.5rem;
+  margin: 0;
 }
 
 @media screen and (max-width: 500px) {
@@ -37,6 +37,18 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.heroSubtitle {
+  font-size: 1.2rem;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2em;
+
+  b {
+    font-weight: 500;
+  }
 }
 
 .heroFootnote {

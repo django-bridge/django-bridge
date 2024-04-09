@@ -4,6 +4,7 @@ import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 import Logo from "@site/static/img/django-render-text.svg";
+import ReactLogo from "@site/static/img/react-logo-white.svg";
 
 import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
@@ -16,7 +17,7 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           {<Logo width={400} />}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className={styles.heroSubtitle}><b>Django Render</b> provides a <i>streamlined</i> approach for building <b>Django</b> applications with <b><ReactLogo style={{display: "inline", width: "1em", height: "0.9em", paddingTop: "0.1em"}}/>React</b> Frontends</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
@@ -31,9 +32,6 @@ function HomepageHeader() {
             Demo
           </a>
         </div>
-        <p className={styles.heroFootnote}>
-          *Vue and Svelte support coming soon!
-        </p>
       </div>
     </header>
   );
