@@ -24,12 +24,6 @@
   justify-content: center;
   gap: 1.5rem;
   margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.heroBanner h1 img {
-  flex-shrink: 1;
-  max-width: 125px;
 }
 
 @media screen and (max-width: 500px) {

@@ -3,7 +3,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
-// import logoUrl from "@site/static/img/logo.png";
+import Logo from "@site/static/img/django-render-text.svg";
 
 import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
@@ -14,8 +14,7 @@ function HomepageHeader() {
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {/* <img alt="Django Render logo" src={logoUrl} /> */}
-          {siteConfig.title}
+          {<Logo width={400} />}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>

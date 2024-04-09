@@ -51,11 +51,11 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "Django Render",
-      // logo: {
-      //   alt: "Django Render Logo",
-      //   src: "img/logo_icon.png",
-      // },
+      logo: {
+        alt: "Django Render",
+        src: "img/django-render-text.svg",
+        width: 120,
+      },
       items: [
         {
           type: "docSidebar",
