@@ -12,9 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        Django Render provides a standard way to build React SPAs with Django
-        backends. It handles routing, data fetching, and state management so you
-        can focus on building features.
+        Django Render handles routing, data fetching, and state management so
+        you can focus on building features.
       </>
     ),
   },
@@ -22,9 +21,9 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Render your Django forms with React so you can use Django's form
-        validation and error handling. Django Render also allows mixing
-        template-rendered views with React-rendered views.
+        Supports Django's forms, messages, session authentication, and more.
+        Uses Django's URL routing so you can also mix-and-match React and
+        template-rendered views.
       </>
     ),
   },
@@ -32,9 +31,9 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Pages load instantly as all necessary data is sent in the initial
-        response. Django Render itself is 5.5KB gzipped and only depends on
-        React. No need to install a separate router or state management library.
+        Django Render apps only require React and a small library (5.5KB
+        gzipped) to render. And all context is sent in the initial request so
+        pages render instantly.
       </>
     ),
   },
