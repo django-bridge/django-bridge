@@ -12,5 +12,5 @@ def format_version(version):
     return formatted
 
 
-VERSION = (0, 1, 0, "alpha", 11)
+VERSION = (0, 1, 0, "beta", 1)
 __version__ = format_version(VERSION)
