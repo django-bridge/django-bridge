@@ -7,12 +7,7 @@ This doc gives a quick overview of how a Django Render app is constructed.
 Django Render-enabled views return a Response containing the component name and dictionary of props. Props can contain any JSON serializable value or object that has a JavaScript equivalent class.
 
 ```python title="views.py
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django_render import django_render_view, Response
-
-from .forms import PostForm
-
 
 @django_render_view
 def post_edit(request, post_id):
@@ -25,6 +20,7 @@ def post_edit(request, post_id):
 
     return Response(request, "PostForm", {
         "title": post.title,
+        # Python objects, like forms, can be converted into JavaScript objects
         "form": form,
         "form_action": reverse("post_edit", args=[post.id]),
     })
@@ -44,24 +40,17 @@ urlpatterns = [
 
 ## 2. Create a React component to render the view
 
-The component will receive the props from the Response. Global props can defined which are passed to all components. For example the csrf_token is passed to all components by default.
+The component will receive the props from the Response. Global props can defined which are passed to all components. For example the `csrf_token` is passed to all components by default.
 
-```tsx title="views/PostForm.tsx"
-import { Button, Form, FormDef } from "@django_render/ui";
-
-interface PostFormViewProps {
-  title: string;
-  form: FormDef;
-  form_action: string;
-  csrf_token: string;
-}
+```jsx title="views/PostForm.jsx"
+import { Button, Form } from "@django_render/ui";
 
 export default function PostFormView({
   title,
   form,
   form_action,
   csrf_token
-}: PostFormViewProps) {
+}) {
   return (
     <>
       <h1>{title}</h1>
@@ -84,7 +73,7 @@ export default function PostFormView({
 
 Pass a map of view components to the Django RenderApp component and it will render the initial response. As the user navigates through the app, subsequent views are loaded via AJAX and rendered in the same way.
 
-```tsx title="app.tsx"
+```jsx title="app.jsx"
 import * as DjangoRender from "@django_render/core";
 import PostFormView from "./views/PostForm";
 
