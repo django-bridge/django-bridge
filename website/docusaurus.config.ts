@@ -58,8 +58,7 @@ const config: Config = {
       },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          href: "/overview",
           position: "right",
           label: "overview",
         },
@@ -70,14 +69,12 @@ const config: Config = {
           label: "guide",
         },
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          href: "/news",
           position: "right",
           label: "news",
         },
         {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          href: "https://django-render.readthedocs.io/en/latest/",
           position: "right",
           label: "docs",
         },

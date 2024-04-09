@@ -17,7 +17,22 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           {<Logo width={400} />}
         </Heading>
-        <p className={styles.heroSubtitle}><b>Django Render</b> provides a <i>streamlined</i> approach for building <b>Django</b> applications with <b><ReactLogo style={{display: "inline", width: "1em", height: "0.9em", paddingTop: "0.1em"}}/>React</b> Frontends</p>
+        <p className={styles.heroSubtitle}>
+          <b>Django Render</b> provides a <i>streamlined</i> approach for
+          building <b>Django</b> applications with{" "}
+          <b>
+            <ReactLogo
+              style={{
+                display: "inline",
+                width: "1em",
+                height: "0.9em",
+                paddingTop: "0.1em",
+              }}
+            />
+            React
+          </b>{" "}
+          Frontends
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
