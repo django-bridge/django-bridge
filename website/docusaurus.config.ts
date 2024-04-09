@@ -59,12 +59,31 @@ const config: Config = {
         {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
-          position: "left",
-          label: "Docs",
+          position: "right",
+          label: "overview",
         },
         {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "right",
+          label: "guide",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "right",
+          label: "news",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "right",
+          label: "docs",
+        },
+        {
+          "aria-label": "GitHub Repository",
           href: "https://github.com/kaedroho/django-render",
-          label: "GitHub",
+          className: "navbar--github-link",
           position: "right",
         },
       ],
@@ -73,7 +92,7 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "Documentation",
           items: [
             {
               label: "Getting Started",

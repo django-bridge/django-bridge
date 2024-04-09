@@ -9,7 +9,6 @@
   position: relative;
   overflow: hidden;
   color: #fff;
-  opacity: 0.9;
 }
 
 @media screen and (max-width: 996px) {
