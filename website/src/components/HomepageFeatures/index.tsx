@@ -33,8 +33,8 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Pages load instantly as all necessary data is sent in the initial
-        response. Django Render itself is 5.5KB gzipped and only depends on React. No
-        need to install a separate router or state management library.
+        response. Django Render itself is 5.5KB gzipped and only depends on
+        React. No need to install a separate router or state management library.
       </>
     ),
   },

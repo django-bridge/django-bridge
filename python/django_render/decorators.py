@@ -44,9 +44,7 @@ def djangorender_view(fn):
             if VITE_BUNDLE_DIR:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
                 asset_manifest = json.loads(
-                    (
-                        Path(VITE_BUNDLE_DIR) / ".vite/manifest.json"
-                    ).read_text()
+                    (Path(VITE_BUNDLE_DIR) / ".vite/manifest.json").read_text()
                 )
 
                 js = [
@@ -62,9 +60,7 @@ def djangorender_view(fn):
                     VITE_DEVSERVER_URL + "/src/main.tsx",
                 ]
                 css = []
-                vite_react_refresh_runtime = (
-                    VITE_DEVSERVER_URL + "/@react-refresh"
-                )
+                vite_react_refresh_runtime = VITE_DEVSERVER_URL + "/@react-refresh"
 
             else:
                 raise ImproperlyConfigured(

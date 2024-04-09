@@ -14,7 +14,9 @@ def get_messages(request):
             "level": (
                 "error"
                 if message.level == messages.ERROR
-                else "warning" if message.level == messages.WARNING else "success"
+                else "warning"
+                if message.level == messages.WARNING
+                else "success"
             ),
             "html": conditional_escape(message.message),
         }
@@ -72,7 +74,9 @@ class Response(BaseResponse):
             "props": props,
             "context": {
                 name: import_string(provider)(self.request)
-                for name, provider in settings.DJANGO_RENDER.get("CONTEXT_PROVIDERS", {}).items()
+                for name, provider in settings.DJANGO_RENDER.get(
+                    "CONTEXT_PROVIDERS", {}
+                ).items()
             },
             "messages": get_messages(self.request),
         }

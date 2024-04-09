@@ -264,8 +264,10 @@ export class NavigationController {
   // that needs to navigate the whole page somewhere else, that response is escalated
   // from the overlay NavigationController to the main window NavigationController using
   // this method.
-  private escalate = (url: string, response: DjangoRenderResponse): Promise<void> =>
-    this.handleResponse(response, url);
+  private escalate = (
+    url: string,
+    response: DjangoRenderResponse
+  ): Promise<void> => this.handleResponse(response, url);
 
   addNavigationListener = (
     func: (frame: Frame | null, newFrame: boolean) => void
