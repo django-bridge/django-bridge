@@ -93,12 +93,12 @@ const config: Config = {
           title: "Documentation",
           items: [
             {
-              label: "Getting Started",
-              to: "/docs/start",
+              label: "Overview",
+              to: "/overview",
             },
             {
-              label: "Overview",
-              to: "/docs/overview",
+              label: "Getting Started",
+              to: "/docs/guide/start",
             },
           ],
         },
