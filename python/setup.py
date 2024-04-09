@@ -2,7 +2,7 @@
 
 from os import path
 
-from djangorender import __version__
+from django_render import __version__
 from setuptools import find_packages, setup
 
 this_directory = path.abspath(path.dirname(__file__))
