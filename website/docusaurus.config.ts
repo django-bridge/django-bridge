@@ -74,11 +74,6 @@ const config: Config = {
           label: "news",
         },
         {
-          href: "https://django-render.readthedocs.io/en/latest/",
-          position: "right",
-          label: "docs",
-        },
-        {
           "aria-label": "GitHub Repository",
           href: "https://github.com/kaedroho/django-render",
           className: "navbar--github-link",
