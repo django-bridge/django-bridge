@@ -133,7 +133,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Karl Hobley. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Karl Hobley`,
     },
     prism: {
       theme: prismThemes.github,
