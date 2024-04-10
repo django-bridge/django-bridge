@@ -122,6 +122,14 @@ const config: Config = {
               label: "GitHub",
               href: "https://github.com/kaedroho/django-render",
             },
+            {
+              label: "PyPI",
+              href: "https://pypi.org/project/djrender/",
+            },
+            {
+              label: "npm",
+              href: "https://www.npmjs.com/package/@django-render/core",
+            },
           ],
         },
       ],
