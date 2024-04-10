@@ -85,14 +85,14 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Documentation",
+          title: "Overview",
           items: [
             {
               label: "Overview",
               to: "/overview",
             },
             {
-              label: "Getting Started",
+              label: "Guide",
               to: "/docs/guide/start",
             },
           ],
