@@ -6,7 +6,7 @@ from .response import NotFoundResponse, Response
 
 
 class ResponseMixin:
-    """A mixin that can be used to render djangorender view."""
+    """A mixin that can be used to render a view with a React component."""
 
     title = None
     view_name = None
@@ -34,7 +34,7 @@ class ResponseMixin:
 
 class DjangoRenderView(ResponseMixin, ContextMixin, View):
     """
-    Render a djangorender view. Pass keyword arguments from the URLconf to the context.
+    A class-based view that can be used to render views with React.
     """
 
     @method_decorator(djangorender_view)

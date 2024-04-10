@@ -70,7 +70,7 @@ def djangorender_view(fn):
             # Wrap the response with our bootstrap template
             new_response = render(
                 request,
-                "djangorender/bootstrap.html",
+                "django_render/bootstrap.html",
                 {
                     "data": response.content.decode("utf-8"),
                     "js": js,

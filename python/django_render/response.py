@@ -14,9 +14,7 @@ def get_messages(request):
             "level": (
                 "error"
                 if message.level == messages.ERROR
-                else "warning"
-                if message.level == messages.WARNING
-                else "success"
+                else "warning" if message.level == messages.WARNING else "success"
             ),
             "html": conditional_escape(message.message),
         }
@@ -40,11 +38,11 @@ class BaseResponse(JsonResponse):
         super().__init__(data, status=http_status)
         self["X-DjangoRender-Status"] = self.status
 
-        # Make sure that djangorender responses are never cached by browsers
+        # Make sure that Django Render responses are never cached by browsers
         # We need to do this because Django Render responses are given on the same URLs that
         # users would otherwise get HTML responses on if they visited those URLs
         # directly.
-        # If djangorender response is cached, there's a chance that a user could see the
+        # If a Django Render response is cached, there's a chance that a user could see the
         # JSON document in their browser rather than a HTML page.
         # This behaviour only seems to occur (intermittently) on Firefox.
         patch_cache_control(self, no_store=True)
@@ -55,7 +53,7 @@ class BaseResponse(JsonResponse):
 
 class Response(BaseResponse):
     """
-    Instructs djangorender to render a view (React component) with the given context.
+    Instructs the client to render a view (React component) with the given context.
     """
 
     status = "render"
@@ -84,7 +82,7 @@ class Response(BaseResponse):
 
 class ReloadResponse(BaseResponse):
     """
-    Instructs the djangorender to load the view the old-fashioned way.
+    Instructs the client to load the view the old-fashioned way.
     """
 
     status = "reload"
