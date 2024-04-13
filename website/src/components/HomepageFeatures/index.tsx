@@ -13,7 +13,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Build applications fast combining Django's productivity with React's interactivity.
-        Supports Storybook and Vite hot reloading for fast frontend development.
+        Supports Storybook and Vite hot-reloading for fast frontend development.
       </>
     ),
   },
