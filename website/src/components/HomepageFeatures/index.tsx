@@ -12,8 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        Django Render handles routing, data fetching, and state management so
-        you can focus on building features.
+        Build applications fast combining Django's productivity with React's interactivity.
+        Supports Storybook and Vite hot reloading for fast frontend development.
       </>
     ),
   },
@@ -21,9 +21,8 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Supports Django's forms, messages, session authentication, and more.
-        Uses Django's URL routing allowing you to mix-and-match React and
-        template-rendered views.
+        Use Django's forms, messages, session authentication, and more.
+        You can even mix-and-match React and template-rendered views!
       </>
     ),
   },
@@ -31,9 +30,8 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Django Render apps only require React and a small library (5.5KB
-        gzipped) to render. And all context is sent in the initial request so
-        pages render instantly.
+        All context is sent in the initial request, so your app can render instantly.
+        Django Render and React add 5KB and 40KB (gzipped) to your bundle size.
       </>
     ),
   },
