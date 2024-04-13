@@ -69,6 +69,11 @@ const config: Config = {
           label: "news",
         },
         {
+          href: "https://github.com/kaedroho/django-render/discussions",
+          position: "right",
+          label: "discuss",
+        },
+        {
           "aria-label": "GitHub Repository",
           href: "https://github.com/kaedroho/django-render",
           className: "navbar--github-link",
