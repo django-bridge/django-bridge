@@ -12,7 +12,7 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        Build applications fast combining Django's productivity with React's interactivity.
+        A ready-to-use library and project template for Django/React applications that works.
         Supports Storybook and Vite hot-reloading for fast frontend development.
       </>
     ),
@@ -21,8 +21,8 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Use Django's forms, messages, session authentication, and more.
-        You can even mix-and-match React and template-rendered views!
+        Works with Django's forms, messages, session authentication, and more.
+        Also supports mixing-and-matching with template-rendered views.
       </>
     ),
   },
@@ -30,47 +30,11 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        All context is sent in the initial request, so your app can render instantly.
-        Django Render and React add 5KB and 40KB (gzipped) to your bundle size.
+        All context is sent in the initial request, so apps render instantly.
+        Django Render and React add ~45KB (gzipped) to your bundle size.
       </>
     ),
   },
-  // {
-  //   title: 'Create modal workflows with Django views',
-  //   description: (
-  //     <>
-  //       Django Render-rendered views can be opened in a modal instead of a new page.
-  //       This makes it easy to create a modal workflows using Django views.
-  //     </>
-  //   ),
-  // },
-  // // {
-  // //   title: 'Intelligent dirty-form checking',
-  // //   description: (
-  // //     <>
-  // //       When users navigate away with unsaved changes, Django Render will prompt them to
-  // //       confirm before leaving. This works for closing modals too.
-  // //     </>
-  // //   ),
-  // // },
-  // {
-  //   title: 'Mix with template-rendered views',
-  //   description: (
-  //     <>
-  //       Django Render-rendered views can be created alongside traditional views rendered with templates
-  //       allowing you to incrementally migrate your app to a React SPA or use third-party apps
-  //       that don't have a React frontend.
-  //     </>
-  //   ),
-  // },
-  // {
-  //   title: 'Iterate fast with Vite hot reloading',
-  //   description: (
-  //     <>
-  //       If you use Vite to build your React app, Django Render will enable hot reloading in development.
-  //     </>
-  //   ),
-  // },
 ];
 
 function Feature({ title, description }: FeatureItem) {

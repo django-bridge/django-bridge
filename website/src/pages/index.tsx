@@ -103,18 +103,12 @@ def test(request):
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Django Render provides a simple way to render Django forms with
-                React.
-              </p>
-              <p>
-                Django Render provides a Form component that submits the form
-                using AJAX and re-renders the page with the response.
-                Forms are submitted in a way that is familiar to Django
-                so you can keep your backend logic the same.
-              </p>
-              <p>
                 Python objects, like forms and field definitions, automatically get translated into JavaScript equivalents.
               </p>
+              <p>
+                To render a Django form in React, pass the form object to a React component and call the render method.
+              </p>
+
             </div>
             <Tabs className={styles.column}>
               <TabItem value="python" label="views.py">
@@ -155,19 +149,17 @@ def form(request):
           </div>
         </section>
         <section className={styles.section}>
-          <h2>Build modal workflows with Django views</h2>
+          <h2>Create modal workflows with Django views</h2>
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Open models with a URL to a Django view!
+                Any React-renderable view can be rendered in a modal; just pass the view's URL to the openOverlay function.
               </p>
               <p>
-                Django Render will fetch the view, render it, then pass the rendered
-                React component into the renderModal function you provide to customise the styling.
+                Django Render will fetch the view, render it, and display it in an overlay. All links and form submissions will be rendered in the modal as well.
               </p>
               <p>
-                Any navigation that occurrs in a modal will be rendered in the modal allowing
-                wizard interfaces to be created entirely with Django views.
+                A custom render function can be passed to the openOverlay function to customize the modal's appearance.
               </p>
             </div>
             <Tabs className={styles.column}>
