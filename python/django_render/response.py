@@ -108,7 +108,3 @@ class CloseOverlayResponse(BaseResponse):
         return {
             "messages": get_messages(self.request),
         }
-
-
-class NotFoundResponse(Response):
-    status_code = 404

@@ -2,7 +2,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin, View
 
 from .decorators import djangorender_view
-from .response import NotFoundResponse, Response
+from .response import Response
 
 
 class DjangoRenderMixin:
@@ -44,8 +44,3 @@ class DjangoRenderView(DjangoRenderMixin, ContextMixin, View):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
-
-
-@djangorender_view
-def handler_404(request, exception=None):
-    return NotFoundResponse(request)
