@@ -7,10 +7,9 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout title="News" description={siteConfig.tagline}>
-      <header className={clsx("hero hero--primary", styles.header)}>
-        <h1>News</h1>
-      </header>
       <main className={styles.main}>
+        <h1>News</h1>
+
         No news yet.
       </main>
     </Layout>
