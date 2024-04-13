@@ -5,7 +5,7 @@ from .decorators import djangorender_view
 from .response import NotFoundResponse, Response
 
 
-class ResponseMixin:
+class DjangoRenderMixin:
     """A mixin that can be used to render a view with a React component."""
 
     title = None
@@ -32,7 +32,7 @@ class ResponseMixin:
         )
 
 
-class DjangoRenderView(ResponseMixin, ContextMixin, View):
+class DjangoRenderView(DjangoRenderMixin, ContextMixin, View):
     """
     A class-based view that can be used to render views with React.
     """
