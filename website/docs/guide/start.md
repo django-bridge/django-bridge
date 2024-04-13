@@ -4,7 +4,8 @@ sidebar_position: 1
 
 # Getting Started
 
-This doc gives a quick overview of how a Django Render app is constructed.
+Welcome!
+
 
 ## 1. Create a view
 
@@ -13,9 +14,8 @@ name and dictionary of props. Props can contain any JSON serializable
 value or object that has a JavaScript equivalent class.
 
 ```python title="views.py
-from django_render import django_render_view, Response
+from django_render import Response
 
-@django_render_view
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = PostForm(request.POST or None, instance=post)
