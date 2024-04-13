@@ -4,70 +4,107 @@ sidebar_position: 1
 
 # Getting Started
 
-## Using the project template
+This doc gives a quick overview of how a Django Render app is constructed.
 
-To start a new project, use the `create-django_render` npm start template:
+## 1. Create a view
 
-```
-npm create django_render myapp
-```
+Django Render-enabled views return a Response containing the component
+name and dictionary of props. Props can contain any JSON serializable
+value or object that has a JavaScript equivalent class.
 
-This will generate a minimal project with Django, React, Django Render, and Vite.
+```python title="views.py
+from django_render import django_render_view, Response
 
-### Project structure
+@django_render_view
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    form = PostForm(request.POST or None, instance=post)
 
-Here's the structure of the project that this will crate.
+    if form.is_valid():
+        form.save()
+        return redirect("post_detail", post_id=post.id)
 
-```
-/myapp
-    /client
-        /src
-            /views/Home
-                HomeView.tsx
-            index.css
-            main.tsx
-            vite-env.d.ts
-        package.json
-        tsconfig.json
-        Dockerfile
-        vite.config.ts
-    /server
-        /myapp
-            asgi.py
-            settings.py
-            wsgi.py
-            urls.py
-            views.py
-        Dockerfile
-        manage.py
-        pyproject.toml
-    docker-compose.yml
-    Makefile
-    README.md
+    return Response(request, "PostForm", {
+        "title": post.title,
+        # Python objects, like forms, can be converted into JavaScript objects
+        "form": form,
+        "form_action": reverse("post_edit", args=[post.id]),
+    })
 ```
 
-The root folder contains ``client`` and ``server`` folders containing the React frontend and Django backend respectively.
+```python title="urls.py"
+ urlpatterns = [
+    ...
 
-### Creating and starting a local development environment (using Docker Compose)
-
-The root folder contains a ``docker-compose.yml`` that creates a local development environment and ``Makefile`` containing some shortcuts for docker compose.
-
-Use the ``make setup`` command to create a new development environment, and ``make start`` to run it.
-
-### Deploying the project
-
-The Dockerfile in ``server`` can be used to build a container for hosting on a PaaS that supports Docker, such as: Heroku, Google Cloud Run, AWS Fargate, or Azure Container Apps.
-
-To build a production container, build the server image fron the root folder using the ``prod`` target:
-
-```
-docker build -t myapp_prod --target prod -f server/Dockerfile .
+    path(
+        "posts/<int:post_id>/edit/",
+        views.post_edit, name="post_edit"
+    ),
+]
 ```
 
-Then you can deploy this Docker container to one of the above suggested services with the following environment variables set:
+## 2. Create a React component to render the view
 
-- ``DJANGO_SECRET_KEY`` to a random string to use for Django's [``SECRET_KEY`` setting](https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-SECRET_KEY).
-- ``DJANGO_ALLOWED_HOSTS`` to a comma-separated list of domain names that the server will respond on.
-- ``DATABASE_URL`` to a URL to the PostgreSQL database to use (in the format ``postgres://<username>:<password>@<host>:<port>/<database>``).
+The component will receive the props from the Response. Global props
+can defined which are passed to all components. For example the
+`csrf_token` is passed to all components by default.
 
-The built frontend bundle will be embedded in the image by the command above. To serve this, you will either need to extract it and upload to a static host like S3 or R2 and set Django's ``STATIC_URL`` to point at this location or [install WhitenNoise](https://whitenoise.readthedocs.io/en/latest/django.html) to serve the static bundle from the container.
+```jsx title="PostForm.jsx"
+import { Button, Form } from "@django_render/ui";
+
+export default function PostFormView({
+  title,
+  form,
+  form_action,
+  csrf_token
+}) {
+  return (
+    <>
+      <h1>{title}</h1>
+
+      <Form action={form_action} method="post">
+        <input
+          type="hidden"
+          name="csrfmiddlewaretoken"
+          value={csrf_token}
+        />
+        {form.render()}
+        <Button type="submit">Save</Button>
+      </Form>
+    </>
+  );
+}
+```
+
+## 3. Create a Django Render app
+
+Pass a map of view components to the Django RenderApp component and it
+will render the initial response. As the user navigates through the
+app, subsequent views are loaded via AJAX and rendered in the same
+way.
+
+```jsx title="app.jsx"
+import * as DjangoRender from "@django_render/core";
+import PostFormView from "./views/PostForm";
+
+// List of views that can be rendered by Django Render
+const config = new DjangoRender.Config();
+config.addView("PostForm", PostFormView);
+
+function App(): ReactElement {
+  // Get the initial response from the server
+  // This is used to render the first view,
+  // subsequent views are loaded via AJAX
+  const rootElement = document.getElementById("root");
+  const initialResponse = rootElement.dataset.initialResponse;
+
+  return (
+    <DjangoRender.App
+      config={config}
+      initialResponse={JSON.parse(initialResponse)}
+    />
+  );
+}
+
+export default App;
+```

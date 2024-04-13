@@ -57,3 +57,22 @@
   margin-bottom: 0;
   font-style: italic;
 }
+
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 40px;
+}
+
+.column {
+  width: 500px;
+}
