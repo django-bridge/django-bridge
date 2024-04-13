@@ -1,13 +1,22 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 3rem 0;
   width: 100%;
+  margin-top: 80px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 
   b {
     font-weight: 500;
   }
+
+  h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
 }
+
 
 .featureSvg {
   height: 200px;

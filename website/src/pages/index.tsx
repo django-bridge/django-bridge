@@ -50,6 +50,8 @@ function HomepageHeader() {
             Demo
           </a>
         </div>
+        <HomepageFeatures />
+
       </div>
     </header>
   );
@@ -61,8 +63,6 @@ export default function Home(): JSX.Element {
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
-        <HomepageFeatures />
-
         <section className={styles.section}>
           <h2>Django for logic, React for presentation</h2>
 
