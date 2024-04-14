@@ -59,7 +59,13 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "start",
+          position: "right",
+          label: "start",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "guide",
           position: "right",
           label: "guide",
         },
@@ -88,8 +94,8 @@ const config: Config = {
           title: "Overview",
           items: [
             {
-              label: "Guide",
-              to: "/docs/guide/start",
+              label: "Get started",
+              to: "/docs/start/index",
             },
           ],
         },

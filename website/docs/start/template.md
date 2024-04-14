@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
-# Using the project template
+# Starting a new project with the template
 
 To start a new project, use the `create-django-render` npm start template:
 

@@ -11,7 +11,8 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-  tutorialSidebar: ["guide/start", "guide/template"],
+  start: ["start/index", "start/tutorial", "start/template", "start/install"],
+  guide: ["guide/index", "guide/messages", "guide/forms", "guide/global-context", "guide/overlays", "guide/storybook"],
 };
 
 export default sidebars;
