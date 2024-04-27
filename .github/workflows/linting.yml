@@ -1,0 +1,62 @@
+name: Linting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: poetry install --only dev
+      - working-directory: .
+        run: ruff check --output-format=github .
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: |
+          yarn install
+      - run: |
+          yarn run check-format
+
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: |
+          yarn install
+      - run: |
+          yarn run lint
+
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: |
+          yarn install
+      - run: |
+          cd packages/core
+          yarn install
+          yarn run check-types
