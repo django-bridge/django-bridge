@@ -14,7 +14,9 @@ def get_messages(request):
             "level": (
                 "error"
                 if message.level == messages.ERROR
-                else "warning" if message.level == messages.WARNING else "success"
+                else "warning"
+                if message.level == messages.WARNING
+                else "success"
             ),
             "html": conditional_escape(message.message),
         }
