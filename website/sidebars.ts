@@ -12,7 +12,14 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  */
 const sidebars: SidebarsConfig = {
   start: ["start/index", "start/tutorial", "start/template", "start/install"],
-  guide: ["guide/index", "guide/messages", "guide/forms", "guide/global-context", "guide/overlays", "guide/storybook"],
+  guide: [
+    "guide/index",
+    "guide/messages",
+    "guide/forms",
+    "guide/global-context",
+    "guide/overlays",
+    "guide/storybook",
+  ],
 };
 
 export default sidebars;

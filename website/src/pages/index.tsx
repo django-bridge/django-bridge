@@ -6,8 +6,8 @@ import Heading from "@theme/Heading";
 import Logo from "@site/static/img/django-render-text.svg";
 import ReactLogo from "@site/static/img/react-logo-white.svg";
 import CodeBlock from "@theme/CodeBlock";
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
@@ -51,7 +51,6 @@ function HomepageHeader() {
           </a>
         </div>
         <HomepageFeatures />
-
       </div>
     </header>
   );
@@ -69,9 +68,8 @@ export default function Home(): JSX.Element {
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-
-                Keep your Django views simple and focused on the backend logic. Let
-                React handle the frontend rendering.
+                Keep your Django views simple and focused on the backend logic.
+                Let React handle the frontend rendering.
               </p>
             </div>
             <Tabs className={styles.column}>
@@ -99,16 +97,17 @@ def test(request):
           </div>
         </section>
         <section className={styles.section}>
-         <h2>Render Django forms with React</h2>
+          <h2>Render Django forms with React</h2>
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Python objects, like forms and field definitions, automatically get translated into JavaScript equivalents.
+                Python objects, like forms and field definitions, automatically
+                get translated into JavaScript equivalents.
               </p>
               <p>
-                To render a Django form in React, pass the form object to a React component and call the render method.
+                To render a Django form in React, pass the form object to a
+                React component and call the render method.
               </p>
-
             </div>
             <Tabs className={styles.column}>
               <TabItem value="python" label="views.py">
@@ -153,19 +152,23 @@ def form(request):
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Any React-renderable view can be rendered in a modal; just pass the view's URL to the openOverlay function.
+                Any React-renderable view can be rendered in a modal; just pass
+                the view's URL to the openOverlay function.
               </p>
               <p>
-                Django Render will fetch the view, render it, and display it in an overlay. All links and form submissions will be rendered in the modal as well.
+                Django Render will fetch the view, render it, and display it in
+                an overlay. All links and form submissions will be rendered in
+                the modal as well.
               </p>
               <p>
-                A custom render function can be passed to the openOverlay function to customize the modal's appearance.
+                A custom render function can be passed to the openOverlay
+                function to customize the modal's appearance.
               </p>
             </div>
             <Tabs className={styles.column}>
               <TabItem value="jsx" label="TestView.jsx">
                 <CodeBlock language="jsx">
-              {`<button
+                  {`<button
   onClick={
     () => openOverlay(form_url, renderModal)
   }>
@@ -175,7 +178,6 @@ def form(request):
               </TabItem>
             </Tabs>
           </div>
-
         </section>
       </main>
     </Layout>

@@ -9,7 +9,6 @@ export default function Home(): JSX.Element {
     <Layout title="News" description={siteConfig.tagline}>
       <main className={styles.main}>
         <h1>News</h1>
-
         No news yet.
       </main>
     </Layout>
