@@ -12,10 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
       - uses: actions/checkout@v4
+
       - run: poetry install --only dev
-      - working-directory: .
-        run: ruff check --output-format=github .
+
+      - name: Run ruff
+        working-directory: .
+        run: poetry run ruff check --output-format=github .
 
   prettier:
     runs-on: ubuntu-latest
