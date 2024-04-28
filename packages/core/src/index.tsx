@@ -1,11 +1,12 @@
-import React, { ReactElement, FunctionComponent, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
 import { Message, DjangoRenderResponse } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
-import { Config } from "./config";
+import Config from "./config";
+import Form from "./components/Form";
 import { MessagesContext } from "./contexts";
 
 export interface AppProps {
@@ -173,10 +174,15 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     };
   });
 
+  const messagesContext = React.useMemo(
+    () => ({ messages, pushMessage }),
+    [messages, pushMessage]
+  );
+
   return (
     <div>
       <DirtyFormScope handleBrowserUnload>
-        <MessagesContext.Provider value={{ messages, pushMessage }}>
+        <MessagesContext.Provider value={messagesContext}>
           {overlay &&
             overlay.navigationController.currentFrame.view !== "loading" && (
               <DirtyFormScope>
@@ -197,8 +203,8 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
           <Browser
             views={config.views}
             navigationController={navigationController}
-            openOverlay={(url, render, options) =>
-              openOverlay(url, render, options)
+            openOverlay={(url, renderOverlay, options) =>
+              openOverlay(url, renderOverlay, options)
             }
           />
         </MessagesContext.Provider>
@@ -223,4 +229,4 @@ export type { DjangoRenderResponse as Response };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
-export { Form } from "./components/Form";
+export { Form };

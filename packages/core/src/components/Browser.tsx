@@ -1,6 +1,5 @@
 import React, { ReactElement, FunctionComponent, ReactNode } from "react";
 import { DirtyFormContext } from "../dirtyform";
-import { Message } from "../fetch";
 
 import { NavigationController } from "../navigation";
 import {
@@ -70,7 +69,7 @@ function Browser({
       replacePath,
       submitForm,
       openOverlay,
-      refreshProps: refreshProps,
+      refreshProps,
     }),
     [
       currentFrame,

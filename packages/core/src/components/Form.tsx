@@ -11,7 +11,7 @@ interface FormProps extends React.HTMLProps<HTMLFormElement> {
   disableDirtyCheck?: boolean;
 }
 
-export function Form({
+export default function Form({
   children,
   onSubmit: callerOnSubmit,
   isDirty: isInitiallyDirty = false,

@@ -1,11 +1,11 @@
 import { FunctionComponent } from "react";
 import Telepath from "telepath-unpack";
 
-export class Config {
+export default class Config {
   public views: Map<string, FunctionComponent>;
 
   // Telepath Doesn't support typescript yet
-  public telepathRegistry: any;
+  public telepathRegistry: Telepath;
 
   constructor() {
     this.views = new Map();
@@ -19,19 +19,18 @@ export class Config {
     name: string,
     component: FunctionComponent<P>
   ): Config => {
-    this.views.set(name, component as FunctionComponent<{}>);
+    this.views.set(name, component as FunctionComponent<object>);
     return this;
   };
 
   public addDeserializer = <Cls>(
     name: string,
-    ctor: { new (...args: any[]): Cls }
+    ctor: { new (...args: unknown[]): Cls }
   ): Config => {
     this.telepathRegistry.register(name, ctor);
     return this;
   };
 
-  public unpack = (data: Record<string, unknown>): Record<string, unknown> => {
-    return this.telepathRegistry.unpack(data);
-  };
+  public unpack = (data: Record<string, unknown>): Record<string, unknown> =>
+    this.telepathRegistry.unpack(data);
 }

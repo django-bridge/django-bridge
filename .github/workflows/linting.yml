@@ -51,9 +51,9 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: |
-          yarn install
+          npm install
       - run: |
-          yarn run lint
+          npm run lint
 
   tsc:
     runs-on: ubuntu-latest
