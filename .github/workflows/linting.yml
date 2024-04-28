@@ -21,7 +21,7 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - run: poetry install --only dev
+      - run: poetry install
 
       - name: Run ruff
         working-directory: .
