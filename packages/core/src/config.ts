@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { Context, FunctionComponent } from "react";
 import Telepath from "telepath-unpack";
 
@@ -36,7 +38,7 @@ export default class Config {
 
   public addDeserializer = <Cls>(
     name: string,
-    ctor: { new (...args: unknown[]): Cls }
+    ctor: { new (...args: any[]): Cls }
   ): Config => {
     this.telepathRegistry.register(name, ctor);
     return this;
