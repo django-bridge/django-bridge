@@ -1,4 +1,4 @@
-import React, { ReactElement, FunctionComponent, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { DirtyFormContext } from "../dirtyform";
 
 import { NavigationController } from "../navigation";
@@ -8,9 +8,10 @@ import {
   NavigationContext,
   MessagesContext,
 } from "../contexts";
+import Config from "../config";
 
 export interface BrowserProps {
-  views: Map<string, FunctionComponent>;
+  config: Config;
   navigationController: NavigationController;
   openOverlay(
     path: string,
@@ -24,7 +25,7 @@ export interface BrowserProps {
 }
 
 function Browser({
-  views,
+  config,
   navigationController,
   openOverlay,
 }: BrowserProps): ReactElement {
@@ -85,17 +86,25 @@ function Browser({
     ]
   );
   // Get the view component
-  const View = views.get(currentFrame.view);
+  const View = config.views.get(currentFrame.view);
   if (!View) {
     return <p>Unknown view &apos;{currentFrame.view}&apos;</p>;
   }
 
+  // Render the view and wrap it with each configured global context provider
+  let view = <View {...currentFrame.props} />;
+  config.contextProviders.forEach((provider, name) => {
+    view = (
+      <provider.Provider value={currentFrame.context[name]}>
+        {view}
+      </provider.Provider>
+    );
+  });
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
   return (
     <NavigationContext.Provider value={NavigationUtils}>
-      <div key={currentFrame.id}>
-        <View {...currentFrame.props} />
-      </div>
+      <div key={currentFrame.id}>{view}</div>
     </NavigationContext.Provider>
   );
 }

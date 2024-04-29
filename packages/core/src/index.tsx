@@ -188,7 +188,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
               <DirtyFormScope>
                 {overlay.render(
                   <Browser
-                    views={config.views}
+                    config={config}
                     navigationController={overlay.navigationController}
                     openOverlay={() => {}}
                   />,
@@ -201,7 +201,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
               </DirtyFormScope>
             )}
           <Browser
-            views={config.views}
+            config={config}
             navigationController={navigationController}
             openOverlay={(url, renderOverlay, options) =>
               openOverlay(url, renderOverlay, options)
