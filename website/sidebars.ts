@@ -20,11 +20,14 @@ const sidebars: SidebarsConfig = {
   ],
   guide: [
     "guide/index",
-    "guide/messages",
-    "guide/forms",
+    "guide/views",
+    "guide/overlays",
     "guide/global-context",
+    "guide/forms",
     "guide/overlays",
     "guide/storybook",
+    "guide/testing",
+    "guide/reference",
   ],
 };
 
