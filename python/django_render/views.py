@@ -1,7 +1,5 @@
-from django.utils.decorators import method_decorator
 from django.views.generic.base import ContextMixin, View
 
-from .decorators import djangorender_view
 from .response import Response
 
 
@@ -37,7 +35,6 @@ class DjangoRenderView(DjangoRenderMixin, ContextMixin, View):
     A class-based view that can be used to render views with React.
     """
 
-    @method_decorator(djangorender_view)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
