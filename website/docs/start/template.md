@@ -68,4 +68,4 @@ Then you can deploy this Docker container to one of the above suggested services
 - ``DJANGO_ALLOWED_HOSTS`` to a comma-separated list of domain names that the server will respond on.
 - ``DATABASE_URL`` to a URL to the PostgreSQL database to use (in the format ``postgres://<username>:<password>@<host>:<port>/<database>``).
 
-The built frontend bundle will be embedded in the image by the command above. To serve this, you will either need to extract it and upload to a static host like S3 or R2 and set Django's ``STATIC_URL`` to point at this location or [install WhitenNoise](https://whitenoise.readthedocs.io/en/latest/django.html) to serve the static bundle from the container.
+The built frontend bundle will be embedded in the image by the command above. To serve this, you will either need to extract it and upload to a static host like S3 or R2 and set Django's ``STATIC_URL`` to point at this location or [install WhiteNoise](https://whitenoise.readthedocs.io/en/latest/django.html) to serve the static bundle from the container.
