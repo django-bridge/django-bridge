@@ -3,6 +3,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.http import StreamingHttpResponse
 from django.shortcuts import render
 from django.templatetags.static import static
 
@@ -15,6 +16,9 @@ class DjangoRenderMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
+
+        if isinstance(response, StreamingHttpResponse):
+            return response
 
         if response.status_code == 301:
             return response
