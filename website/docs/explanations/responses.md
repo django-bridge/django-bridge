@@ -1,8 +1,6 @@
 # Responses
 
-Django Render applications use Django views that return JSON instead of HTML. The JSON that's returned describes what to render to the React Frontend.
-
-This allows a neat split between business logic implemented in Django and presentational logic written in React:
+In a Django render application, Django views return JSON that is rendered in the browser using React. This allows a neat split between business logic implemented in Django and presentational logic written in React:
 
 All business logic is implemented in the Django backend, so there's no need to bloat the frontend with complex state management and API libraries. Also, the response from the Django view provides the complete data that is required to render the view in a single request.
 
