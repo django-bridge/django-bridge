@@ -24,7 +24,6 @@ const sidebars: SidebarsConfig = {
     "guide/overlays",
     "guide/global-context",
     "guide/forms",
-    "guide/overlays",
     "guide/storybook",
     "guide/testing",
     "guide/reference",
