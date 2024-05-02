@@ -12,24 +12,24 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  */
 const sidebars: SidebarsConfig = {
   guide: [
-    "guide/index",
+    "index",
     {
       type: "category",
       label: "Getting Started",
       items: [
-        "guide/start/howitworks",
-        "guide/start/tutorial",
-        "guide/start/template",
-        "guide/start/install",
+        "start/howitworks",
+        "start/tutorial",
+        "start/template",
+        "start/install",
       ],
     },
-    "guide/views",
-    "guide/overlays",
-    "guide/global-context",
-    "guide/forms",
-    "guide/storybook",
-    "guide/testing",
-    "guide/reference",
+    "views",
+    "overlays",
+    "global-context",
+    "forms",
+    "storybook",
+    "testing",
+    "reference",
   ],
 };
 

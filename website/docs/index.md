@@ -10,10 +10,10 @@ This is the official guide for building Django/React applications using Django R
 
 ## Getting started
 
-- [Read about how Django Render works](/docs/start/howitworks)
-- [Try the tutorial for an introduction](/docs/start/tutorial)
-- [Use the project template to start a new project](/docs/start/template)
-- [Add Django Render to an existing Django project](/docs/start/install)
+- [Read about how Django Render works](./start/howitworks)
+- [Try the tutorial for an introduction](./start/tutorial)
+- [Use the project template to start a new project](./start/template)
+- [Add Django Render to an existing Django project](./start/install)
 
 ## The rest
 
