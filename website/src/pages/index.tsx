@@ -59,7 +59,10 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout title={siteConfig.title} description={siteConfig.tagline}>
+    <Layout
+      title="Django and React integration library"
+      description={siteConfig.tagline}
+    >
       <HomepageHeader />
       <main>
         <section className={styles.section}>
