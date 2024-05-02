@@ -91,7 +91,7 @@ const config: Config = {
           items: [
             {
               label: "Usage Guide",
-              to: "/docs/index",
+              to: "/docs",
             },
           ],
         },
