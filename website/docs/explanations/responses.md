@@ -1,6 +1,4 @@
-# How it works
-
-## Django views return JSON that tell React what to Render
+# Responses
 
 Django Render applications use Django views that return JSON instead of HTML. The JSON that's returned describes what to render to the React Frontend.
 
@@ -10,7 +8,7 @@ All business logic is implemented in the Django backend, so there's no need to b
 
 All presentational logic is implemented in the React frontend, enhancing page rendering speeds once the initial JavaScript bundle is loaded. Though the first request may take slightly longer due to this loading process, subsequent interactions become nearly instantaneous. React is also a significant improvement over traditional Django templates, which often require extensive custom template tags to achieve comparable functionality.
 
-### Anatomy of a Response
+## Anatomy of a Response
 
 Here's an example response from [demo.django-render.org/posts/](https://demo.django-render.org/posts/)
 
@@ -47,56 +45,5 @@ The ``messages`` key contains a list of messages emitted by [Django's messages f
 
 The first request that a user makes to a Django Render app will be converted to HTML by the ``DjangoRenderMiddleware``. This HTML loads the JavaScript bundle and nests the initial JSON response, so it can be immediately rendered once the bundle loads.
 
-All links within the app are fetched with AJAX allowing the response to be rendered without reloading the whole page.
-
+All links within the app are fetched with AJAX allowing the response to be rendered without reloading the whole page.s
 These AJAX requests have a ``X-Requested-With: DjangoRender`` header which instructs the server to send the raw HTML without converting it to HTML.
-
-## Linking to and from template-rendered views
-
-Because Django Render uses Django's URL routing, its possible to link to/from template-rendered views. React views can be linked to from Django templates using the ``{% url %}`` tag or from Python using the ``reverse()`` function.
-
-You can use this to incrementally convert a template rendered application to React, or use third-party packages that use Django templates for rendering alongside your React app.
-
-You only need to make sure you use the correct component for the link type in the React app. Links to other views in the React app should use the ``<Link>`` component to prevent the page reloading, all other links should use the ``<a>`` tag.
-
-## Serialising Python objects to JSON
-
-Django Render embeds the [Telepath](https://wagtail.github.io/telepath/) library, which serializes Python objects to JSON and deserializes that JSON into JavaScript objects.
-
-For example, Django Render bundles support for serializing Django forms so they can be rendered with React:
-
-```python
-def form_view(request):
-    form = Form(request.POST or None)
-    if form.is_valid():
-        # Do form save here
-    return Response(request, "FormView", {
-        # You can put any serializable object here and it will be automatically serialized for you
-        "form": form
-    })
-```
-
-Then on the frontend, use ``FormDef.render()``:
-
-```tsx
-import { useContext } from "react":
-
-
-export function FormView({ form }) {
-  const csrfToken = useContext(CSRFTokenContext);
-
-  return (
-    <Form action="/form/" method="post">
-      <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
-
-      {form.render()}
-
-      <button type="submit">Submit</button>
-    </Form>
-  );
-}
-```
-
-Django forms are automatically converted to instances of the ``FormDef`` class that is bundled with Django Render. This class has a ``render()`` method that renders the form using React Components.
-
-Django Render comes with a ``<Form>`` component which submits the form data with an AJAX request and renders the response without reloading the page.

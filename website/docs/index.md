@@ -10,14 +10,13 @@ This is the official guide for building Django/React applications using Django R
 
 ## Getting started
 
-- [Read about how Django Render works](./start/howitworks)
 - [Try the tutorial for an introduction](./start/tutorial)
 - [Use the project template to start a new project](./start/template)
 - [Add Django Render to an existing Django project](./start/install)
 
-## The rest
+## The guide
 
-This guide is split into the following sections:
+The guide is split into the following sections:
 
  - **[Views](./views)** - Covers building Django views and React components to render them
  - **[Overlays and Modals](./overlays)** - Covers building views to be rendered as an overlay (mainly for Modal workflows)
@@ -26,3 +25,11 @@ This guide is split into the following sections:
  - **[Storybook](./storybook)** - Covers integrating [Storybook](https://storybook.js.org/) to help build and test your React frontend with a mock Django backend
  - **[Testing](./testing)** - Covers unit testing your Django views
  - **[Reference](./testing)** - The API reference
+
+## How it works
+
+Read about how Django Render works.
+
+ - [Responses](./explanations/responses)
+ - [URL Routing](./explanations/routing)
+ - [Serialisation of Python objects](./explanations/serialisation.md)

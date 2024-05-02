@@ -16,12 +16,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Getting Started",
-      items: [
-        "start/howitworks",
-        "start/tutorial",
-        "start/template",
-        "start/install",
-      ],
+      items: ["start/tutorial", "start/template", "start/install"],
     },
     "views",
     "overlays",
@@ -29,6 +24,15 @@ const sidebars: SidebarsConfig = {
     "forms",
     "storybook",
     "testing",
+    {
+      type: "category",
+      label: "Explanations",
+      items: [
+        "explanations/responses",
+        "explanations/routing",
+        "explanations/serialisation",
+      ],
+    },
     "reference",
   ],
 };
