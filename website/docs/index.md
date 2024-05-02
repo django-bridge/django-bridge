@@ -10,9 +10,7 @@ This is the official guide for building Django/React applications using Django R
 
 ## Getting started
 
-- [Try the tutorial for an introduction](./start/tutorial)
-- [Use the project template to start a new project](./start/template)
-- [Add Django Render to an existing Django project](./start/install)
+If you're new to Django Render, you can [try the tutorial for an introduction](./tutorial).
 
 ## The guide
 

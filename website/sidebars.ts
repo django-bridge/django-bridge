@@ -15,8 +15,13 @@ const sidebars: SidebarsConfig = {
     "index",
     {
       type: "category",
-      label: "Getting Started",
-      items: ["start/tutorial", "start/template", "start/install"],
+      label: "Tutorial",
+      items: [
+        "tutorial/index",
+        "tutorial/start-project",
+        "tutorial/views",
+        "tutorial/deploying",
+      ],
     },
     "views",
     "overlays",
