@@ -63,7 +63,7 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "guide",
           position: "right",
-          label: "guide",
+          label: "docs",
         },
         {
           href: "/news",
@@ -90,7 +90,11 @@ const config: Config = {
           title: "Documentation",
           items: [
             {
-              label: "Usage Guide",
+              label: "Tutorial",
+              to: "/docs/tutorial",
+            },
+            {
+              label: "Documentation",
               to: "/docs",
             },
           ],
