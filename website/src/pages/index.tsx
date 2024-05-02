@@ -46,6 +46,7 @@ function HomepageHeader() {
           <a
             className="button button--secondary button--lg"
             href="https://demo.django-render.org"
+            rel="nofollow"
           >
             Demo
           </a>
