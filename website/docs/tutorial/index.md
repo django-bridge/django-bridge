@@ -1,5 +1,7 @@
 # Tutorial
 
+Welcome to Django Render!
+
 This section of the documentation is aimed at newcomers to Django Render.
 
 We will start a new project and build a TODO list application using Django for the backend and React for the frontend.

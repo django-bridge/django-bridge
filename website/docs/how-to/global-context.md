@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Global Context Providers
+# Adding global context
 
 In your application, you might want to have some information available for all parts of your application. This may be menu information, user data, urls, etc.
 
