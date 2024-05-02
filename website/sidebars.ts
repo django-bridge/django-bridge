@@ -11,15 +11,18 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-  start: [
-    "start/index",
-    "start/howitworks",
-    "start/tutorial",
-    "start/template",
-    "start/install",
-  ],
   guide: [
     "guide/index",
+    {
+      type: "category",
+      label: "Getting Started",
+      items: [
+        "guide/start/howitworks",
+        "guide/start/tutorial",
+        "guide/start/template",
+        "guide/start/install",
+      ],
+    },
     "guide/views",
     "guide/overlays",
     "guide/global-context",
