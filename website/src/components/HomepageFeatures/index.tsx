@@ -12,9 +12,9 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        A ready-to-use library and project template for Django/React
-        applications that works. Supports Storybook and Vite hot-reloading for
-        fast frontend development.
+        A simple and ready-to-use library/project template for building
+        Django/React applications. Supports Storybook and Vite hot-reloading for
+        productive frontend development.
       </>
     ),
   },
@@ -22,8 +22,8 @@ const FeatureList: FeatureItem[] = [
     title: "Seamless Django integration",
     description: (
       <>
-        Works with Django's forms, messages, session authentication, and more.
-        Also supports mixing-and-matching with template-rendered views.
+        Use Django's forms, messages, session authentication, and more within
+        React. Also supports mixing-and-matching with template-rendered views.
       </>
     ),
   },
@@ -31,8 +31,9 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        All context is sent in the initial request, so apps render instantly.
-        Django Render and React add ~45KB (gzipped) to your bundle size.
+        Eliminate unnecessary round-trips to the server by using Django views
+        instead of generic APIs. Django Render adds only ~15KB to your bundle
+        size.
       </>
     ),
   },
