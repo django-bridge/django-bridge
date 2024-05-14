@@ -12,9 +12,9 @@ const FeatureList: FeatureItem[] = [
     title: "Rapid development",
     description: (
       <>
-        A simple and ready-to-use library/project template for building
-        Django/React applications. Supports Storybook and Vite hot-reloading for
-        productive frontend development.
+        A simple and ready-to-use framework for building SaaS and internal
+        applications with Django and React. Supports Storybook and Vite
+        hot-reloading for productive frontend development.
       </>
     ),
   },

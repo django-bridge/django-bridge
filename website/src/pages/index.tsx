@@ -61,8 +61,9 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title="Django and React integration library"
-      description={siteConfig.tagline}
+      title="Django and React application framework"
+      description="A simple and ready-to-use framework for building SaaS and internal
+      applications with Django and React."
     >
       <HomepageHeader />
       <main>
