@@ -10,12 +10,12 @@ const config = new DjangoRender.Config();
 config.addView("Home", HomeView);
 
 const rootElement = document.getElementById("root")!;
-const initialResponse = rootElement.dataset.initialResponse!;
+const initialResponse = JSON.parse(
+  document.getElementById("initial-response")!.textContent!
+);
+
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <DjangoRender.App
-      config={config}
-      initialResponse={JSON.parse(initialResponse)}
-    />
+    <DjangoRender.App config={config} initialResponse={initialResponse} />
   </React.StrictMode>
 );
