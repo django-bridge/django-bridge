@@ -93,7 +93,9 @@
   </div>
   {% endblock %}
 
-  <div id="root" data-initial-response="{{ data }}"></div>
+  {{ data|json_object:"initial-response" }}
+
+  <div id="root"></div>
 
   {% if vite_react_refresh_runtime %}
   <script type="module">
