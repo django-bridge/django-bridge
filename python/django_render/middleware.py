@@ -73,7 +73,7 @@ class DjangoRenderMiddleware:
                 request,
                 "django_render/bootstrap.html",
                 {
-                    "data": response.content.decode("utf-8"),
+                    "initial_response": json.loads(response.content.decode("utf-8")),
                     "js": js,
                     "css": css,
                     "vite_react_refresh_runtime": vite_react_refresh_runtime,

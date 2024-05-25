@@ -93,7 +93,7 @@
   </div>
   {% endblock %}
 
-  {{ data|json_object:"initial-response" }}
+  {{ initial_response|json_script:"initial-response" }}
 
   <div id="root"></div>
 
