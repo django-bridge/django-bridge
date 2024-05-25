@@ -9,4 +9,4 @@ class DjangoRenderAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
 
     def ready(self):
-        autodiscover_modules("adapter")
+        autodiscover_modules("adapters")
