@@ -12,21 +12,7 @@ from django.forms.models import ModelChoiceIteratorValue
 from django.template.defaultfilters import filesizeformat
 from telepath import ValueNode
 
-from .registry import Adapter, register
-
-
-class ServerRenderedInputAdapter(Adapter):
-    js_constructor = "forms.ServerRenderedInput"
-
-    def js_args(self, widget):
-        return [
-            widget.render("__NAME__", None, attrs={"id": "__ID__"}),
-            widget.id_for_label("__ID__"),
-        ]
-
-
-register(ServerRenderedInputAdapter(), forms.widgets.Input)
-register(ServerRenderedInputAdapter(), forms.Textarea)
+from .registry import Adapter, register, registry
 
 
 class TextInputAdapter(Adapter):
@@ -116,23 +102,39 @@ class FieldWithName:
 
 
 class FieldAdapter(Adapter):
-    js_constructor = "forms.Field"
+    def pack(self, field, context):
+        if registry.find_adapter(field.field.field.widget.__class__) is None:
+            # Field widget is not adaptable, render the widget on the server
+            return (
+                "forms.ServerRenderedField",
+                [
+                    field.name,
+                    field.field.label,
+                    field.field.field.required,
+                    field.field.field.disabled,
+                    field.field.help_text,
+                    field.field.field.widget.render(field.name, field.field.value()),
+                ]
+            )
 
-    def js_args(self, field):
+        # Render widget on the client
         value = field.field.value()
 
         if isinstance(value, (datetime, date, time)):
             value = value.isoformat()
 
-        return [
-            field.name,
-            field.field.label,
-            field.field.field.required,
-            field.field.field.disabled,
-            field.field.field.widget,
-            field.field.help_text,
-            value,
-        ]
+        return (
+            "forms.Field",
+            [
+                field.name,
+                field.field.label,
+                field.field.field.required,
+                field.field.field.disabled,
+                field.field.field.widget,
+                field.field.help_text,
+                value,
+            ]
+        )
 
 
 register(FieldAdapter(), FieldWithName)
