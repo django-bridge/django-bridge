@@ -152,6 +152,14 @@ const config: Config = {
       "data-domain": "django-render.org",
     },
   ],
+  plugins: [
+    [
+      "docusaurus-pushfeedback",
+      {
+        project: "d2b2opllpj",
+      },
+    ],
+  ],
 };
 
 export default config;
