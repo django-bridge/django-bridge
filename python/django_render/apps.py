@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.utils.module_loading import autodiscover_modules
 
 
 class DjangoRenderAppConfig(AppConfig):
@@ -8,5 +9,4 @@ class DjangoRenderAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
 
     def ready(self):
-        # Import forms module to register telepath converters
-        from .ui import forms  # noqa
+        autodiscover_modules("adapter")
