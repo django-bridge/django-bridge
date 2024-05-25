@@ -183,23 +183,22 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     <div>
       <DirtyFormScope handleBrowserUnload>
         <MessagesContext.Provider value={messagesContext}>
-          {overlay &&
-            overlay.navigationController.currentFrame.view !== "loading" && (
-              <DirtyFormScope>
-                {overlay.render(
-                  <Browser
-                    config={config}
-                    navigationController={overlay.navigationController}
-                    openOverlay={() => {}}
-                  />,
-                  () => {
-                    setOverlay(null);
-                    setRequestOverlayClose(false);
-                  },
-                  requestModalClose
-                )}
-              </DirtyFormScope>
-            )}
+          {overlay && overlay.navigationController.currentFrame && (
+            <DirtyFormScope>
+              {overlay.render(
+                <Browser
+                  config={config}
+                  navigationController={overlay.navigationController}
+                  openOverlay={() => {}}
+                />,
+                () => {
+                  setOverlay(null);
+                  setRequestOverlayClose(false);
+                },
+                requestModalClose
+              )}
+            </DirtyFormScope>
+          )}
           <Browser
             config={config}
             navigationController={navigationController}

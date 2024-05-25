@@ -30,7 +30,7 @@ export class NavigationController {
 
   lastReceivedFetchId = 1;
 
-  currentFrame: Frame;
+  currentFrame: Frame | null;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   navigationListeners: ((frame: Frame | null, newFrame: boolean) => void)[] =
@@ -49,16 +49,7 @@ export class NavigationController {
     this.unpack = unpack;
 
     nextFrameId += 1;
-    this.currentFrame = {
-      id: nextFrameId,
-      path: window.location.pathname,
-      title: "Loading",
-      view: "loading",
-      props: {},
-      context: {},
-      serverMessages: [],
-      pushState: false,
-    };
+    this.currentFrame = null;
   }
 
   private fetch = async (
@@ -122,6 +113,7 @@ export class NavigationController {
       let reload = !neverReload;
       if (
         reload &&
+        this.currentFrame &&
         response.view === this.currentFrame.view &&
         this.currentFrame.shouldReloadCallback
       ) {
@@ -139,12 +131,19 @@ export class NavigationController {
         reload
       );
     } else if (response.status === "close-overlay") {
+      if (this.currentFrame !== null) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "The server returned a 'close-overlay' response, but nothing has been loaded."
+        );
+      }
+
       // Call close listeners. One of these should close the overlay
       this.closeListeners.forEach((func) => func());
 
       // Push any messages
       response.messages.forEach((message) => {
-        this.currentFrame.serverMessages.push(message);
+        this.currentFrame!.serverMessages.push(message);
       });
     } else if (response.status === "server-error") {
       this.serverErrorListeners.forEach((func) => func("server"));
@@ -184,9 +183,10 @@ export class NavigationController {
     pushState = true,
     reload = true
   ) => {
-    let frameId = this.currentFrame.id;
+    let frameId = this.currentFrame?.id || 0;
 
-    const newFrame = view !== this.currentFrame.view || reload;
+    const newFrame =
+      !this.currentFrame || view !== this.currentFrame.view || reload;
     if (newFrame) {
       nextFrameId += 1;
       frameId = nextFrameId;
@@ -236,7 +236,7 @@ export class NavigationController {
   };
 
   replacePath = (frameId: number, path: string) => {
-    if (frameId === this.currentFrame.id) {
+    if (frameId === this.currentFrame?.id) {
       // replace-path called on current frame
       // Change the path using replaceState
       this.currentFrame.path = path;
