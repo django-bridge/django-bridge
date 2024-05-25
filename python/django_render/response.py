@@ -5,7 +5,7 @@ from django.utils.cache import patch_cache_control
 from django.utils.html import conditional_escape
 from django.utils.module_loading import import_string
 
-from .telepath import JSContext
+from .adapters.registry import JSContext
 
 
 def get_messages(request):

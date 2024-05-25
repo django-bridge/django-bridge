@@ -12,7 +12,7 @@ from django.forms.models import ModelChoiceIteratorValue
 from django.template.defaultfilters import filesizeformat
 from telepath import ValueNode
 
-from ..telepath import Adapter, register
+from .registry import Adapter, register
 
 
 class ServerRenderedInputAdapter(Adapter):
