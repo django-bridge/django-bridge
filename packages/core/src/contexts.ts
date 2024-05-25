@@ -12,14 +12,25 @@ export interface OpenOverlayOptions {
 
 export interface OverlayContextType {
   overlay: boolean;
-  close: (options?: { skipDirtyFormCheck?: boolean }) => void;
+  closeRequested: boolean;
+  closeBlocked: boolean;
+  requestClose: (options?: { skipDirtyFormCheck?: boolean }) => void;
+  onCloseCompleted: () => void;
 }
 
 export const OverlayContext = React.createContext<OverlayContextType>({
   overlay: false,
-  close: () => {
+  closeRequested: false,
+  closeBlocked: false,
+  requestClose: () => {
     // eslint-disable-next-line no-console
-    console.error("OverlayContext.close() called from outside an overlay");
+    console.error("OverlayContext.requestClose() called from outside an overlay");
+  },
+  onCloseCompleted: () => {
+    // eslint-disable-next-line no-console
+    console.error(
+      "OverlayContext.onCloseCompleted() called from outside an overlay"
+    );
   },
 });
 
@@ -43,11 +54,7 @@ export interface Navigation {
   submitForm: (path: string, data: FormData) => Promise<void>;
   openOverlay: (
     path: string,
-    render: (
-      content: ReactNode,
-      onClose: () => void,
-      requestClose: boolean
-    ) => ReactNode,
+    render: (content: ReactNode) => ReactNode,
     options?: OpenOverlayOptions
   ) => void;
   refreshProps: () => Promise<void>;

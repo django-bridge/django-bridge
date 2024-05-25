@@ -15,11 +15,7 @@ export interface BrowserProps {
   navigationController: NavigationController;
   openOverlay(
     path: string,
-    render: (
-      content: ReactNode,
-      onClose: () => void,
-      requestClose: boolean
-    ) => ReactNode,
+    render: (content: ReactNode) => ReactNode,
     options?: OpenOverlayOptions
   ): void;
 }

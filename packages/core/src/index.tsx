@@ -8,6 +8,7 @@ import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import Config from "./config";
 import Form from "./components/Form";
 import { MessagesContext } from "./contexts";
+import Overlay from "./components/Overlay";
 
 export interface AppProps {
   config: Config;
@@ -20,13 +21,10 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   );
   const [overlay, setOverlay] = React.useState<{
     navigationController: NavigationController;
-    render(
-      content: ReactNode,
-      onClose: () => void,
-      requestClose: boolean
-    ): ReactNode;
+    render(content: ReactNode): ReactNode;
   } | null>(null);
-  const [requestModalClose, setRequestOverlayClose] = React.useState(false);
+  const [overlayCloseRequested, setOverlayCloseRequested] =
+    React.useState(false);
   const overlayCloseListener = React.useRef<(() => void) | null>(null);
 
   const [render, setRender] = React.useState(0);
@@ -121,11 +119,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
   const openOverlay = (
     path: string,
-    renderOverlay: (
-      content: ReactNode,
-      onClose: () => void,
-      requestClose: boolean
-    ) => ReactNode,
+    renderOverlay: (content: ReactNode) => ReactNode,
     { onClose }: { onClose?: () => void } = {}
   ) => {
     // Set up a new navigation controller
@@ -142,7 +136,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
     // Add a listener to listen for when the overlay is closed by the server
     overlayNavigationController.addCloseListener(() =>
-      setRequestOverlayClose(true)
+      setOverlayCloseRequested(true)
     );
 
     if (onClose) {
@@ -153,7 +147,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
       navigationController: overlayNavigationController,
       render: renderOverlay,
     });
-    setRequestOverlayClose(false);
+    setOverlayCloseRequested(false);
   };
 
   // Close overlay when we navigate the main window
@@ -163,7 +157,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
       // Only close overlay if a new frame is being pushed
       // This prevents the overlay from closing when refreshProps is called
       if (overlay && newFrame) {
-        setRequestOverlayClose(true);
+        setOverlayCloseRequested(true);
       }
     };
 
@@ -186,18 +180,17 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
           {overlay &&
             overlay.navigationController.currentFrame.view !== "loading" && (
               <DirtyFormScope>
-                {overlay.render(
-                  <Browser
-                    config={config}
-                    navigationController={overlay.navigationController}
-                    openOverlay={() => {}}
-                  />,
-                  () => {
+                <Overlay
+                  config={config}
+                  navigationController={overlay.navigationController}
+                  render={(content) => overlay.render(content)}
+                  requestClose={() => setOverlayCloseRequested(true)}
+                  closeRequested={overlayCloseRequested}
+                  onCloseCompleted={() => {
                     setOverlay(null);
-                    setRequestOverlayClose(false);
-                  },
-                  requestModalClose
-                )}
+                    setOverlayCloseRequested(false);
+                  }}
+                />
               </DirtyFormScope>
             )}
           <Browser
