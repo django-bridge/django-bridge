@@ -5,8 +5,9 @@ import "./index.css";
 
 import HomeView from "./views/Home";
 
-// Add your views here
 const config = new DjangoRender.Config();
+
+// Add your views here
 config.addView("Home", HomeView);
 
 const rootElement = document.getElementById("root")!;
