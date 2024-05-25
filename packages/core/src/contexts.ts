@@ -24,7 +24,9 @@ export const OverlayContext = React.createContext<OverlayContextType>({
   closeBlocked: false,
   requestClose: () => {
     // eslint-disable-next-line no-console
-    console.error("OverlayContext.requestClose() called from outside an overlay");
+    console.error(
+      "OverlayContext.requestClose() called from outside an overlay"
+    );
   },
   onCloseCompleted: () => {
     // eslint-disable-next-line no-console
