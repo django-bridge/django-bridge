@@ -13,16 +13,16 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 const sidebars: SidebarsConfig = {
   guide: [
     "index",
-    {
-      type: "category",
-      label: "Tutorial",
-      items: [
-        "tutorial/index",
-        "tutorial/start-project",
-        "tutorial/views",
-        "tutorial/deploying",
-      ],
-    },
+    // {
+    //   type: "category",
+    //   label: "Tutorial",
+    //   items: [
+    //     "tutorial/index",
+    //     "tutorial/start-project",
+    //     "tutorial/views",
+    //     "tutorial/deploying",
+    //   ],
+    // },
     {
       type: "category",
       label: "Explanations",
@@ -33,19 +33,19 @@ const sidebars: SidebarsConfig = {
         "explanations/serialisation",
       ],
     },
-    {
-      type: "category",
-      label: "How to",
-      items: [
-        "how-to/index",
-        "how-to/overlays",
-        "how-to/global-context",
-        "how-to/forms",
-        "how-to/storybook",
-        "how-to/testing",
-      ],
-    },
-    "reference",
+    // {
+    //   type: "category",
+    //   label: "How to",
+    //   items: [
+    //     "how-to/index",
+    //     "how-to/overlays",
+    //     "how-to/global-context",
+    //     "how-to/forms",
+    //     "how-to/storybook",
+    //     "how-to/testing",
+    //   ],
+    // },
+    // "reference",
   ],
 };
 

@@ -6,9 +6,13 @@ sidebar_position: 1
 
 This is the official guide for building Django/React applications using Django Render. It is designed to serve as both a starting point and a reference guide.
 
+**WORK IN PROGRESS: This documentation is currently being worked on and should greatly improve over the summer**
+
 ## Getting started
 
-If you're new to Django Render, you can [try the tutorial](./tutorial) or an introduction.
+Have a look at our [demo project](https://demo.django-render.org/) to get an idea of how Django Render works.
+
+The [source code](https://github.com/kaedroho/djangopress) is permissively licenced so feel free to copy that project to get started.
 
 ## Explanations
 
@@ -18,7 +22,7 @@ Read about how Django Render works.
  - [URL Routing](./explanations/routing)
  - [Serialisation of Python objects](./explanations/serialisation.md)
 
-## How to guides
+<!-- ## How to guides
 
  - **[Building modal workflows using overlays](./how-to/overlays)**
  - **[Adding global context](./how-to/global-context)**
@@ -28,4 +32,4 @@ Read about how Django Render works.
 
 ## Reference
 
- - **[Reference](./reference)** - The API reference
+ - **[Reference](./reference)** - The API reference -->
