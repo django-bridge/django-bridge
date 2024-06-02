@@ -13,16 +13,15 @@ import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
 
 function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
           {<Logo width={400} />}
+          <span className={styles.visuallyhidden}>Django Render</span>
         </Heading>
         <p className={styles.heroSubtitle}>
-          <b>Django Render</b> provides a simple approach for building{" "}
-          <b>Django</b> applications with{" "}
+          A simple approach for building <b>Django</b> applications with{" "}
           <b>
             <ReactLogo
               style={{
@@ -60,11 +59,7 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title="Django and React application framework"
-      description="A simple and ready-to-use framework for building SaaS and internal
-      applications with Django and React."
-    >
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <section className={styles.section}>
