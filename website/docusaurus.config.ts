@@ -5,7 +5,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 const config: Config = {
   title: "Django Render - Django / React application framework.",
   tagline:
-    "A simple approach for building Django applications with React frontends",
+    "A framework for Django that makes it simple to build applications with modern React Frontends.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
