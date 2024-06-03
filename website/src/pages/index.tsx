@@ -36,10 +36,7 @@ function HomepageHeader() {
           frontends
         </p>
         <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/tutorial"
-          >
+          <Link className="button button--secondary button--lg" to="/docs">
             Get started
           </Link>
           <a
