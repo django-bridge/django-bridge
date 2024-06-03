@@ -2,11 +2,13 @@
 sidebar_position: 1
 ---
 
-# Usage guide
+# Introduction
 
-This is the official guide for building Django/React applications using Django Render. It is designed to serve as both a starting point and a reference guide.
+Welcome to Django Render!
 
 **WORK IN PROGRESS: This documentation is currently being worked on and should greatly improve over the summer**
+
+This is the official guide for building Django/React applications using Django Render. It is designed to serve as both a starting point and a reference guide.
 
 ## Getting started
 

@@ -12,8 +12,11 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  */
 const sidebars: SidebarsConfig = {
   guide: [
-    "whentouse",
-    "index",
+    {
+      type: "category",
+      label: "Getting started",
+      items: ["start", "start/whentouse"],
+    },
     // {
     //   type: "category",
     //   label: "Tutorial",
