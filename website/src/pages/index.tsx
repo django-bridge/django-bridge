@@ -22,7 +22,7 @@ function HomepageHeader() {
         </Heading>
         <p className={styles.heroSubtitle}>
           The simple way to build <b>Django</b> applications with modern{" "}
-          <b>
+          <b style={{ whiteSpace: "nowrap" }}>
             <ReactLogo
               style={{
                 display: "inline",
