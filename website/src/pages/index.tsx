@@ -33,7 +33,7 @@ function HomepageHeader() {
             />
             React
           </b>{" "}
-          Frontends
+          frontends
         </p>
         <div className={styles.buttons}>
           <Link
