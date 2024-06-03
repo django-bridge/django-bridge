@@ -20,9 +20,9 @@ The [source code](https://github.com/kaedroho/djangopress) is permissively licen
 
 Read about how Django Render works.
 
- - [Responses](./explanations/responses)
- - [URL Routing](./explanations/routing)
- - [Serialisation of Python objects](./explanations/serialisation.md)
+ - [Responses](/docs/explanations/responses)
+ - [URL Routing](/docs/explanations/routing)
+ - [Serialisation of Python objects](/docs/explanations/serialisation.md)
 
 <!-- ## How to guides
 
