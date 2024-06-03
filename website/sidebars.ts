@@ -18,7 +18,6 @@ const sidebars: SidebarsConfig = {
     //   type: "category",
     //   label: "Tutorial",
     //   items: [
-    //     "tutorial/index",
     //     "tutorial/start-project",
     //     "tutorial/views",
     //     "tutorial/deploying",
@@ -28,7 +27,6 @@ const sidebars: SidebarsConfig = {
       type: "category",
       label: "Explanations",
       items: [
-        "explanations/index",
         "explanations/responses",
         "explanations/routing",
         "explanations/serialisation",
@@ -38,7 +36,6 @@ const sidebars: SidebarsConfig = {
     //   type: "category",
     //   label: "How to",
     //   items: [
-    //     "how-to/index",
     //     "how-to/overlays",
     //     "how-to/global-context",
     //     "how-to/forms",
