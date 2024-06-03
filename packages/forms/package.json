@@ -1,7 +1,7 @@
 {
   "name": "@django-render/forms",
   "version": "0.1.0-beta.7",
-  "description": "Django Render is a framework for building React frontends for Django projects.",
+  "description": "The simple way to build Django applications with modern React frontends",
   "repository": "https://github.com/kaedroho/django-render",
   "license": "BSD-3-Clause",
   "main": "dist/index.js",

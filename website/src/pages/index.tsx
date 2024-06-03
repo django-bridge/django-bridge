@@ -21,8 +21,7 @@ function HomepageHeader() {
           <span className={styles.visuallyhidden}>Django Render</span>
         </Heading>
         <p className={styles.heroSubtitle}>
-          A framework for <b>Django</b> that makes it simple to build
-          applications with modern{" "}
+          The simple way to build <b>Django</b> applications with modern{" "}
           <b>
             <ReactLogo
               style={{

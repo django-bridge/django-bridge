@@ -12,7 +12,7 @@ with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
 setup(
     name="djrender",
     version=__version__,
-    description="A framework for building React frontends for Django projects",
+    description="The simple way to build Django applications with modern React frontends",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Karl Hobley",
