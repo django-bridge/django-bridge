@@ -63,55 +63,23 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <section className={styles.section}>
-          <h2>Django for logic, React for presentation</h2>
-
+          <h2>Build your application backend with Django</h2>
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Keep your Django views simple and focused on the backend logic.
-                Let React handle the frontend rendering.
+                Use Django's URL routing and views to fetch the data for your
+                frontend to render.
+              </p>
+              <p>
+                Every click results in a single server round-trip where the
+                server returns what the frontend should render on the next page
+                in JSON format.
               </p>
             </div>
-            <Tabs className={styles.column}>
-              <TabItem value="python" label="views.py">
-                <CodeBlock language="python">{`from django_render import Response
-
-def test(request):
-    # Backend logic here
-
-    return Response(request, "TestView", {
-        "name": request.user.get_full_name(),
-    })
-  `}</CodeBlock>
-              </TabItem>
-              <TabItem value="jsx" label="TestView.jsx">
-                <CodeBlock language="jsx">{`function TestView({ name }) {
-    return (
-      <Layout>
-        <p>Hello, {name}!</p>
-      </Layout>
-    );
-  }`}</CodeBlock>
-              </TabItem>
-            </Tabs>
-          </div>
-        </section>
-        <section className={styles.section}>
-          <h2>Render Django forms with React</h2>
-          <div className={styles.container}>
             <div className={styles.column}>
-              <p>
-                Python objects, like forms and field definitions, automatically
-                get translated into JavaScript equivalents.
-              </p>
-              <p>
-                To render a Django form in React, pass the form object to a
-                React component and call the render method.
-              </p>
-            </div>
-            <Tabs className={styles.column}>
-              <TabItem value="python" label="views.py">
-                <CodeBlock language="python">{`from django_render import Response
+              <Tabs>
+                <TabItem value="views" label="views.py">
+                  <CodeBlock language="python">{`from django_render import Response
 
 def form(request):
     form = MyForm(request.POST or None)
@@ -120,16 +88,48 @@ def form(request):
         # Form submission logic here
 
     return Response(request, "FormView", {
-        "csrf_token": get_token(request),
         "action_url": reverse("form"),
         "form": form,
     })
   `}</CodeBlock>
-              </TabItem>
-              <TabItem value="jsx" label="FormView.jsx">
-                <CodeBlock language="jsx">{`function FormView({ csrf_token, action_url, form }) {
+                </TabItem>
+                <TabItem value="urls" label="urls.py">
+                  <CodeBlock language="python">{`urlpatterns = [
+    path("form", views.form),
+]`}</CodeBlock>
+                </TabItem>
+              </Tabs>
+            </div>
+          </div>
+        </section>
+        <section className={styles.section}>
+          <h2>Render the frontend with React</h2>
+          <div className={styles.container}>
+            <div className={styles.column}>
+              <p>Build fully client-rendered single page applications.</p>
+              <p>
+                There is no need to set up an API, or client-side routing. All
+                app logic is implemented on the server keeping the frontend
+                light.
+              </p>
+              <p>
+                Python objects can be converted to JavaScript objects using{" "}
+                <a href="https://github.com/wagtail/telepath" rel="nofollow">
+                  Telepath
+                </a>
+                . This allows you use Django forms in React!
+              </p>
+            </div>
+            <div className={styles.column}>
+              <Tabs>
+                <TabItem value="view" label="Form.jsx">
+                  <CodeBlock language="jsx">{`function FormView({ action_url, form }) {
+    const { csrfToken } = useContext(CSRFTokenContext);
+
     return (
       <Layout>
+        <h1>A Django form rendered with React</h1>
+
         <Form action={action_url} method="post">
           <input
             type="hidden"
@@ -143,40 +143,29 @@ def form(request):
       </Layout>
     );
   }`}</CodeBlock>
-              </TabItem>
-            </Tabs>
-          </div>
-        </section>
-        <section className={styles.section}>
-          <h2>Create modal workflows with Django views</h2>
-          <div className={styles.container}>
-            <div className={styles.column}>
-              <p>
-                Any React-renderable view can be rendered in a modal; just pass
-                the view's URL to the openOverlay function.
-              </p>
-              <p>
-                Django Render will fetch the view, render it, and display it in
-                an overlay. All links and form submissions will be rendered in
-                the modal as well.
-              </p>
-              <p>
-                A custom render function can be passed to the openOverlay
-                function to customize the modal's appearance.
-              </p>
+                </TabItem>
+                <TabItem value="main" label="main.jsx">
+                  <CodeBlock language="jsx">{`const config = new DjangoRender.Config();
+
+// Add your views here
+config.addView("Form", FormView);
+
+const rootElement = document.getElementById("root");
+const initialResponse = JSON.parse(
+  document.getElementById("initial-response").textContent
+);
+
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <DjangoRender.App
+      config={config}
+      initialResponse={initialResponse}
+    />
+  </React.StrictMode>
+);`}</CodeBlock>
+                </TabItem>
+              </Tabs>
             </div>
-            <Tabs className={styles.column}>
-              <TabItem value="jsx" label="TestView.jsx">
-                <CodeBlock language="jsx">
-                  {`<button
-  onClick={
-    () => openOverlay(form_url, renderModal)
-  }>
-  Open Form
-</button>`}
-                </CodeBlock>
-              </TabItem>
-            </Tabs>
           </div>
         </section>
       </main>
