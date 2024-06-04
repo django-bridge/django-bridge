@@ -28,10 +28,16 @@ Django Render uses Django's URL routing, so you don't need to set up a separate 
 
 For best performance, make sure you use the `<Link>` tag when linking between React-rendered views and `<a>` tags when linking between React/template-rendered views. This allows the React views to fetch the content of the new page and re-render without reloading.
 
-## Where to avoid using Django Render
+## Where Django Render doesn't shine so much
 
 ### Public websites that require SEO
 
 While Django render apps render incredably fast (almost unnoticable to end users), client-side rendering does have an impact on SEO performance.
 
 If you're building an application with a public website in the same project, you can build the public site with template-rendered views and build the application itself with React-rendered views.
+
+### Decoupling the frontend from the backend
+
+The frontend and backend of the Django Render app need to be tightly coupled together as the backend is what provides all the data and logic for the frontend to render. This means Django Render will be unsuitable for building frontends on top of generic APIs or integrating multiple backend applications in the same frontend (like Jamstack).
+
+Despite this, Django Render does make it easier to develop the frontend and backend separately.Eeach view can be rendered with a single JSON response which makes it easier to mock out the responses in Storybook and to use test driven development to develop the backend views and application logic.
