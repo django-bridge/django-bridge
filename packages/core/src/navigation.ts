@@ -61,6 +61,8 @@ export class NavigationController {
     };
   }
 
+  isLoading = () => this.currentFrame.view === "loading";
+
   private fetch = async (
     fetcher: () => Promise<DjangoRenderResponse>,
     url: string,
