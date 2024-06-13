@@ -51,7 +51,7 @@ class DjangoRenderMiddleware:
                 js = [
                     static(asset_manifest["src/main.tsx"]["file"]),
                 ]
-                css = asset_manifest["src/main.tsx"]["css"]
+                css = asset_manifest["src/main.tsx"].get("css", [])
                 vite_react_refresh_runtime = None
 
             elif VITE_DEVSERVER_URL:
