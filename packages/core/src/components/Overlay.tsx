@@ -40,7 +40,7 @@ export default function Overlay({
     () => ({
       overlay: true,
       closeRequested,
-      closeBlocked: dirtyFormContext.isDirty,
+      closeBlocked: closeRequested && dirtyFormContext.isDirty,
       requestClose: requestCloseCallback,
       onCloseCompleted,
     }),
