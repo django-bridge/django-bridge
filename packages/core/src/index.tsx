@@ -177,29 +177,30 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     <div>
       <DirtyFormScope handleBrowserUnload>
         <MessagesContext.Provider value={messagesContext}>
-          {overlay &&
-            overlay.navigationController.currentFrame.view !== "loading" && (
-              <DirtyFormScope>
-                <Overlay
-                  config={config}
-                  navigationController={overlay.navigationController}
-                  render={(content) => overlay.render(content)}
-                  requestClose={() => setOverlayCloseRequested(true)}
-                  closeRequested={overlayCloseRequested}
-                  onCloseCompleted={() => {
-                    setOverlay(null);
-                    setOverlayCloseRequested(false);
-                  }}
-                />
-              </DirtyFormScope>
-            )}
-          <Browser
-            config={config}
-            navigationController={navigationController}
-            openOverlay={(url, renderOverlay, options) =>
-              openOverlay(url, renderOverlay, options)
-            }
-          />
+          {overlay && !overlay.navigationController.isLoading() && (
+            <DirtyFormScope>
+              <Overlay
+                config={config}
+                navigationController={overlay.navigationController}
+                render={(content) => overlay.render(content)}
+                requestClose={() => setOverlayCloseRequested(true)}
+                closeRequested={overlayCloseRequested}
+                onCloseCompleted={() => {
+                  setOverlay(null);
+                  setOverlayCloseRequested(false);
+                }}
+              />
+            </DirtyFormScope>
+          )}
+          {!navigationController.isLoading() && (
+            <Browser
+              config={config}
+              navigationController={navigationController}
+              openOverlay={(url, renderOverlay, options) =>
+                openOverlay(url, renderOverlay, options)
+              }
+            />
+          )}
         </MessagesContext.Provider>
       </DirtyFormScope>
     </div>
