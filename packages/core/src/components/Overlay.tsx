@@ -70,7 +70,7 @@ export default function Overlay({
     ]
   );
 
-  if (navigationController.isLoading()) {
+  if (navigationController.isLoading) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return <></>;
   }

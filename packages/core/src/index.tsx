@@ -152,7 +152,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
               />
             </DirtyFormScope>
           )}
-          {!navigationController.isLoading() && (
+          {!navigationController.isLoading && (
             <Browser
               config={config}
               navigationController={navigationController}
@@ -178,7 +178,7 @@ export {
 export type { Navigation } from "./contexts";
 export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
-export { NavigationController } from "./navigation";
+export { type NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
 export type { DjangoRenderResponse as Response };
 export { Link, BuildLinkElement, buildLinkElement };

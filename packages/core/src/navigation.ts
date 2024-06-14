@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
@@ -13,7 +13,6 @@ export interface Frame<Props = Record<string, unknown>> {
   props: Props;
   context: Record<string, unknown>;
   serverMessages: Message[];
-  pushState: boolean;
   shouldReloadCallback?: (newPath: string, newProps: Props) => boolean;
 }
 
@@ -22,251 +21,20 @@ interface HistoryState {
   prevScrollPosition?: number;
 }
 
-export class NavigationController {
+export interface NavigationController {
   parent: NavigationController | null;
-
-  unpack: (data: Record<string, unknown>) => Record<string, unknown>;
-
-  nextFetchId = 1;
-
-  lastReceivedFetchId = 1;
-
   currentFrame: Frame;
-
-  callbacks: {
-    onNavigation?: (frame: Frame | null, newFrame: boolean) => void;
-    onOverlayClose?: () => void;
-    onServerError?: (kind: "server" | "network") => void;
-  };
-
-  constructor(
-    parent: NavigationController | null,
-    unpack: (data: Record<string, unknown>) => Record<string, unknown>,
-    initialPath: string,
-    callbacks: NavigationController["callbacks"]
-  ) {
-    this.parent = parent;
-    this.unpack = unpack;
-    this.callbacks = callbacks;
-
-    nextFrameId += 1;
-    this.currentFrame = {
-      id: nextFrameId,
-      path: initialPath,
-      title: "Loading",
-      view: "loading",
-      props: {},
-      context: {},
-      serverMessages: [],
-      pushState: false,
-    };
-  }
-
-  isLoading = () => this.currentFrame.view === "loading";
-
-  private fetch = async (
-    fetcher: () => Promise<DjangoRenderResponse>,
-    url: string,
-    pushState: boolean,
-    neverReload = false
-  ) => {
-    // Get a fetch ID
-    // We do this so that if responses come back in a different order to
-    // when the requests were sent, the older requests don't replace newer ones
-    this.nextFetchId += 1;
-    const thisFetchId = this.nextFetchId;
-
-    const response = await fetcher();
-
-    if (thisFetchId < this.lastReceivedFetchId) {
-      // A subsequent fetch was made but its response came in before this one
-      // So ignore this response
-      return;
-    }
-
-    this.lastReceivedFetchId = thisFetchId;
-
-    if (response === null) {
-      return;
-    }
-
-    await this.handleResponse(response, url, pushState, neverReload);
-  };
-
-  handleResponse = (
+  isLoading: boolean;
+  handleResponse: (
     response: DjangoRenderResponse,
     path: string,
-    pushState = true,
-    neverReload = false
-  ): Promise<void> => {
-    if (response.status === "reload") {
-      if (!this.parent) {
-        window.location.href = path;
-      } else {
-        // reload responses require reloading the entire page, but this is an overlay
-        // Escalate this response to the page's navigation controller instead
-        return this.parent.handleResponse(response, path);
-      }
-    } else if (response.status === "redirect") {
-      return this.navigate(response.path);
-    } else if (response.status === "render") {
-      // If this navigation controller is handling an overlay, make sure the response can be
-      // loaded in a overlay. Otherwise, escalate it to parent
-      if (this.parent && !response.overlay) {
-        return this.parent.handleResponse(response, path);
-      }
-
-      // Unpack props and context
-      const props = this.unpack(response.props);
-      const context = this.unpack(response.context);
-
-      // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
-      // If it does, call it to see if we should reload the view or just update its props
-      let reload = !neverReload;
-      if (
-        reload &&
-        response.view === this.currentFrame.view &&
-        this.currentFrame.shouldReloadCallback
-      ) {
-        reload = this.currentFrame.shouldReloadCallback(path, props);
-      }
-
-      this.pushFrame(
-        path,
-        response.title,
-        response.view,
-        props,
-        context,
-        response.messages,
-        pushState,
-        reload
-      );
-    } else if (response.status === "close-overlay") {
-      // Call overlay close callback
-      if (this.callbacks.onOverlayClose) {
-        this.callbacks.onOverlayClose();
-      }
-
-      // Push any messages
-      response.messages.forEach((message) => {
-        this.currentFrame.serverMessages.push(message);
-      });
-    } else if (response.status === "server-error") {
-      if (this.callbacks.onServerError) {
-        this.callbacks.onServerError("server");
-      }
-      return Promise.reject();
-    } else if (response.status === "network-error") {
-      if (this.callbacks.onServerError) {
-        this.callbacks.onServerError("network");
-      }
-      return Promise.reject();
-    }
-
-    return Promise.resolve();
-  };
-
-  navigate = (url: string, pushState = true): Promise<void> => {
-    let path = url;
-
-    if (!url.startsWith("/")) {
-      const urlObj = new URL(url);
-
-      if (urlObj.origin !== window.location.origin) {
-        window.location.href = url;
-        return Promise.resolve();
-      }
-
-      path = urlObj.pathname + urlObj.search;
-    }
-
-    return this.fetch(() => djangoGet(path, !!this.parent), path, pushState);
-  };
-
-  pushFrame = (
-    path: string,
-    title: string,
-    view: string,
-    props: Record<string, unknown>,
-    context: Record<string, unknown>,
-    serverMessages: Message[],
-    pushState = true,
-    reload = true
-  ) => {
-    let frameId = this.currentFrame.id;
-
-    const newFrame = view !== this.currentFrame.view || reload;
-    if (newFrame) {
-      nextFrameId += 1;
-      frameId = nextFrameId;
-    }
-
-    this.currentFrame = {
-      id: frameId,
-      path,
-      title,
-      view,
-      props,
-      context,
-      serverMessages,
-      pushState,
-    };
-
-    if (!this.parent) {
-      document.title = title;
-
-      if (this.currentFrame.pushState) {
-        let scollPositionY = 0;
-        const scrollPosition = window.scrollY;
-        const historyState = window.history?.state as HistoryState;
-        // if we're going back to previous path, return to the the previous scroll position
-        if (historyState?.prevPath === this.currentFrame.path) {
-          scollPositionY = historyState.prevScrollPosition ?? 0;
-        }
-
-        // set the previous path and scroll position in the state before pushing the new url
-        window.history.pushState(
-          {
-            prevPath: window.location.pathname,
-            prevScrollPosition: scrollPosition,
-          },
-          "",
-          this.currentFrame.path
-        );
-
-        // set the scroll position
-        window.scrollTo(0, scollPositionY);
-      }
-    }
-
-    if (this.callbacks.onNavigation) {
-      this.callbacks.onNavigation(this.currentFrame, newFrame);
-    }
-  };
-
-  replacePath = (frameId: number, path: string) => {
-    if (frameId === this.currentFrame.id) {
-      // replace-path called on current frame
-      // Change the path using replaceState
-      this.currentFrame.path = path;
-
-      if (!this.parent) {
-        // eslint-disable-next-line no-restricted-globals
-        history.replaceState({}, "", this.currentFrame.path);
-      }
-    }
-  };
-
-  submitForm = (url: string, data: FormData): Promise<void> =>
-    this.fetch(() => djangoPost(url, data, !!this.parent), url, true);
-
-  refreshProps = (): Promise<void> =>
-    this.fetch(
-      () => djangoGet(this.currentFrame.path, !!this.parent),
-      this.currentFrame.path,
-      false,
-      true
-    );
+    pushState?: boolean,
+    neverReload?: boolean
+  ) => Promise<void>;
+  navigate: (url: string, pushState?: boolean) => Promise<void>;
+  replacePath: (frameId: number, path: string) => void;
+  submitForm: (url: string, data: FormData) => Promise<void>;
+  refreshProps: () => Promise<void>;
 }
 
 export function useNavigationController(
@@ -274,35 +42,277 @@ export function useNavigationController(
   unpack: (data: Record<string, unknown>) => Record<string, unknown>,
   initialResponse: DjangoRenderResponse,
   initialPath: string,
-  callbacks: NavigationController["callbacks"] = {}
-) {
-  // Re-render if a navigation occurs
-  const [forceRender, setForceRender] = useState(0);
-  const onNavigation = useCallback(
-    (frame: Frame | null, newFrame: boolean) => {
-      // HACK: Update some state to force a re-render
-      setForceRender(forceRender + Math.random());
+  callbacks: {
+    onNavigation?: (frame: Frame | null, newFrame: boolean) => void;
+    onOverlayClose?: () => void;
+    onServerError?: (kind: "server" | "network") => void;
+  } = {}
+): NavigationController {
+  nextFrameId += 1;
+  const [currentFrame, setCurrentFrame] = useState<Frame>({
+    id: nextFrameId,
+    path: initialPath,
+    title: "Loading",
+    view: "loading",
+    props: {},
+    context: {},
+    serverMessages: [],
+  });
+
+  const pushFrame = useCallback(
+    (
+      path: string,
+      title: string,
+      view: string,
+      props: Record<string, unknown>,
+      context: Record<string, unknown>,
+      serverMessages: Message[],
+      pushState = true,
+      reload = true
+    ) => {
+      let frameId = currentFrame.id;
+
+      const newFrame = view !== currentFrame.view || reload;
+      if (newFrame) {
+        nextFrameId += 1;
+        frameId = nextFrameId;
+      }
+
+      if (!parent) {
+        document.title = title;
+
+        if (pushState) {
+          let scollPositionY = 0;
+          const scrollPosition = window.scrollY;
+          const historyState = window.history?.state as HistoryState;
+          // if we're going back to previous path, return to the the previous scroll position
+          if (historyState?.prevPath === path) {
+            scollPositionY = historyState.prevScrollPosition ?? 0;
+          }
+
+          // set the previous path and scroll position in the state before pushing the new url
+          window.history.pushState(
+            {
+              prevPath: window.location.pathname,
+              prevScrollPosition: scrollPosition,
+            },
+            "",
+            path
+          );
+
+          // set the scroll position
+          window.scrollTo(0, scollPositionY);
+        }
+      }
+
+      const nextFrame = {
+        id: frameId,
+        path,
+        title,
+        view,
+        props,
+        context,
+        serverMessages,
+      };
+      setCurrentFrame(nextFrame);
 
       if (callbacks.onNavigation) {
-        callbacks.onNavigation(frame, newFrame);
+        callbacks.onNavigation(nextFrame, newFrame);
       }
     },
-    [callbacks, forceRender]
+    [callbacks, currentFrame.id, currentFrame.view, parent]
   );
 
-  const [navigationController] = useState(
-    () =>
-      new NavigationController(parent, unpack, initialPath, {
-        ...callbacks,
-        onNavigation,
-      })
+  const [redirectTo, setRedirectTo] = useState<null | string>(null);
+
+  const handleResponse = useCallback(
+    (
+      response: DjangoRenderResponse,
+      path: string,
+      pushState = true,
+      neverReload = false
+    ): Promise<void> => {
+      if (response.status === "reload") {
+        if (!parent) {
+          window.location.href = path;
+        } else {
+          // reload responses require reloading the entire page, but this is an overlay
+          // Escalate this response to the page's navigation controller instead
+          return parent.handleResponse(response, path);
+        }
+      } else if (response.status === "redirect") {
+        // HACK: Needed to do this because we can't call navigate directly from here
+        setRedirectTo(response.path);
+        return Promise.resolve();
+      } else if (response.status === "render") {
+        // If this navigation controller is handling an overlay, make sure the response can be
+        // loaded in a overlay. Otherwise, escalate it to parent
+        if (parent && !response.overlay) {
+          return parent.handleResponse(response, path);
+        }
+
+        // Unpack props and context
+        const props = unpack(response.props);
+        const context = unpack(response.context);
+
+        // If the view is the same as the current frame, check if the frame has a shouldReloadCallback registered.
+        // If it does, call it to see if we should reload the view or just update its props
+        let reload = !neverReload;
+        if (
+          reload &&
+          response.view === currentFrame.view &&
+          currentFrame.shouldReloadCallback
+        ) {
+          reload = currentFrame.shouldReloadCallback(path, props);
+        }
+
+        pushFrame(
+          path,
+          response.title,
+          response.view,
+          props,
+          context,
+          response.messages,
+          pushState,
+          reload
+        );
+      } else if (response.status === "close-overlay") {
+        // Call overlay close callback
+        if (callbacks.onOverlayClose) {
+          callbacks.onOverlayClose();
+        }
+
+        // Push any messages
+        response.messages.forEach((message) => {
+          currentFrame.serverMessages.push(message);
+        });
+      } else if (response.status === "server-error") {
+        if (callbacks.onServerError) {
+          callbacks.onServerError("server");
+        }
+        return Promise.reject();
+      } else if (response.status === "network-error") {
+        if (callbacks.onServerError) {
+          callbacks.onServerError("network");
+        }
+        return Promise.reject();
+      }
+
+      return Promise.resolve();
+    },
+    [callbacks, currentFrame, parent, pushFrame, unpack]
+  );
+
+  const nextFetchId = useRef(1);
+  const lastReceivedFetchId = useRef(1);
+
+  const fetch = useCallback(
+    async (
+      fetcher: () => Promise<DjangoRenderResponse>,
+      url: string,
+      pushState: boolean,
+      neverReload = false
+    ) => {
+      // Get a fetch ID
+      // We do this so that if responses come back in a different order to
+      // when the requests were sent, the older requests don't replace newer ones
+      nextFetchId.current += 1;
+      const thisFetchId = nextFetchId.current;
+
+      const response = await fetcher();
+
+      if (thisFetchId < lastReceivedFetchId.current) {
+        // A subsequent fetch was made but its response came in before this one
+        // So ignore this response
+        return;
+      }
+
+      lastReceivedFetchId.current = thisFetchId;
+
+      if (response === null) {
+        return;
+      }
+
+      await handleResponse(response, url, pushState, neverReload);
+    },
+    [handleResponse]
+  );
+
+  const navigate = useCallback(
+    (url: string, pushState = true): Promise<void> => {
+      let path = url;
+
+      if (!url.startsWith("/")) {
+        const urlObj = new URL(url);
+
+        if (urlObj.origin !== window.location.origin) {
+          window.location.href = url;
+          return Promise.resolve();
+        }
+
+        path = urlObj.pathname + urlObj.search;
+      }
+
+      return fetch(() => djangoGet(path, !!parent), path, pushState);
+    },
+    [fetch, parent]
+  );
+
+  const replacePath = useCallback(
+    (frameId: number, path: string) => {
+      if (frameId === currentFrame.id) {
+        // replace-path called on current frame
+        // Change the path using replaceState
+        currentFrame.path = path;
+
+        if (!parent) {
+          // eslint-disable-next-line no-restricted-globals
+          history.replaceState({}, "", currentFrame.path);
+        }
+      }
+    },
+    [currentFrame, parent]
+  );
+
+  const submitForm = useCallback(
+    (url: string, data: FormData): Promise<void> =>
+      fetch(() => djangoPost(url, data, !!parent), url, true),
+    [fetch, parent]
+  );
+
+  const refreshProps = useCallback(
+    (): Promise<void> =>
+      fetch(
+        () => djangoGet(currentFrame.path, !!parent),
+        currentFrame.path,
+        false,
+        true
+      ),
+    [currentFrame.path, fetch, parent]
   );
 
   useEffect(() => {
     // Load initial response
     // eslint-disable-next-line no-void
-    void navigationController.handleResponse(initialResponse, initialPath);
+    void handleResponse(initialResponse, initialPath);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return navigationController;
+  useEffect(() => {
+    if (redirectTo) {
+      setRedirectTo(null);
+      // eslint-disable-next-line no-void
+      void navigate(redirectTo);
+    }
+  }, [navigate, redirectTo]);
+
+  return {
+    parent,
+    currentFrame,
+    isLoading: currentFrame.view === "loading",
+    handleResponse,
+    navigate,
+    replacePath,
+    submitForm,
+    refreshProps,
+  };
 }
