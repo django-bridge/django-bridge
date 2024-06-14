@@ -51,7 +51,10 @@ export class NavigationController {
     nextFrameId += 1;
     this.currentFrame = {
       id: nextFrameId,
-      path: window.location.pathname,
+      path:
+        window.location.pathname +
+        window.location.search +
+        window.location.hash,
       title: "Loading",
       view: "loading",
       props: {},
@@ -253,12 +256,13 @@ export class NavigationController {
   submitForm = (url: string, data: FormData): Promise<void> =>
     this.fetch(() => djangoPost(url, data, !!this.parent), url, true);
 
-  refreshProps = (): Promise<void> => {
-    const url =
-      window.location.pathname + window.location.search + window.location.hash;
-
-    return this.fetch(() => djangoGet(url, !!this.parent), url, false, true);
-  };
+  refreshProps = (): Promise<void> =>
+    this.fetch(
+      () => djangoGet(this.currentFrame.path, !!this.parent),
+      this.currentFrame.path,
+      false,
+      true
+    );
 
   // Called by a child NavigationController when it cannot handle a response.
   // For example, say this NavigationController controls the main window and there's a
