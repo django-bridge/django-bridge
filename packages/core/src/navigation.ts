@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { useState } from "react";
 import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
@@ -308,4 +309,15 @@ export class NavigationController {
       (listener) => listener !== func
     );
   };
+}
+
+export function useNavigationController(
+  parent: NavigationController | null,
+  unpack: (data: Record<string, unknown>) => Record<string, unknown>
+) {
+  const [navigationController] = useState(
+    () => new NavigationController(parent, unpack)
+  );
+
+  return navigationController;
 }

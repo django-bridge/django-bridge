@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
 import { Message, DjangoRenderResponse, djangoGet } from "./fetch";
-import { Frame, NavigationController } from "./navigation";
+import { Frame, useNavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import Config from "./config";
@@ -16,9 +16,7 @@ export interface AppProps {
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
-  const [navigationController] = React.useState(
-    () => new NavigationController(null, config.unpack)
-  );
+  const navigationController = useNavigationController(null, config.unpack);
   const [overlay, setOverlay] = React.useState<{
     render(content: ReactNode): ReactNode;
     initialResponse: DjangoRenderResponse;

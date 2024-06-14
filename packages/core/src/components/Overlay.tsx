@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from "react";
 import Config from "../config";
 import { OverlayContext, OverlayContextType } from "../contexts";
 import { DirtyFormContext } from "../dirtyform";
-import { NavigationController } from "../navigation";
+import { NavigationController, useNavigationController } from "../navigation";
 import Browser from "./Browser";
 import { DjangoRenderResponse } from "../fetch";
 
@@ -29,8 +29,9 @@ export default function Overlay({
   onCloseCompleted,
   onServerError,
 }: OverlayProps): ReactElement {
-  const [navigationController] = React.useState(
-    () => new NavigationController(parentNavigationContoller, config.unpack)
+  const navigationController = useNavigationController(
+    parentNavigationContoller,
+    config.unpack
   );
 
   const [forceRender, setForceRender] = React.useState(0);
