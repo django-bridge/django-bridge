@@ -54,7 +54,11 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
   // Close overlay when we navigate the main window
   // We can force close in this situation, since we've already checked if there are any dirty forms
-  const onNavigation = (_frame: Frame | null, newFrame: boolean) => {
+  const onNavigation = (
+    frame: Frame | null,
+    newFrame: boolean,
+    newMessages: Message[]
+  ) => {
     // Close overlay when we navigate the main window
     // We can force close in this situation, since we've already checked if there are any dirty forms
     // Only close overlay if a new frame is being pushed
@@ -62,6 +66,17 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     if (overlay && newFrame) {
       setOverlayCloseRequested(true);
     }
+
+    // Clear messages if moving to new frame (instead of updating existing frame)
+    // For example, navigate() and submitForm() will create a new frame but
+    // replacePath() and refreshProps() will update the existing one.
+    // We don't want to delete messages for the latter two.
+    if (newFrame) {
+      setMessages([]);
+    }
+
+    // Push any new messages from server
+    newMessages.forEach(pushMessage);
   };
 
   const initialPath =

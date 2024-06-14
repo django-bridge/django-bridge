@@ -1,10 +1,18 @@
 import React, { ReactElement, ReactNode } from "react";
 import Config from "../config";
-import { OverlayContext, OverlayContextType } from "../contexts";
+import {
+  MessagesContext,
+  OverlayContext,
+  OverlayContextType,
+} from "../contexts";
 import { DirtyFormContext } from "../dirtyform";
-import { NavigationController, useNavigationController } from "../navigation";
+import {
+  Frame,
+  NavigationController,
+  useNavigationController,
+} from "../navigation";
 import Browser from "./Browser";
-import { DjangoRenderResponse } from "../fetch";
+import { DjangoRenderResponse, Message } from "../fetch";
 
 export interface OverlayProps {
   config: Config;
@@ -29,13 +37,29 @@ export default function Overlay({
   onCloseCompleted,
   onServerError,
 }: OverlayProps): ReactElement {
+  const { pushMessage } = React.useContext(MessagesContext);
+
   const navigationController = useNavigationController(
     parentNavigationContoller,
     config.unpack,
     initialResponse,
     initialPath,
     {
-      onOverlayClose: requestClose,
+      onNavigation: (
+        frame: Frame | null,
+        newFrame: boolean,
+        messages: Message[]
+      ) => {
+        // Push any new messages from server
+        messages.forEach(pushMessage);
+      },
+      onOverlayClose: (messages: Message[]) => {
+        // Push any new messages from server
+        messages.forEach(pushMessage);
+
+        // Request close
+        requestClose();
+      },
       onServerError,
     }
   );

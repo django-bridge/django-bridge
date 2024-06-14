@@ -6,7 +6,6 @@ import {
   NavigateOptions,
   OpenOverlayOptions,
   NavigationContext,
-  MessagesContext,
 } from "../contexts";
 import Config from "../config";
 
@@ -27,13 +26,6 @@ function Browser({
 }: BrowserProps): ReactElement {
   const { currentFrame, navigate, replacePath, submitForm, refreshProps } =
     navigationController;
-
-  // Push any messages from the server
-  const { pushMessage } = React.useContext(MessagesContext);
-  if (currentFrame.serverMessages) {
-    currentFrame.serverMessages.forEach(pushMessage);
-    currentFrame.serverMessages = [];
-  }
 
   const { isDirty, requestUnload, cancelUnload } =
     React.useContext(DirtyFormContext);
