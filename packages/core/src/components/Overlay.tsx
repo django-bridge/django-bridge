@@ -31,21 +31,10 @@ export default function Overlay({
 }: OverlayProps): ReactElement {
   const navigationController = useNavigationController(
     parentNavigationContoller,
-    config.unpack
+    config.unpack,
+    initialResponse,
+    initialPath
   );
-
-  const [forceRender, setForceRender] = React.useState(0);
-  React.useEffect(() => {
-    // Add listener to re-render the app if a navigation event occurs
-    navigationController.addNavigationListener(() => {
-      // HACK: Update some state to force a re-render
-      setForceRender(forceRender + Math.random());
-    });
-
-    // Load initial response
-    // eslint-disable-next-line no-void
-    void navigationController.handleResponse(initialResponse, initialPath);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Add a listener to listen for when the overlay is closed by the server
   React.useEffect(() => {

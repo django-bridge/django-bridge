@@ -16,7 +16,14 @@ export interface AppProps {
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
-  const navigationController = useNavigationController(null, config.unpack);
+  const initialPath =
+    window.location.pathname + window.location.search + window.location.hash;
+  const navigationController = useNavigationController(
+    null,
+    config.unpack,
+    initialResponse as DjangoRenderResponse,
+    initialPath
+  );
   const [overlay, setOverlay] = React.useState<{
     render(content: ReactNode): ReactNode;
     initialResponse: DjangoRenderResponse;
@@ -25,8 +32,6 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   const [overlayCloseRequested, setOverlayCloseRequested] =
     React.useState(false);
   const overlayCloseListener = React.useRef<(() => void) | null>(null);
-
-  const [render, setRender] = React.useState(0);
 
   // Toast messages
   const [messages, setMessages] = React.useState<Message[]>([]);
@@ -55,29 +60,14 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   );
 
   React.useEffect(() => {
-    // Add listener to re-render the app if a navigation event occurs
-    navigationController.addNavigationListener(() => {
-      // HACK: Update some state to force a re-render
-      setRender(render + Math.random());
-    });
-
-    // Handle initial response
-    // eslint-disable-next-line no-void
-    void navigationController
-      .handleResponse(
-        initialResponse as DjangoRenderResponse,
-        window.location.pathname
-      )
-      .then(() => {
-        // Remove the loading screen
-        const loadingScreen = document.querySelector(".django-render-load");
-        if (loadingScreen instanceof HTMLElement) {
-          loadingScreen.classList.add("django-render-load--hidden");
-          setTimeout(() => {
-            loadingScreen.remove();
-          }, 200);
-        }
-      });
+    // Remove the loading screen
+    const loadingScreen = document.querySelector(".django-render-load");
+    if (loadingScreen instanceof HTMLElement) {
+      loadingScreen.classList.add("django-render-load--hidden");
+      setTimeout(() => {
+        loadingScreen.remove();
+      }, 200);
+    }
 
     // Add listener to raise any server errors that the navigation controller encounters
     navigationController.addServerErrorListener(onServerError);

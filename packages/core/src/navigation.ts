@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
@@ -44,7 +44,8 @@ export class NavigationController {
 
   constructor(
     parent: NavigationController | null,
-    unpack: (data: Record<string, unknown>) => Record<string, unknown>
+    unpack: (data: Record<string, unknown>) => Record<string, unknown>,
+    initialPath: string
   ) {
     this.parent = parent;
     this.unpack = unpack;
@@ -52,10 +53,7 @@ export class NavigationController {
     nextFrameId += 1;
     this.currentFrame = {
       id: nextFrameId,
-      path:
-        window.location.pathname +
-        window.location.search +
-        window.location.hash,
+      path: initialPath,
       title: "Loading",
       view: "loading",
       props: {},
@@ -313,11 +311,26 @@ export class NavigationController {
 
 export function useNavigationController(
   parent: NavigationController | null,
-  unpack: (data: Record<string, unknown>) => Record<string, unknown>
+  unpack: (data: Record<string, unknown>) => Record<string, unknown>,
+  initialResponse: DjangoRenderResponse,
+  initialPath: string
 ) {
   const [navigationController] = useState(
-    () => new NavigationController(parent, unpack)
+    () => new NavigationController(parent, unpack, initialPath)
   );
+
+  const [forceRender, setForceRender] = useState(0);
+  useEffect(() => {
+    // Add listener to re-render the app if a navigation event occurs
+    navigationController.addNavigationListener(() => {
+      // HACK: Update some state to force a re-render
+      setForceRender(forceRender + Math.random());
+    });
+
+    // Load initial response
+    // eslint-disable-next-line no-void
+    void navigationController.handleResponse(initialResponse, initialPath);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return navigationController;
 }
