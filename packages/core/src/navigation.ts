@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
+import { djangoGet, djangoPost, DjangoRenderResponse, Message } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -12,7 +12,6 @@ export interface Frame<Props = Record<string, unknown>> {
   view: string;
   props: Props;
   context: Record<string, unknown>;
-  serverMessages: Message[];
   shouldReloadCallback?: (newPath: string, newProps: Props) => boolean;
 }
 
@@ -43,8 +42,12 @@ export function useNavigationController(
   initialResponse: DjangoRenderResponse,
   initialPath: string,
   callbacks: {
-    onNavigation?: (frame: Frame | null, newFrame: boolean) => void;
-    onOverlayClose?: () => void;
+    onNavigation?: (
+      frame: Frame | null,
+      newFrame: boolean,
+      messages: Message[]
+    ) => void;
+    onOverlayClose?: (messages: Message[]) => void;
     onServerError?: (kind: "server" | "network") => void;
   } = {}
 ): NavigationController {
@@ -56,7 +59,6 @@ export function useNavigationController(
     view: "loading",
     props: {},
     context: {},
-    serverMessages: [],
   });
 
   const pushFrame = useCallback(
@@ -66,7 +68,7 @@ export function useNavigationController(
       view: string,
       props: Record<string, unknown>,
       context: Record<string, unknown>,
-      serverMessages: Message[],
+      messages: Message[],
       pushState = true,
       reload = true
     ) => {
@@ -112,12 +114,11 @@ export function useNavigationController(
         view,
         props,
         context,
-        serverMessages,
       };
       setCurrentFrame(nextFrame);
 
       if (callbacks.onNavigation) {
-        callbacks.onNavigation(nextFrame, newFrame);
+        callbacks.onNavigation(nextFrame, newFrame, messages);
       }
     },
     [callbacks, currentFrame.id, currentFrame.view, parent]
@@ -179,13 +180,8 @@ export function useNavigationController(
       } else if (response.status === "close-overlay") {
         // Call overlay close callback
         if (callbacks.onOverlayClose) {
-          callbacks.onOverlayClose();
+          callbacks.onOverlayClose(response.messages);
         }
-
-        // Push any messages
-        response.messages.forEach((message) => {
-          currentFrame.serverMessages.push(message);
-        });
       } else if (response.status === "server-error") {
         if (callbacks.onServerError) {
           callbacks.onServerError("server");
