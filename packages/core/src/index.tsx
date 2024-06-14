@@ -16,24 +16,7 @@ export interface AppProps {
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
-  const initialPath =
-    window.location.pathname + window.location.search + window.location.hash;
-  const navigationController = useNavigationController(
-    null,
-    config.unpack,
-    initialResponse as DjangoRenderResponse,
-    initialPath
-  );
-  const [overlay, setOverlay] = React.useState<{
-    render(content: ReactNode): ReactNode;
-    initialResponse: DjangoRenderResponse;
-    initialPath: string;
-  } | null>(null);
-  const [overlayCloseRequested, setOverlayCloseRequested] =
-    React.useState(false);
-  const overlayCloseListener = React.useRef<(() => void) | null>(null);
-
-  // Toast messages
+  // Toast messages state
   const [messages, setMessages] = React.useState<Message[]>([]);
   const pushMessage = React.useCallback(
     (message: Message) => {
@@ -59,6 +42,41 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     [pushMessage]
   );
 
+  // Overlay state
+  const [overlay, setOverlay] = React.useState<{
+    render(content: ReactNode): ReactNode;
+    initialResponse: DjangoRenderResponse;
+    initialPath: string;
+  } | null>(null);
+  const [overlayCloseRequested, setOverlayCloseRequested] =
+    React.useState(false);
+  const overlayCloseListener = React.useRef<(() => void) | null>(null);
+
+  // Close overlay when we navigate the main window
+  // We can force close in this situation, since we've already checked if there are any dirty forms
+  const onNavigation = (_frame: Frame | null, newFrame: boolean) => {
+    // Close overlay when we navigate the main window
+    // We can force close in this situation, since we've already checked if there are any dirty forms
+    // Only close overlay if a new frame is being pushed
+    // This prevents the overlay from closing when refreshProps is called
+    if (overlay && newFrame) {
+      setOverlayCloseRequested(true);
+    }
+  };
+
+  const initialPath =
+    window.location.pathname + window.location.search + window.location.hash;
+  const navigationController = useNavigationController(
+    null,
+    config.unpack,
+    initialResponse as DjangoRenderResponse,
+    initialPath,
+    {
+      onNavigation,
+      onServerError,
+    }
+  );
+
   React.useEffect(() => {
     // Remove the loading screen
     const loadingScreen = document.querySelector(".django-render-load");
@@ -68,9 +86,6 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
         loadingScreen.remove();
       }, 200);
     }
-
-    // Add listener to raise any server errors that the navigation controller encounters
-    navigationController.addServerErrorListener(onServerError);
 
     // Add listener for popState
     // This event is fired when the user hits the back/forward links in their browser
@@ -103,24 +118,6 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     });
     setOverlayCloseRequested(false);
   };
-
-  // Close overlay when we navigate the main window
-  // We can force close in this situation, since we've already checked if there are any dirty forms
-  React.useEffect(() => {
-    const navigationListener = (_frame: Frame | null, newFrame: boolean) => {
-      // Only close overlay if a new frame is being pushed
-      // This prevents the overlay from closing when refreshProps is called
-      if (overlay && newFrame) {
-        setOverlayCloseRequested(true);
-      }
-    };
-
-    navigationController.addNavigationListener(navigationListener);
-
-    return () => {
-      navigationController.removeNavigationListener(navigationListener);
-    };
-  });
 
   const messagesContext = React.useMemo(
     () => ({ messages, pushMessage }),

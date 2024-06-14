@@ -33,26 +33,12 @@ export default function Overlay({
     parentNavigationContoller,
     config.unpack,
     initialResponse,
-    initialPath
+    initialPath,
+    {
+      onOverlayClose: requestClose,
+      onServerError,
+    }
   );
-
-  // Add a listener to listen for when the overlay is closed by the server
-  React.useEffect(() => {
-    navigationController.addCloseListener(requestClose);
-
-    return () => {
-      navigationController.removeCloseListener(requestClose);
-    };
-  }, [navigationController, requestClose]);
-
-  // Add listener to raise any server errors that the overlay navigation controller encounters
-  React.useEffect(() => {
-    navigationController.addServerErrorListener(onServerError);
-
-    return () => {
-      navigationController.removeServerErrorListener(onServerError);
-    };
-  }, [navigationController, onServerError]);
 
   // If close is requested, but there is a dirty form (form without saved changes) in the overlay, block the close
   const dirtyFormContext = React.useContext(DirtyFormContext);

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Message, djangoGet, djangoPost, DjangoRenderResponse } from "./fetch";
 
 let nextFrameId = 1;
@@ -33,22 +33,21 @@ export class NavigationController {
 
   currentFrame: Frame;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  navigationListeners: ((frame: Frame | null, newFrame: boolean) => void)[] =
-    [];
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  serverErrorListeners: ((kind: "server" | "network") => void)[] = [];
-
-  closeListeners: (() => void)[] = [];
+  callbacks: {
+    onNavigation?: (frame: Frame | null, newFrame: boolean) => void;
+    onOverlayClose?: () => void;
+    onServerError?: (kind: "server" | "network") => void;
+  };
 
   constructor(
     parent: NavigationController | null,
     unpack: (data: Record<string, unknown>) => Record<string, unknown>,
-    initialPath: string
+    initialPath: string,
+    callbacks: NavigationController["callbacks"]
   ) {
     this.parent = parent;
     this.unpack = unpack;
+    this.callbacks = callbacks;
 
     nextFrameId += 1;
     this.currentFrame = {
@@ -143,18 +142,24 @@ export class NavigationController {
         reload
       );
     } else if (response.status === "close-overlay") {
-      // Call close listeners. One of these should close the overlay
-      this.closeListeners.forEach((func) => func());
+      // Call overlay close callback
+      if (this.callbacks.onOverlayClose) {
+        this.callbacks.onOverlayClose();
+      }
 
       // Push any messages
       response.messages.forEach((message) => {
         this.currentFrame.serverMessages.push(message);
       });
     } else if (response.status === "server-error") {
-      this.serverErrorListeners.forEach((func) => func("server"));
+      if (this.callbacks.onServerError) {
+        this.callbacks.onServerError("server");
+      }
       return Promise.reject();
     } else if (response.status === "network-error") {
-      this.serverErrorListeners.forEach((func) => func("network"));
+      if (this.callbacks.onServerError) {
+        this.callbacks.onServerError("network");
+      }
       return Promise.reject();
     }
 
@@ -234,9 +239,9 @@ export class NavigationController {
       }
     }
 
-    this.navigationListeners.forEach((func) =>
-      func(this.currentFrame, newFrame)
-    );
+    if (this.callbacks.onNavigation) {
+      this.callbacks.onNavigation(this.currentFrame, newFrame);
+    }
   };
 
   replacePath = (frameId: number, path: string) => {
@@ -273,60 +278,38 @@ export class NavigationController {
     url: string,
     response: DjangoRenderResponse
   ): Promise<void> => this.handleResponse(response, url);
-
-  addNavigationListener = (
-    func: (frame: Frame | null, newFrame: boolean) => void
-  ) => {
-    this.navigationListeners.push(func);
-  };
-
-  removeNavigationListener = (
-    func: (frame: Frame | null, newFrame: boolean) => void
-  ) => {
-    this.navigationListeners = this.navigationListeners.filter(
-      (listener) => listener !== func
-    );
-  };
-
-  addServerErrorListener = (func: (kind: "server" | "network") => void) => {
-    this.serverErrorListeners.push(func);
-  };
-
-  removeServerErrorListener = (func: (kind: "server" | "network") => void) => {
-    this.serverErrorListeners = this.serverErrorListeners.filter(
-      (listener) => listener !== func
-    );
-  };
-
-  addCloseListener = (func: () => void) => {
-    this.closeListeners.push(func);
-  };
-
-  removeCloseListener = (func: () => void) => {
-    this.closeListeners = this.closeListeners.filter(
-      (listener) => listener !== func
-    );
-  };
 }
 
 export function useNavigationController(
   parent: NavigationController | null,
   unpack: (data: Record<string, unknown>) => Record<string, unknown>,
   initialResponse: DjangoRenderResponse,
-  initialPath: string
+  initialPath: string,
+  callbacks: NavigationController["callbacks"] = {}
 ) {
-  const [navigationController] = useState(
-    () => new NavigationController(parent, unpack, initialPath)
-  );
-
+  // Re-render if a navigation occurs
   const [forceRender, setForceRender] = useState(0);
-  useEffect(() => {
-    // Add listener to re-render the app if a navigation event occurs
-    navigationController.addNavigationListener(() => {
+  const onNavigation = useCallback(
+    (frame: Frame | null, newFrame: boolean) => {
       // HACK: Update some state to force a re-render
       setForceRender(forceRender + Math.random());
-    });
 
+      if (callbacks.onNavigation) {
+        callbacks.onNavigation(frame, newFrame);
+      }
+    },
+    [callbacks, forceRender]
+  );
+
+  const [navigationController] = useState(
+    () =>
+      new NavigationController(parent, unpack, initialPath, {
+        ...callbacks,
+        onNavigation,
+      })
+  );
+
+  useEffect(() => {
     // Load initial response
     // eslint-disable-next-line no-void
     void navigationController.handleResponse(initialResponse, initialPath);
