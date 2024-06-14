@@ -105,7 +105,7 @@ export class NavigationController {
       } else {
         // reload responses require reloading the entire page, but this is an overlay
         // Escalate this response to the page's navigation controller instead
-        return this.parent.escalate(path, response);
+        return this.parent.handleResponse(response, path);
       }
     } else if (response.status === "redirect") {
       return this.navigate(response.path);
@@ -113,7 +113,7 @@ export class NavigationController {
       // If this navigation controller is handling an overlay, make sure the response can be
       // loaded in a overlay. Otherwise, escalate it to parent
       if (this.parent && !response.overlay) {
-        return this.parent.escalate(path, response);
+        return this.parent.handleResponse(response, path);
       }
 
       // Unpack props and context
@@ -267,17 +267,6 @@ export class NavigationController {
       false,
       true
     );
-
-  // Called by a child NavigationController when it cannot handle a response.
-  // For example, say this NavigationController controls the main window and there's a
-  // overlay open that has a different NavigationController. If the user clicks a link
-  // that needs to navigate the whole page somewhere else, that response is escalated
-  // from the overlay NavigationController to the main window NavigationController using
-  // this method.
-  private escalate = (
-    url: string,
-    response: DjangoRenderResponse
-  ): Promise<void> => this.handleResponse(response, url);
 }
 
 export function useNavigationController(
