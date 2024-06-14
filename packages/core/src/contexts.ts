@@ -42,16 +42,6 @@ export interface Navigation {
   props: Record<string, unknown>;
   context: Record<string, unknown>;
   navigate: (path: string, options?: NavigateOptions) => Promise<void>;
-  pushFrame: (
-    path: string,
-    title: string,
-    view: string,
-    props: Record<string, unknown>,
-    context: Record<string, unknown>,
-    serverMessages: Message[],
-    pushState?: boolean,
-    reload?: boolean
-  ) => void;
   replacePath: (frameId: number, path: string) => void;
   submitForm: (path: string, data: FormData) => Promise<void>;
   openOverlay: (
@@ -72,10 +62,6 @@ export const NavigationContext = React.createContext<Navigation>({
     console.error("navigate() called from outside a Django Render Browser");
 
     return Promise.resolve();
-  },
-  pushFrame: () => {
-    // eslint-disable-next-line no-console
-    console.error("pushFrame() called from outside a Django Render Browser");
   },
   replacePath: () => {
     // eslint-disable-next-line no-console

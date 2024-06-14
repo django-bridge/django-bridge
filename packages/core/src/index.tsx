@@ -1,8 +1,8 @@
 import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, DjangoRenderResponse } from "./fetch";
-import { Frame, NavigationController } from "./navigation";
+import { Message, DjangoRenderResponse, djangoGet } from "./fetch";
+import { Frame, useNavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
 import Config from "./config";
@@ -16,20 +16,7 @@ export interface AppProps {
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
-  const [navigationController] = React.useState(
-    () => new NavigationController(null, config.unpack)
-  );
-  const [overlay, setOverlay] = React.useState<{
-    navigationController: NavigationController;
-    render(content: ReactNode): ReactNode;
-  } | null>(null);
-  const [overlayCloseRequested, setOverlayCloseRequested] =
-    React.useState(false);
-  const overlayCloseListener = React.useRef<(() => void) | null>(null);
-
-  const [render, setRender] = React.useState(0);
-
-  // Toast messages
+  // Toast messages state
   const [messages, setMessages] = React.useState<Message[]>([]);
   const pushMessage = React.useCallback(
     (message: Message) => {
@@ -55,33 +42,50 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     [pushMessage]
   );
 
+  // Overlay state
+  const [overlay, setOverlay] = React.useState<{
+    render(content: ReactNode): ReactNode;
+    initialResponse: DjangoRenderResponse;
+    initialPath: string;
+  } | null>(null);
+  const [overlayCloseRequested, setOverlayCloseRequested] =
+    React.useState(false);
+  const overlayCloseListener = React.useRef<(() => void) | null>(null);
+
+  // Close overlay when we navigate the main window
+  // We can force close in this situation, since we've already checked if there are any dirty forms
+  const onNavigation = (_frame: Frame | null, newFrame: boolean) => {
+    // Close overlay when we navigate the main window
+    // We can force close in this situation, since we've already checked if there are any dirty forms
+    // Only close overlay if a new frame is being pushed
+    // This prevents the overlay from closing when refreshProps is called
+    if (overlay && newFrame) {
+      setOverlayCloseRequested(true);
+    }
+  };
+
+  const initialPath =
+    window.location.pathname + window.location.search + window.location.hash;
+  const navigationController = useNavigationController(
+    null,
+    config.unpack,
+    initialResponse as DjangoRenderResponse,
+    initialPath,
+    {
+      onNavigation,
+      onServerError,
+    }
+  );
+
   React.useEffect(() => {
-    // Add listener to re-render the app if a navigation event occurs
-    navigationController.addNavigationListener(() => {
-      // HACK: Update some state to force a re-render
-      setRender(render + Math.random());
-    });
-
-    // Handle initial response
-    // eslint-disable-next-line no-void
-    void navigationController
-      .handleResponse(
-        initialResponse as DjangoRenderResponse,
-        window.location.pathname
-      )
-      .then(() => {
-        // Remove the loading screen
-        const loadingScreen = document.querySelector(".django-render-load");
-        if (loadingScreen instanceof HTMLElement) {
-          loadingScreen.classList.add("django-render-load--hidden");
-          setTimeout(() => {
-            loadingScreen.remove();
-          }, 200);
-        }
-      });
-
-    // Add listener to raise any server errors that the navigation controller encounters
-    navigationController.addServerErrorListener(onServerError);
+    // Remove the loading screen
+    const loadingScreen = document.querySelector(".django-render-load");
+    if (loadingScreen instanceof HTMLElement) {
+      loadingScreen.classList.add("django-render-load--hidden");
+      setTimeout(() => {
+        loadingScreen.remove();
+      }, 200);
+    }
 
     // Add listener for popState
     // This event is fired when the user hits the back/forward links in their browser
@@ -96,77 +100,24 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Call overlay close listener if the overlay has been closed
-  React.useEffect(() => {
-    if (overlay === null && overlayCloseListener.current) {
-      overlayCloseListener.current();
-      overlayCloseListener.current = null;
-    }
-  }, [overlay]);
-
-  // Add listener to raise any server errors that the overlay navigation controller encounters
-  React.useEffect(() => {
-    if (overlay) {
-      overlay.navigationController.addServerErrorListener(onServerError);
-
-      return () => {
-        overlay.navigationController.removeServerErrorListener(onServerError);
-      };
-    }
-
-    return () => {};
-  }, [overlay, onServerError]);
-
-  const openOverlay = (
+  const openOverlay = async (
     path: string,
     renderOverlay: (content: ReactNode) => ReactNode,
     { onClose }: { onClose?: () => void } = {}
   ) => {
-    // Set up a new navigation controller
-    const overlayNavigationController = new NavigationController(
-      navigationController,
-      config.unpack
-    );
-    overlayNavigationController.addNavigationListener(() => {
-      // HACK: Update some state to force a re-render
-      setRender(render + Math.random());
-    });
-    // eslint-disable-next-line no-void
-    void overlayNavigationController.navigate(path);
-
-    // Add a listener to listen for when the overlay is closed by the server
-    overlayNavigationController.addCloseListener(() =>
-      setOverlayCloseRequested(true)
-    );
+    const initialOverlayResponse = await djangoGet(path, true);
 
     if (onClose) {
       overlayCloseListener.current = onClose;
     }
 
     setOverlay({
-      navigationController: overlayNavigationController,
       render: renderOverlay,
+      initialResponse: initialOverlayResponse,
+      initialPath: path,
     });
     setOverlayCloseRequested(false);
   };
-
-  // Close overlay when we navigate the main window
-  // We can force close in this situation, since we've already checked if there are any dirty forms
-  React.useEffect(() => {
-    const navigationListener = (_frame: Frame | null, newFrame: boolean) => {
-      // Only close overlay if a new frame is being pushed
-      // This prevents the overlay from closing when refreshProps is called
-      if (overlay && newFrame) {
-        setOverlayCloseRequested(true);
-      }
-    };
-
-    navigationController.addNavigationListener(navigationListener);
-
-    return () => {
-      navigationController.removeNavigationListener(navigationListener);
-    };
-  });
 
   const messagesContext = React.useMemo(
     () => ({ messages, pushMessage }),
@@ -177,27 +128,37 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     <div>
       <DirtyFormScope handleBrowserUnload>
         <MessagesContext.Provider value={messagesContext}>
-          {overlay && !overlay.navigationController.isLoading() && (
+          {overlay && (
             <DirtyFormScope>
               <Overlay
                 config={config}
-                navigationController={overlay.navigationController}
+                initialResponse={overlay.initialResponse}
+                initialPath={overlay.initialPath}
+                parentNavigationContoller={navigationController}
                 render={(content) => overlay.render(content)}
                 requestClose={() => setOverlayCloseRequested(true)}
                 closeRequested={overlayCloseRequested}
                 onCloseCompleted={() => {
                   setOverlay(null);
                   setOverlayCloseRequested(false);
+
+                  // Call overlay close listener
+                  if (overlayCloseListener.current) {
+                    overlayCloseListener.current();
+                    overlayCloseListener.current = null;
+                  }
                 }}
+                onServerError={onServerError}
               />
             </DirtyFormScope>
           )}
-          {!navigationController.isLoading() && (
+          {!navigationController.isLoading && (
             <Browser
               config={config}
               navigationController={navigationController}
               openOverlay={(url, renderOverlay, options) =>
-                openOverlay(url, renderOverlay, options)
+                // eslint-disable-next-line no-void
+                void openOverlay(url, renderOverlay, options)
               }
             />
           )}
@@ -217,7 +178,7 @@ export {
 export type { Navigation } from "./contexts";
 export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
-export { NavigationController } from "./navigation";
+export { type NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
 export type { DjangoRenderResponse as Response };
 export { Link, BuildLinkElement, buildLinkElement };

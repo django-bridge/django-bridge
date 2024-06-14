@@ -25,14 +25,8 @@ function Browser({
   navigationController,
   openOverlay,
 }: BrowserProps): ReactElement {
-  const {
-    currentFrame,
-    navigate,
-    pushFrame,
-    replacePath,
-    submitForm,
-    refreshProps,
-  } = navigationController;
+  const { currentFrame, navigate, replacePath, submitForm, refreshProps } =
+    navigationController;
 
   // Push any messages from the server
   const { pushMessage } = React.useContext(MessagesContext);
@@ -62,7 +56,6 @@ function Browser({
 
         return requestUnload().then(() => navigate(url, options.pushState));
       },
-      pushFrame,
       replacePath,
       submitForm,
       openOverlay,
@@ -70,7 +63,6 @@ function Browser({
     }),
     [
       currentFrame,
-      pushFrame,
       replacePath,
       submitForm,
       openOverlay,

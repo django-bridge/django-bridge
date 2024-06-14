@@ -66,12 +66,6 @@ export function OverrideLinks({
       props: {},
       context: {},
       navigate,
-      pushFrame: () => {
-        // eslint-disable-next-line no-console
-        console.error("pushFrame() cannot be used in storybooks");
-
-        return Promise.resolve();
-      },
       replacePath: () => {},
       submitForm: navigate,
       openOverlay: navigate,
