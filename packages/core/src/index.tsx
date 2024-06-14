@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, DjangoRenderResponse } from "./fetch";
+import { Message, DjangoRenderResponse, djangoGet } from "./fetch";
 import { Frame, NavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
@@ -20,8 +20,9 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     () => new NavigationController(null, config.unpack)
   );
   const [overlay, setOverlay] = React.useState<{
-    navigationController: NavigationController;
     render(content: ReactNode): ReactNode;
+    initialResponse: DjangoRenderResponse;
+    initialPath: string;
   } | null>(null);
   const [overlayCloseRequested, setOverlayCloseRequested] =
     React.useState(false);
@@ -96,56 +97,21 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Call overlay close listener if the overlay has been closed
-  React.useEffect(() => {
-    if (overlay === null && overlayCloseListener.current) {
-      overlayCloseListener.current();
-      overlayCloseListener.current = null;
-    }
-  }, [overlay]);
-
-  // Add listener to raise any server errors that the overlay navigation controller encounters
-  React.useEffect(() => {
-    if (overlay) {
-      overlay.navigationController.addServerErrorListener(onServerError);
-
-      return () => {
-        overlay.navigationController.removeServerErrorListener(onServerError);
-      };
-    }
-
-    return () => {};
-  }, [overlay, onServerError]);
-
-  const openOverlay = (
+  const openOverlay = async (
     path: string,
     renderOverlay: (content: ReactNode) => ReactNode,
     { onClose }: { onClose?: () => void } = {}
   ) => {
-    // Set up a new navigation controller
-    const overlayNavigationController = new NavigationController(
-      navigationController,
-      config.unpack
-    );
-    overlayNavigationController.addNavigationListener(() => {
-      // HACK: Update some state to force a re-render
-      setRender(render + Math.random());
-    });
-    // eslint-disable-next-line no-void
-    void overlayNavigationController.navigate(path);
-
-    // Add a listener to listen for when the overlay is closed by the server
-    overlayNavigationController.addCloseListener(() =>
-      setOverlayCloseRequested(true)
-    );
+    const initialOverlayResponse = await djangoGet(path, true);
 
     if (onClose) {
       overlayCloseListener.current = onClose;
     }
 
     setOverlay({
-      navigationController: overlayNavigationController,
       render: renderOverlay,
+      initialResponse: initialOverlayResponse,
+      initialPath: path,
     });
     setOverlayCloseRequested(false);
   };
@@ -177,18 +143,27 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     <div>
       <DirtyFormScope handleBrowserUnload>
         <MessagesContext.Provider value={messagesContext}>
-          {overlay && !overlay.navigationController.isLoading() && (
+          {overlay && (
             <DirtyFormScope>
               <Overlay
                 config={config}
-                navigationController={overlay.navigationController}
+                initialResponse={overlay.initialResponse}
+                initialPath={overlay.initialPath}
+                parentNavigationContoller={navigationController}
                 render={(content) => overlay.render(content)}
                 requestClose={() => setOverlayCloseRequested(true)}
                 closeRequested={overlayCloseRequested}
                 onCloseCompleted={() => {
                   setOverlay(null);
                   setOverlayCloseRequested(false);
+
+                  // Call overlay close listener
+                  if (overlayCloseListener.current) {
+                    overlayCloseListener.current();
+                    overlayCloseListener.current = null;
+                  }
                 }}
+                onServerError={onServerError}
               />
             </DirtyFormScope>
           )}
@@ -197,7 +172,8 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
               config={config}
               navigationController={navigationController}
               openOverlay={(url, renderOverlay, options) =>
-                openOverlay(url, renderOverlay, options)
+                // eslint-disable-next-line no-void
+                void openOverlay(url, renderOverlay, options)
               }
             />
           )}
