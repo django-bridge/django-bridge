@@ -132,5 +132,7 @@ DJANGO_RENDER = {
     "VITE_DEVSERVER_URL": os.environ.get(
         "VITE_DEVSERVER_URL", "http://localhost:5173/static"
     ),
-    "CONTEXT_PROVIDERS": {},
+    "CONTEXT_PROVIDERS": {
+        "csrf_token": "django.middleware.csrf.get_token",
+    },
 }
