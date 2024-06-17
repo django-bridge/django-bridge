@@ -9,7 +9,7 @@ We call these components "View Components" to distinguish them from regular UI c
 
 ## A simple view component
 
-Here's a view component that will render the current time from a prop (see the [example in Writing Views](./views#a-simple-view) for the backend):
+Here's a view component that will render the current time from a prop (see the [example in Writing Views](/docs/views#a-simple-view) for the backend):
 
 ```jsx
 export default function CurrentTimeView({ time }) {
