@@ -37,6 +37,7 @@ const config: Config = {
       "classic",
       {
         docs: {
+          sidebarCollapsible: false,
           sidebarPath: "./sidebars.ts",
           editUrl:
             "https://github.com/kaedroho/django-render/tree/main/website/",
@@ -89,12 +90,8 @@ const config: Config = {
           title: "Documentation",
           items: [
             {
-              label: "Getting started",
-              to: "/docs/start",
-            },
-            {
-              label: "Reference",
-              to: "/docs/reference",
+              label: "Introduction",
+              to: "/docs/introduction",
             },
           ],
         },

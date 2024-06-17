@@ -1,37 +1,160 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
-# Introduction
+# Getting started
 
-Welcome to Django Render!
+## Trying it out
 
-**WORK IN PROGRESS: This documentation is currently being worked on and should greatly improve over the summer**
+Have a look at our [demo project](https://demo.django-render.org) to get an idea of how Django Render works.
 
-This is the official guide for building Django/React applications using Django Render. It is designed to serve as both a starting point and a reference guide.
+You can find the source code to this demo on GitHub: [https://github.com/kaedroho/djangopress](https://github.com/kaedroho/djangopress).
+It’s permissively licensed so you can copy it to get started.
 
-## Getting started
+## Starting new Django Render application
 
-Have a look at our [demo project](https://demo.django-render.org/) to get an idea of how Django Render works.
+In this section, we will show how to scaffold a new Django/React application on your local machine.
 
-The [source code](https://github.com/kaedroho/djangopress) is permissively licenced so feel free to copy that project to get started.
+Make sure you have an up-to-date version of [Node.js](https://nodejs.org/) installed and your current working directory is the one where you intend to create a project.
 
-## Explanations
+Run the following command in your command line:
 
-Read about how Django Render works.
+```sh
+npm create django-render@latest
+```
 
- - [Responses](/docs/explanations/responses)
- - [URL Routing](/docs/explanations/routing)
- - [Serialisation of Python objects](/docs/explanations/serialisation.md)
+This command will install and execute [`create-django-render`](https://www.npmjs.com/package/create-django-render), the official Django Render project scaffolding tool.
 
-<!-- ## How to guides
+### Running the new project with Docker Compose
 
- - **[Building modal workflows using overlays](./how-to/overlays)**
- - **[Adding global context](./how-to/global-context)**
- - **[Rendering forms](./how-to/forms)**
- - **[Integrating storybook](./how-to/storybook)**
- - **[Testing views](./how-to/testing)**
+The root folder contains a ``docker-compose.yml`` file  and ``Makefile`` containing some shortcuts for docker compose.
 
-## Reference
+To create the Docker environment, run ``make setup``. Once that's finished, run ``make start`` to boot it up.
 
- - **[Reference](./reference)** - The API reference -->
+Your new Django Render project should be running on [localhost:8000](http://localhost:8000)!
+
+### Running the new project without Docker Compose
+
+You will need to open two terminals so that you can run the Python and Vite processes side by side.
+
+In one terminal, run the following commands to start the Vite devserver:
+
+```sh
+cd client
+npm install
+npm run dev
+```
+
+This should start a server at [localhost:5173](http://localhost:5173), there shouldn't be anything here as this will be used by the Python server to fetch built JavaScript in development.
+
+In the other terminal, run the following to install Django, create the database, create a user, then start the Django devserver:
+
+```sh
+cd server
+poetry install
+poetry run python manage.py migrate
+poetry run python manage.py createsuperuser
+poetry run python manage.py runserver
+```
+
+Your new Django Render project should be running on [localhost:8000](http://localhost:8000)!
+
+## Adding React and Django Render to an existing Django application
+
+In this section, we will show how to install Django Render into an existing Django application.
+
+### Installing the Python package
+
+First, install the [``djrender`` PyPI package](https://pypi.org/project/djrender/) into your Django project using your favourite Python packaging tool. For example, with ``pip`` run:
+
+```sh
+pip install djrender
+```
+
+### Configuring Django settings
+
+The following tasks need to be done in your project's Django settings file.
+
+Add ``django_render`` to ``INSTALLED_APPS``:
+
+```python
+INSTALLED_APPS = [
+	# …
+
+    "django_render",
+
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+]
+```
+
+Add the ``DjangoRenderMiddleware`` class to ``MIDDLEWARE``:
+
+```python
+MIDDLEWARE = [
+    # …
+
+    "django_render.middleware.DjangoRenderMiddleware",
+]
+```
+
+Add the ``DJANGO_RENDER`` setting:
+
+```python
+DJANGO_RENDER = {
+    "CONTEXT_PROVIDERS": {},
+    "VITE_DEVSERVER_URL": "http://localhost:5173/static",
+}
+```
+
+In your production settings, set the ``VITE_BUNDLE_DIR`` to the location of the Vite bundle on the filesystem, and add this to ``STATICFILES_DIRS`` as well:
+
+```python
+DJANGO_RENDER[“VITE_BUNDLE_DIR”] = # Location of the vite bundle
+STATICFILES_DIRS = [DJANGO_RENDER["VITE_BUNDLE_DIR"]]
+```
+
+### Scaffolding the frontend
+
+The easiest way to set up a new frontend would be to use the ``create-django-render`` script to create a new project and copy the ``client`` folder into your existing project.
+
+Make sure you have an up-to-date version of [Node.js](https://nodejs.org/) installed and your current working directory is the one where you intend to create a project.
+
+Run the following command in your command line:
+
+```sh
+npm create django-render@latest
+```
+
+Give the new project the same name as your existing application as the scaffolding too will put that name in various parts of the code.
+
+Once the project is created, copy the ``client`` folder into your existing application source code. You can delete the rest of the generated code.
+
+Now you can start the Vite dev server by running the following commands
+
+```sh
+cd client
+npm install
+npm run dev
+```
+
+This should start a server at [localhost:5173](http://localhost:5173), there shouldn't be anything here as this will be used by the Python library to fetch built JavaScript in development.
+
+### Configure your deployment pipeline to deploy the Vite bundle
+
+To generate the Vite bundle, run the following commands in the ``client`` folder:
+
+```sh
+cd client
+npm install
+npm run build
+```
+
+This will generate the Vite bundle and save it in the ``client/dist`` folder.
+
+When deployed, the frontend bundle needs to be available on the local filesystem to the Python library so that it can load the Vite bundle manifest (``.vite/manifest.json``) to find the filenames of the generated .js and .css files.
+You will need to provide this even if the static assets are hosted separately to the application.

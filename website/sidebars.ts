@@ -15,38 +15,25 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Getting started",
-      items: ["start", "start/whentouse"],
+      items: ["introduction", "start"],
     },
-    // {
-    //   type: "category",
-    //   label: "Tutorial",
-    //   items: [
-    //     "tutorial/start-project",
-    //     "tutorial/views",
-    //     "tutorial/deploying",
-    //   ],
-    // },
     {
       type: "category",
-      label: "Explanations",
+      label: "Guide",
       items: [
-        "explanations/responses",
-        "explanations/routing",
-        "explanations/serialisation",
+        "views",
+        "view_components",
+        "navigation",
+        "global_context",
+        "forms",
+        "messages",
+        "overlays",
+        "python2react",
+        "testing",
+        "storybook",
+        "contributing",
       ],
     },
-    // {
-    //   type: "category",
-    //   label: "How to",
-    //   items: [
-    //     "how-to/overlays",
-    //     "how-to/global-context",
-    //     "how-to/forms",
-    //     "how-to/storybook",
-    //     "how-to/testing",
-    //   ],
-    // },
-    // "reference",
   ],
 };
 
