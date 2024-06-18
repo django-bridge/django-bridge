@@ -38,6 +38,7 @@ export default function Overlay({
   onServerError,
 }: OverlayProps): ReactElement {
   const { pushMessage } = React.useContext(MessagesContext);
+  const [closeBlocked, setCloseBlocked] = React.useState<boolean>(false);
 
   const navigationController = useNavigationController(
     parentNavigationContoller,
@@ -48,7 +49,7 @@ export default function Overlay({
       onNavigation: (
         frame: Frame | null,
         newFrame: boolean,
-        messages: Message[]
+        messages: Message[],
       ) => {
         // Push any new messages from server
         messages.forEach(pushMessage);
@@ -61,7 +62,7 @@ export default function Overlay({
         requestClose();
       },
       onServerError,
-    }
+    },
   );
 
   // If close is requested, but there is a dirty form (form without saved changes) in the overlay, block the close
@@ -71,27 +72,30 @@ export default function Overlay({
       if (!skipDirtyFormCheck && dirtyFormContext.isDirty) {
         // eslint-disable-next-line no-void
         void dirtyFormContext.requestUnload().then(() => requestClose());
+        setCloseBlocked(true);
       } else {
         requestClose();
       }
     },
-    [dirtyFormContext, requestClose]
+    [dirtyFormContext, requestClose],
   );
 
   const overlayContext: OverlayContextType = React.useMemo(
     () => ({
       overlay: true,
       closeRequested,
-      closeBlocked: closeRequested && dirtyFormContext.isDirty,
+      closeBlocked:
+        (closeBlocked || closeRequested) && dirtyFormContext.isDirty,
       requestClose: requestCloseCallback,
       onCloseCompleted,
     }),
     [
       closeRequested,
+      closeBlocked,
       dirtyFormContext.isDirty,
       onCloseCompleted,
       requestCloseCallback,
-    ]
+    ],
   );
 
   if (navigationController.isLoading) {
@@ -106,7 +110,7 @@ export default function Overlay({
           config={config}
           navigationController={navigationController}
           openOverlay={() => {}}
-        />
+        />,
       )}
     </OverlayContext.Provider>
   );
