@@ -49,7 +49,7 @@ export default function Overlay({
       onNavigation: (
         frame: Frame | null,
         newFrame: boolean,
-        messages: Message[],
+        messages: Message[]
       ) => {
         // Push any new messages from server
         messages.forEach(pushMessage);
@@ -62,7 +62,7 @@ export default function Overlay({
         requestClose();
       },
       onServerError,
-    },
+    }
   );
 
   // If close is requested, but there is a dirty form (form without saved changes) in the overlay, block the close
@@ -77,7 +77,7 @@ export default function Overlay({
         requestClose();
       }
     },
-    [dirtyFormContext, requestClose],
+    [dirtyFormContext, requestClose]
   );
 
   const overlayContext: OverlayContextType = React.useMemo(
@@ -88,7 +88,7 @@ export default function Overlay({
       requestClose: requestCloseCallback,
       onCloseCompleted,
     }),
-    [closeRequested, closeBlocked, onCloseCompleted, requestCloseCallback],
+    [closeRequested, closeBlocked, onCloseCompleted, requestCloseCallback]
   );
 
   if (navigationController.isLoading) {
@@ -103,7 +103,7 @@ export default function Overlay({
           config={config}
           navigationController={navigationController}
           openOverlay={() => {}}
-        />,
+        />
       )}
     </OverlayContext.Provider>
   );
