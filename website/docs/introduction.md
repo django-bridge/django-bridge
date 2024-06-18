@@ -32,6 +32,6 @@ It allows you to keep all of your application logic in the backend, keeping the 
 
 If you have an existing Django template-rendered application and would like to port it to React incrementally, Django Render could really help with this. Django Render uses Django views and forms, so you can keep your application logic where it is. You can also mix Django template rendered views with React rendered views in the same application so you don’t have to port everything in one go.
 
-Django Render may not be a great option if you are building a public website that needs good SEO. All Django Render views are client-side rendered which makes it difficult for Django to read the content.
+Django Render may not be a great option if you are building a public website that needs good SEO. All Django Render views are client-side rendered which makes it difficult for search engines to read the content.
 
 Django Render also may not be a great option in organisations where the React frontend and Django backend are maintained by separate teams as these components need to be tightly coupled together. It is possible to mitigate this by treating the JSON responses as a sort of stable API and using TDD and Storybook to build each component in isolation, but there is no support for formalising this API (in a way like GraphQL or OpenAPI does).
