@@ -84,18 +84,11 @@ export default function Overlay({
     () => ({
       overlay: true,
       closeRequested,
-      closeBlocked:
-        (closeBlocked || closeRequested) && dirtyFormContext.isDirty,
+      closeBlocked,
       requestClose: requestCloseCallback,
       onCloseCompleted,
     }),
-    [
-      closeRequested,
-      closeBlocked,
-      dirtyFormContext.isDirty,
-      onCloseCompleted,
-      requestCloseCallback,
-    ],
+    [closeRequested, closeBlocked, onCloseCompleted, requestCloseCallback],
   );
 
   if (navigationController.isLoading) {
