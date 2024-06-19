@@ -6,9 +6,24 @@
     </picture>
 </h1>
 
-Django Render is a framework that provides a simple approach for building SaaS and internal applications with Django and React.
+<p align="center">
+    <br>
+    <a href="https://github.com/kaedroho/django-render/actions">
+        <img src="https://github.com/kaedroho/django-render/workflows/Django%20Render%20CI/badge.svg" alt="Build Status" />
+    </a>
+    <a href="https://opensource.org/licenses/BSD-3-Clause">
+        <img src="https://img.shields.io/badge/license-BSD-blue.svg" alt="License" />
+    </a>
+    <a href="https://pypi.python.org/pypi/djrender/">
+        <img src="https://img.shields.io/pypi/v/djrender.svg" alt="Version" />
+    </a>
+    <a href="https://pypi.python.org/pypi/djrender/">
+        <img src="https://img.shields.io/badge/Documentation-blue" alt="Documentation" />
+    </a>
+</p>
 
-Visit [django-render.org](https://django-render.org) for more information
+Django Render allows you to build fully client-rendered React applications backed by Django views.
+It also supports Django forms, session authentication and messages.
 
 ## Key Features
 
@@ -17,12 +32,18 @@ Visit [django-render.org](https://django-render.org) for more information
  - Open URLs in overlays to build modal interfaces
  - Supports Storybook and Vite hot module reloading
 
+Find out more at [django-render.org](https://django-render.org)
+
 ## Demo project
 
 Have a look at our demo project to see Django Render in action!
 
 Live Demo: [demo.django-render.org](https://demo.django-render.org)
 Source code: [github.com/kaedroho/djangopress](https://github.com/kaedroho/djangopress)
+
+## Support
+
+For support, please reach out to us on [GitHub discussions](https://github.com/kaedroho/django-render/discussions)
 
 ## Project status
 
