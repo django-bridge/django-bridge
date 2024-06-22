@@ -10,6 +10,7 @@ import Config from "./config";
 import Form from "./components/Form";
 import { MessagesContext } from "./contexts";
 import Overlay from "./components/Overlay";
+import RenderFrame from "./components/RenderFrame";
 
 export interface AppProps {
   config: Config;
@@ -201,3 +202,4 @@ export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
 export { Form };
+export { RenderFrame };
