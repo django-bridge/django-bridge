@@ -69,10 +69,12 @@ class DjangoRenderMiddleware:
                 )
 
             # Wrap the response with our bootstrap template
+            initial_response = json.loads(response.content.decode("utf-8"))
             new_response = render(
                 request,
                 "django_render/bootstrap.html",
                 {
+                    "metadata": initial_response.get("metadata"),
                     "initial_response": json.loads(response.content.decode("utf-8")),
                     "js": js,
                     "css": css,
