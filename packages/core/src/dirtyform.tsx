@@ -43,19 +43,12 @@ export function DirtyFormScope({
   // Check if an instance of DirtyFormMarker exists in the sub tree
   // Note that isDirty will be set to True when a DirtyFormMarker is mounted, but it is not reset when its unmounted
   const [isDirty, setIsDirty] = React.useState<boolean>(false);
-  const ref = React.useRef<null | HTMLDivElement>(null);
-  const checkIsDirty = () =>
-    (ref.current && !!ref.current.querySelector("div.dirty-form-marker")) ||
-    false;
 
   // If this is the root scope, add a beforeunload handler if there is a dirty form
   React.useEffect(() => {
     if (handleBrowserUnload && isDirty) {
       const message = "This page has unsaved changes.";
       const beforeUnloadHandler = (event: { returnValue: string }) => {
-        if (!checkIsDirty()) {
-          return "";
-        }
         event.returnValue = message;
         return message;
       };
@@ -73,7 +66,7 @@ export function DirtyFormScope({
     DirtyFormMarkerCallbackContext
   );
   const dirtyFormMarkerCallback = React.useCallback(() => {
-    setIsDirty(checkIsDirty());
+    setIsDirty(true);
     superDirtyFormMarkerCallback();
   }, [superDirtyFormMarkerCallback]);
 
@@ -82,8 +75,7 @@ export function DirtyFormScope({
     () => ({
       isDirty,
       requestUnload: () => {
-        // Note: isDirty may be incorrect if there was a dirty form that has been removed
-        if (isDirty && checkIsDirty()) {
+        if (isDirty) {
           setUnloadRequested(true);
 
           return new Promise((resolve) => {
@@ -114,13 +106,11 @@ export function DirtyFormScope({
   );
 
   return (
-    <div ref={ref}>
-      <DirtyFormMarkerCallbackContext.Provider value={dirtyFormMarkerCallback}>
-        <DirtyFormContext.Provider value={dirtyFormContext}>
-          {children}
-        </DirtyFormContext.Provider>
-      </DirtyFormMarkerCallbackContext.Provider>
-    </div>
+    <DirtyFormMarkerCallbackContext.Provider value={dirtyFormMarkerCallback}>
+      <DirtyFormContext.Provider value={dirtyFormContext}>
+        {children}
+      </DirtyFormContext.Provider>
+    </DirtyFormMarkerCallbackContext.Provider>
   );
 }
 
@@ -129,5 +119,5 @@ export function DirtyFormMarker(): React.ReactElement {
   const callback = React.useContext(DirtyFormMarkerCallbackContext);
   React.useEffect(callback);
 
-  return <div className="dirty-form-marker" style={{ display: "none" }} />;
+  return <div style={{ display: "none" }} />;
 }
