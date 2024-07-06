@@ -63,7 +63,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     // We can force close in this situation, since we've already checked if there are any dirty forms
     // Only close overlay if a new frame is being pushed
     // This prevents the overlay from closing when refreshProps is called
-    if (overlay && newFrame) {
+    if (newFrame) {
       setOverlayCloseRequested(true);
     }
 
@@ -126,12 +126,12 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
       overlayCloseListener.current = onClose;
     }
 
+    setOverlayCloseRequested(false);
     setOverlay({
       render: renderOverlay,
       initialResponse: initialOverlayResponse,
       initialPath: path,
     });
-    setOverlayCloseRequested(false);
   };
 
   const messagesContext = React.useMemo(
