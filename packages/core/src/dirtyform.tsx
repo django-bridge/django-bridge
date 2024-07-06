@@ -7,7 +7,7 @@ export interface DirtyForm {
   isDirty: boolean;
 
   requestUnload: () => Promise<unknown>;
-  unloadRequested: boolean;
+  unloadBlocked: boolean;
 
   confirmUnload: () => void;
   cancelUnload: () => void;
@@ -17,7 +17,7 @@ export const DirtyFormContext = React.createContext<DirtyForm>({
   isDirty: false,
 
   requestUnload: () => Promise.resolve(),
-  unloadRequested: false,
+  unloadBlocked: false,
 
   confirmUnload: () => {},
   cancelUnload: () => {},
@@ -34,7 +34,7 @@ export function DirtyFormScope({
   handleBrowserUnload = false,
   children,
 }: React.PropsWithChildren<DirtyFormScopeProps>): React.ReactElement {
-  const [unloadRequested, setUnloadRequested] = React.useState<boolean>(false);
+  const [unloadBlocked, setUnloadBlocked] = React.useState<boolean>(false);
   const [unloadCallback, setUnloadCallback] = React.useState<{
     cb: (value: void) => void;
   }>({ cb: () => {} });
@@ -76,7 +76,7 @@ export function DirtyFormScope({
       isDirty,
       requestUnload: () => {
         if (isDirty) {
-          setUnloadRequested(true);
+          setUnloadBlocked(true);
 
           return new Promise((resolve) => {
             setUnloadCallback({ cb: resolve });
@@ -85,24 +85,24 @@ export function DirtyFormScope({
 
         return Promise.resolve();
       },
-      unloadRequested,
+      unloadBlocked,
       confirmUnload: () => {
-        if (unloadRequested) {
+        if (unloadBlocked) {
           setUnloadConfirmed(true);
           unloadCallback.cb();
-          setUnloadRequested(false);
+          setUnloadBlocked(false);
           setUnloadCallback({ cb: () => {} });
         }
       },
       cancelUnload: () => {
-        if (unloadRequested) {
-          setUnloadRequested(false);
+        if (unloadBlocked) {
+          setUnloadBlocked(false);
           setUnloadCallback({ cb: () => {} });
         }
       },
       unloadConfirmed,
     }),
-    [isDirty, unloadCallback, unloadConfirmed, unloadRequested]
+    [isDirty, unloadCallback, unloadConfirmed, unloadBlocked]
   );
 
   return (
