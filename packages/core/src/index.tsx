@@ -65,6 +65,9 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     // This prevents the overlay from closing when refreshProps is called
     if (newFrame) {
       setOverlayCloseRequested(true);
+
+      // As the main window has navigated away, we should ignore the close listener it provided
+      overlayCloseListener.current = null;
     }
 
     // Clear messages if moving to new frame (instead of updating existing frame)
