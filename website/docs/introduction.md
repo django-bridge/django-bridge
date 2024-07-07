@@ -14,7 +14,9 @@ Django Render applications use Django’s built-in URL routing and views, allowi
 
 The backend operates similarly to a traditional Django application: requests are routed to views using Django's URL configuration, the view processes the request, and returns a response. The key difference is that the view returns a JSON response instead of an HTML response. This JSON response contains the name of the React component to render and any data to pass to it.
 
-The frontend library parses this JSON response, then finds and renders the appropriate React component. It also handles data fetching during user navigation, providing a single-page application (SPA) experience.
+The frontend library parses this JSON response, then finds and renders the appropriate React component. When the user clicks on a hyperlink, the library fetches the data for the next page and renders it without reloading the page, providing a single-page application (SPA) experience.
+
+The frontend setup uses a standard Vite+React configuration. In development, the Django server fetches the JavaScript built by the Vite dev server, enabling hot module reloading. In production, a static bundle is served to the browser, so Node.js is not required on the server.
 
 *If the views return JSON, how does the browser render it?* Django Render includes a middleware class that detects whether the client is a regular browser request and converts the response to HTML. This is done by nesting the JSON within an HTML template that also loads the frontend bundle. Any subsequent requests are made using the browser's `fetch()` API and rendered without reloading the page.
 
