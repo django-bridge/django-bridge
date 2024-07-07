@@ -5,11 +5,11 @@ import "./index.css";
 
 import HomeView from "./views/Home";
 import { CSRFTokenContext } from "./contexts";
-import FormDef from "./deserializers/Form";
-import FieldDef from "./deserializers/Field";
-import ServerRenderedFieldDef from "./deserializers/ServerRenderedField";
-import TextInputDef from "./deserializers/widgets/TextInput";
-import SelectDef from "./deserializers/widgets/Select";
+import FormDef from "./adapters/Form";
+import FieldDef from "./adapters/Field";
+import ServerRenderedFieldDef from "./adapters/ServerRenderedField";
+import TextInputDef from "./adapters/widgets/TextInput";
+import SelectDef from "./adapters/widgets/Select";
 
 const config = new DjangoRender.Config();
 
@@ -19,12 +19,12 @@ config.addView("Home", HomeView);
 // Add your context providers here
 config.addContextProvider("csrf_token", CSRFTokenContext);
 
-// Add your deserializers here
-config.addDeserializer("forms.Form", FormDef);
-config.addDeserializer("forms.Field", FieldDef);
-config.addDeserializer("forms.ServerRenderedField", ServerRenderedFieldDef);
-config.addDeserializer("forms.TextInput", TextInputDef);
-config.addDeserializer("forms.Select", SelectDef);
+// Add your adapters here
+config.addAdapter("forms.Form", FormDef);
+config.addAdapter("forms.Field", FieldDef);
+config.addAdapter("forms.ServerRenderedField", ServerRenderedFieldDef);
+config.addAdapter("forms.TextInput", TextInputDef);
+config.addAdapter("forms.Select", SelectDef);
 
 const rootElement = document.getElementById("root")!;
 const initialResponse = JSON.parse(

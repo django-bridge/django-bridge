@@ -16,8 +16,8 @@ export default class Config {
     this.contextProviders = new Map();
     this.telepathRegistry = new Telepath();
 
-    // Add default deserializers
-    this.addDeserializer("Date", Date);
+    // Add default adapters
+    this.addAdapter("Date", Date);
   }
 
   public addView = <P>(
@@ -36,7 +36,7 @@ export default class Config {
     return this;
   };
 
-  public addDeserializer = <Cls>(
+  public addAdapter = <Cls>(
     name: string,
     ctor: { new (...args: any[]): Cls }
   ): Config => {
