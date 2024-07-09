@@ -43,11 +43,3 @@ Source code: [github.com/kaedroho/djangopress](https://github.com/kaedroho/djang
 ## Support
 
 For support, please reach out to us on [GitHub discussions](https://github.com/kaedroho/django-render/discussions)
-
-## Project status
-
-This has been a side-project while at Torchbox and HarperCollins over the last four years. It has already been used successfully in production for both [public SaaS](https://app.wagtail.build) and internal applications.
-
-I've recently been working on converting the code, which has been sitting on my Github account all this time, into something that can be used more widely. This involves a lot of API refinement, adding docs, building a demo, and a website.
-
-I'm planning for a 0.1 final release in the summer of 2024.
