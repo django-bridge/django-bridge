@@ -67,13 +67,13 @@ export default function Home(): JSX.Element {
           <div className={styles.container}>
             <div className={styles.column}>
               <p>
-                Use Django's URL routing and views to fetch the data for your
-                frontend to render.
+                Use Django's URL routing and views to fetch data for your
+                frontend and implement application logic.
               </p>
               <p>
-                Every click results in a single server round-trip where the
-                server returns what the frontend should render on the next page
-                in JSON format.
+                Views can return anything JSON-serializable. You can create
+                [adapters](/docs/python2react) to serialize any Python object
+                (like forms, for example)
               </p>
             </div>
             <div className={styles.column}>
@@ -106,18 +106,20 @@ def form(request):
           <h2>Render the frontend with React</h2>
           <div className={styles.container}>
             <div className={styles.column}>
-              <p>Build fully client-rendered single page applications.</p>
               <p>
-                There is no need to set up an API, or client-side routing. All
-                app logic is implemented on the server keeping the frontend
-                light.
+                Build fully client-rendered single page applications without all
+                the complexity.
               </p>
               <p>
-                Python objects can be converted to JavaScript objects using{" "}
-                <a href="https://github.com/wagtail/telepath" rel="nofollow">
-                  Telepath
-                </a>
-                . This allows you use Django forms in React!
+                All application logic is implemented on the server and React is
+                only used for presentation, so frontends are light.
+              </p>
+              <p>
+                You can use any styling system, or component library that you
+                like.
+              </p>
+              <p>
+                Supports Vite.js, and Storybook. Next.js support coming soon!
               </p>
             </div>
             <div className={styles.column}>
