@@ -75,11 +75,11 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
     // replacePath() and refreshProps() will update the existing one.
     // We don't want to delete messages for the latter two.
     if (newFrame) {
-      setMessages([]);
+      setMessages(newMessages);
+    } else {
+      // Push any new messages from server
+      newMessages.forEach(pushMessage);
     }
-
-    // Push any new messages from server
-    newMessages.forEach(pushMessage);
   };
 
   const initialPath =
