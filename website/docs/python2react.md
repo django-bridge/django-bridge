@@ -6,10 +6,9 @@ sidebar_position: 10
 
 Django Render has built-in support for converting Python objects into JavaScript objects so they can be used by React.
 
-There are two parts, on the backend we need to define an “adapter”, this is a class that tells Django Render how to convert an instance of a particular Python class into JSON.
-Then on the frontend, we need to define a “constructor” which constructs a JavaScript object from the JSON.
+To use this, we need to define two adapters, one which converts Python class into a JSON representation, the other which constructs a JavaScript object from that JSON.
 
-Adapters are defined in a file called ``adapters.py`` which can be created in any app. Django Render will auto detect these files and load them.
+In Python, Django Render will look for an ``adapters.py`` file in each installed application and load any adapters it defines. In JavaScript, you need to register adapters using the ``Config.addAdapter`` function.
 
 For example, here is an adapter to convert Django's ``TextInput`` widget:
 
@@ -43,7 +42,7 @@ In this example, we want to know the type of ``TextInput`` (since we can reuse t
 
 - Finally, we call ``register`` which adds the adapter to the registry. The second argument is the type of object that this adapter will adapt. Note that this `adapter` will also adapt any other class that inherits from ``TextInput`` unless a more specific adapter is registered for the sub-class
 
-Next we need to define a constructor to create the JavaScript objects that will represent our text inputs:
+Next we need to define the JavaScript portion of the adapter. For this, we need a class that represents our ``TextInputDef``:
 
 ```jsx
 export default class TextInputDef {
@@ -66,3 +65,23 @@ export default class TextInputDef {
   }
 }
 ```
+
+The only part of this class that is important to get right is the parameters to the constructor. These parameters must match the values returned by the ``js_args`` method of the Python adapter.
+
+In this example, we've added ``render()`` method to demonstrate that how you can use these classes. You can define any methods you like on the class.
+
+To register the adapter, use the ``addAdapter`` method on your config object in ``main.tsx``. The first parameter must match the value of ``js_constructor`` on the Python adapter as this is how Django Render will know which JavaScript adapter to use. The second parameter is the class to use:
+
+```tsx
+const config = new DjangoRender.Config();
+
+// Add your views here
+config.addView("Home", HomeView);
+// ...
+
+
+// Add your adapters here
+config.addAdapter("forms.TextInput", TextInputDef);
+```
+
+Now, when you use a ``TextInput`` in a response, it will be automatically converted to a ``TextInputDef`` in JavaScript, where you can call ``.render()`` on it.
