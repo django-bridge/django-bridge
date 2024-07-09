@@ -27,7 +27,8 @@ ENV PATH=$VIRTUAL_ENV/bin:$PATH \
     PORT=8000
 
 # Add user that will be used in the container
-RUN useradd __projectname__ --create-home && mkdir /app $VIRTUAL_ENV && chown -R __projectname__ /app $VIRTUAL_ENV
+ARG UID=1000
+RUN useradd __projectname__ --uid ${UID} --create-home && mkdir /app $VIRTUAL_ENV && chown -R __projectname__ /app $VIRTUAL_ENV
 
 # Install poetry
 RUN pip install poetry==1.5.1
