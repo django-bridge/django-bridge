@@ -32,7 +32,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Eliminate unnecessary round-trips to the server by using Django views
-        instead of generic APIs. Django Render adds only ~15KB to your bundle
+        instead of generic APIs. Django Render adds only ~11KB to your bundle
         size.
       </>
     ),
