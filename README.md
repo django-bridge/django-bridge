@@ -22,8 +22,9 @@
     </a>
 </p>
 
-Django Render allows you to build fully client-rendered React applications backed by Django views.
-It also supports Django forms, session authentication and messages.
+With Django Render, you can build fully client-rendered React applications that are backed by Django views.
+
+You can create fast, user-friendly single-page-applications and use all components available in the React ecosystem, while keeping all application logic in Django.
 
 ## Key Features
 
@@ -32,7 +33,7 @@ It also supports Django forms, session authentication and messages.
  - Open URLs in overlays to build modal interfaces
  - Supports Storybook and Vite hot module reloading
 
-Find out more at [django-render.org](https://django-render.org)
+Find out more in our [Introduction](https://django-render.org/docs/introduction)
 
 ## Demo project
 
