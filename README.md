@@ -22,9 +22,7 @@
     </a>
 </p>
 
-With Django Render, you can build fully client-rendered React applications that are backed by Django views.
-
-You can create fast, user-friendly single-page-applications and use all components available in the React ecosystem, while keeping all application logic in Django.
+With Django Render, you can create fast, user-friendly single-page-applications and use all components available in the React ecosystem while keeping all application logic in Django.
 
 ## Key Features
 
