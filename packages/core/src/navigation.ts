@@ -2,13 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { djangoGet, djangoPost, DjangoRenderResponse, Message } from "./fetch";
+import { Metadata } from "./metadata";
 
 let nextFrameId = 1;
 
 export interface Frame<Props = Record<string, unknown>> {
   id: number;
   path: string;
-  title: string;
+  metadata: Metadata;
   view: string;
   props: Props;
   context: Record<string, unknown>;
@@ -55,7 +56,9 @@ export function useNavigationController(
   const [currentFrame, setCurrentFrame] = useState<Frame>({
     id: nextFrameId,
     path: initialPath,
-    title: "Loading",
+    metadata: {
+      title: "Loading",
+    },
     view: "loading",
     props: {},
     context: {},
@@ -64,7 +67,7 @@ export function useNavigationController(
   const pushFrame = useCallback(
     (
       path: string,
-      title: string,
+      metadata: Metadata,
       view: string,
       props: Record<string, unknown>,
       context: Record<string, unknown>,
@@ -81,7 +84,7 @@ export function useNavigationController(
       }
 
       if (!parent) {
-        document.title = title;
+        document.title = metadata.title;
 
         if (pushState) {
           let scollPositionY = 0;
@@ -110,7 +113,7 @@ export function useNavigationController(
       const nextFrame = {
         id: frameId,
         path,
-        title,
+        metadata,
         view,
         props,
         context,
@@ -169,7 +172,7 @@ export function useNavigationController(
 
         pushFrame(
           path,
-          response.title,
+          response.metadata,
           response.view,
           props,
           context,

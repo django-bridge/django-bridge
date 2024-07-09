@@ -6,6 +6,7 @@ from django.utils.html import conditional_escape
 from django.utils.module_loading import import_string
 
 from .adapters.registry import JSContext
+from .metadata import Metadata
 
 
 def get_messages(request):
@@ -60,17 +61,17 @@ class Response(BaseResponse):
 
     status = "render"
 
-    def __init__(self, request, *args, overlay=False, title="", **kwargs):
+    def __init__(self, request, *args, overlay=False, metadata: Metadata=None, **kwargs):
         self.request = request
         self.overlay = overlay
-        self.title = title
+        self.metadata = metadata or { "title": "" }
         super().__init__(*args, **kwargs)
 
     def get_data(self, view, props):
         return {
             "view": view,
             "overlay": self.overlay,
-            "title": self.title,
+            "metadata": self.metadata,
             "props": props,
             "context": {
                 name: import_string(provider)(self.request)

@@ -20,7 +20,17 @@ from django_render.response import Response
 
 def current_datetime(request):
     now = datetime.datetime.now()
-    return Response(request, “CurrentTime”, {“time” now})
+
+    return Response(
+        request,
+        “CurrentTime”,
+        {
+            “time”: now
+        },
+        metadata={
+            "title": "Current time"
+        }
+    )
 ```
 
 Let’s step through this code one line at a time:
@@ -31,7 +41,7 @@ Let’s step through this code one line at a time:
 
   Note that the name of the view function doesn’t matter; it doesn’t have to be named in a certain way in order for Django to recognize it. We’re calling it current_datetime here, because that name clearly indicates what it does.
 
-- The view returns an Response object that contains the name of the frontend component to render (“CurrentTime”) and the props to pass in to it. We will look at what this component looks like in the next section.
+- The view returns an Response object that contains the name of the frontend component to render (“CurrentTime”), the props to pass in to it, and some metadata which includes the page title. We will look at what this component looks like in the next section.
 
 ## Adding views to your URL config
 
