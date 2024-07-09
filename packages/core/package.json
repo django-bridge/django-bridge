@@ -1,6 +1,6 @@
 {
   "name": "@django-render/core",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "description": "The simple way to build Django applications with modern React frontends",
   "repository": "https://github.com/kaedroho/django-render",
   "license": "BSD-3-Clause",
