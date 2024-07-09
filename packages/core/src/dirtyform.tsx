@@ -8,6 +8,7 @@ export interface DirtyForm {
 
   requestUnload: () => Promise<unknown>;
   unloadRequested: boolean;
+  unloadBlocked: boolean;
 
   confirmUnload: () => void;
   cancelUnload: () => void;
@@ -18,6 +19,7 @@ export const DirtyFormContext = React.createContext<DirtyForm>({
 
   requestUnload: () => Promise.resolve(),
   unloadRequested: false,
+  unloadBlocked: false,
 
   confirmUnload: () => {},
   cancelUnload: () => {},
@@ -94,6 +96,7 @@ export function DirtyFormScope({
         return Promise.resolve();
       },
       unloadRequested,
+      unloadBlocked: isDirty && unloadRequested,
       confirmUnload: () => {
         if (unloadRequested) {
           setUnloadConfirmed(true);
