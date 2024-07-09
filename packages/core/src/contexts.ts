@@ -13,7 +13,6 @@ export interface OpenOverlayOptions {
 export interface OverlayContextType {
   overlay: boolean;
   closeRequested: boolean;
-  closeBlocked: boolean;
   requestClose: (options?: { skipDirtyFormCheck?: boolean }) => void;
   onCloseCompleted: () => void;
 }
@@ -21,7 +20,6 @@ export interface OverlayContextType {
 export const OverlayContext = React.createContext<OverlayContextType>({
   overlay: false,
   closeRequested: false,
-  closeBlocked: false,
   requestClose: () => {
     // eslint-disable-next-line no-console
     console.error(

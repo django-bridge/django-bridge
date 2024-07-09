@@ -38,7 +38,6 @@ export default function Overlay({
   onServerError,
 }: OverlayProps): ReactElement {
   const { pushMessage } = React.useContext(MessagesContext);
-  const [closeBlocked, setCloseBlocked] = React.useState<boolean>(false);
 
   const navigationController = useNavigationController(
     parentNavigationContoller,
@@ -72,7 +71,6 @@ export default function Overlay({
       if (!skipDirtyFormCheck && dirtyFormContext.isDirty) {
         // eslint-disable-next-line no-void
         void dirtyFormContext.requestUnload().then(() => requestClose());
-        setCloseBlocked(true);
       } else {
         requestClose();
       }
@@ -84,11 +82,10 @@ export default function Overlay({
     () => ({
       overlay: true,
       closeRequested,
-      closeBlocked,
       requestClose: requestCloseCallback,
       onCloseCompleted,
     }),
-    [closeRequested, closeBlocked, onCloseCompleted, requestCloseCallback]
+    [closeRequested, onCloseCompleted, requestCloseCallback]
   );
 
   if (navigationController.isLoading) {
