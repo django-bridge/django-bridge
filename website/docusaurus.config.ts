@@ -66,11 +66,6 @@ const config: Config = {
           label: "docs",
         },
         {
-          href: "/news",
-          position: "right",
-          label: "news",
-        },
-        {
           href: "https://github.com/kaedroho/django-render/discussions",
           position: "right",
           label: "discuss",
