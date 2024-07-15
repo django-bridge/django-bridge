@@ -24,14 +24,18 @@
 
 With Django Render, you can create fast, user-friendly single-page-applications and use all components available in the React ecosystem while keeping all application logic in Django.
 
+Django Render applications use Django’s built-in URL routing and views, allowing you to build your backend like a regular Django app and render the frontend with React components instead of Django templates.
+
+The package contains a Django middleware and a small (11KB) frontend library that handles the data fetching and adapting Python objects into JavaScript.
+
+Find out more in our [Introduction](https://django-render.org/docs/introduction)
+
 ## Key Features
 
  - Build React applications using Django's URL routing, views, and forms
  - Build Django applications with fast, reactive user interfaces
  - Open URLs in overlays to build modal interfaces
  - Supports Storybook and Vite hot module reloading
-
-Find out more in our [Introduction](https://django-render.org/docs/introduction)
 
 ## Demo project
 
