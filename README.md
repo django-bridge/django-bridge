@@ -32,9 +32,10 @@ Find out more in our [Introduction](https://django-render.org/docs/introduction)
 
 ## Key Features
 
- - Build React applications using Django's URL routing, views, and forms
- - Build Django applications with fast, reactive user interfaces
+ - Quickly build React applications with all the app logic in Django views, no APIs required!
+ - Deeply integrated with Django. Supports Django forms, messages, and authentication
  - Open URLs in overlays to build modal interfaces
+ - Use whatever UI component library/css framework you like
  - Supports Storybook and Vite hot module reloading
 
 ## Demo project
