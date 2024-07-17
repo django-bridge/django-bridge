@@ -2,6 +2,7 @@ import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
 import { Message, DjangoRenderResponse, djangoGet } from "./fetch";
+import { Metadata } from "./metadata";
 import { Frame, useNavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
@@ -198,7 +199,7 @@ export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { type NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-export type { DjangoRenderResponse as Response };
+export type { DjangoRenderResponse as Response, Metadata };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };
