@@ -12,7 +12,7 @@
   {% endfor %}
   {% block loader_css %}
   <style>
-    .django-render-load {
+    .django-bridge-load {
       position: absolute;
       left: 0;
       top: 0;
@@ -24,11 +24,11 @@
       transition: opacity 0.2s;
     }
 
-    .django-render-load--hidden {
+    .django-bridge-load--hidden {
       opacity: 0;
     }
 
-    .django-render-load__spinner {
+    .django-bridge-load__spinner {
       opacity: 0;
       transition: opacity 0.2s;
 
@@ -37,11 +37,11 @@
       top: calc(50% - 40px)
     }
 
-    .django-render-load--show-spinner .django-render-load__spinner {
+    .django-bridge-load--show-spinner .django-bridge-load__spinner {
       opacity: 1;
     }
 
-    .django-render-load__text {
+    .django-bridge-load__text {
       position: absolute;
       top: 32px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,8 +62,8 @@
   {% endblock %}
 
   {% block loader %}
-  <div class="django-render-load">
-    <div class="django-render-load__spinner">
+  <div class="django-bridge-load">
+    <div class="django-bridge-load__spinner">
       <svg width="80" height="80" viewBox="0 0 200 200" color="#4c3fdd" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="spinner-secondHalf">
@@ -88,7 +88,7 @@
           dur="1300ms" />
       </svg>
 
-      <div class="django-render-load__text">Loading</div>
+      <div class="django-bridge-load__text">Loading</div>
     </div>
   </div>
   {% endblock %}
@@ -110,7 +110,7 @@
   <script type="module" src="{{ src }}" async defer></script>
   {% endfor %}
   {% block loader_js %}
-  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.django-render-load').classList.add('django-render-load--show-spinner') }, 100) });</script>
+  <script>document.addEventListener('DOMContentLoaded', () => { setTimeout(() => { document.querySelector('.django-bridge-load').classList.add('django-bridge-load--show-spinner') }, 100) });</script>
   {% endblock %}
   {% block extra_body %}
   {% endblock %}

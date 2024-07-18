@@ -97,9 +97,9 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
 
   React.useEffect(() => {
     // Remove the loading screen
-    const loadingScreen = document.querySelector(".django-render-load");
+    const loadingScreen = document.querySelector(".django-bridge-load");
     if (loadingScreen instanceof HTMLElement) {
-      loadingScreen.classList.add("django-render-load--hidden");
+      loadingScreen.classList.add("django-bridge-load--hidden");
       setTimeout(() => {
         loadingScreen.remove();
       }, 200);
