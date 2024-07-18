@@ -1,4 +1,4 @@
 include LICENSE *.rst *.txt *.md
-graft django_render
+graft django_bridge
 global-exclude __pycache__
 global-exclude *.py[co]

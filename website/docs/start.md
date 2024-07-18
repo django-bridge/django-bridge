@@ -75,13 +75,13 @@ pip install djrender
 
 The following tasks need to be done in your project's Django settings file.
 
-Add ``django_render`` to ``INSTALLED_APPS``:
+Add ``django_bridge`` to ``INSTALLED_APPS``:
 
 ```python
 INSTALLED_APPS = [
 	# …
 
-    "django_render",
+    "django_bridge",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -98,7 +98,7 @@ Add the ``DjangoBridgeMiddleware`` class to ``MIDDLEWARE``:
 MIDDLEWARE = [
     # …
 
-    "django_render.middleware.DjangoBridgeMiddleware",
+    "django_bridge.middleware.DjangoBridgeMiddleware",
 ]
 ```
 

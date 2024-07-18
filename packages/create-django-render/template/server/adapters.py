@@ -1,5 +1,5 @@
 from django import forms
-from django_render.adapters import Adapter, register
+from django_bridge.adapters import Adapter, register
 
 
 class TextInputAdapter(Adapter):

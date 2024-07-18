@@ -79,7 +79,7 @@ export default function Home(): JSX.Element {
             <div className={styles.column}>
               <Tabs>
                 <TabItem value="views" label="views.py">
-                  <CodeBlock language="python">{`from django_render import Response
+                  <CodeBlock language="python">{`from django_bridge import Response
 
 def form(request):
     form = MyForm(request.POST or None)

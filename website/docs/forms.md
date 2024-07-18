@@ -36,7 +36,7 @@ To handle the form we need to instantiate it in the view for the URL where we wa
 
 ```python
 from django.http import HttpResponseRedirect
-from django_render.response import Response
+from django_bridge.response import Response
 
 from .forms import NameForm
 

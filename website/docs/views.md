@@ -16,7 +16,7 @@ Here’s a view that renders a component called “CurrentTime” with the curre
 
 ```python
 import datetime
-from django_render.response import Response
+from django_bridge.response import Response
 
 def current_datetime(request):
     now = datetime.datetime.now()
@@ -25,7 +25,7 @@ def current_datetime(request):
 
 Let’s step through this code one line at a time:
 
-- First, we import the class Response from django_render, along with Python’s datetime library.
+- First, we import the class Response from django_bridge, along with Python’s datetime library.
 
 - Next, we define a function called current_datetime. This is the view function. Each view function takes an HttpRequest object as its first parameter, which is typically named request.
 

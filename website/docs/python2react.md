@@ -15,7 +15,7 @@ For example, here is an adapter to convert Django's ``TextInput`` widget:
 ```python
 
 from django import forms
-from django_render.adapters import Adapter, register
+from django_bridge.adapters import Adapter, register
 
 class TextInputAdapter(Adapter):
     js_constructor = "forms.TextInput"

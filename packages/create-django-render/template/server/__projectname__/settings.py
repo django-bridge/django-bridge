@@ -30,7 +30,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 INSTALLED_APPS = [
     "__projectname__",
-    "django_render",
+    "django_bridge",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -47,7 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_render.middleware.DjangoBridgeMiddleware",
+    "django_bridge.middleware.DjangoBridgeMiddleware",
 ]
 
 ROOT_URLCONF = "__projectname__.urls"
