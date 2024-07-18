@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-render-root"
+name = "django-bridge-root"
 version = "1.0"
 description = ""
 authors = ["Karl Hobley <karl@kaed.uk>"]
