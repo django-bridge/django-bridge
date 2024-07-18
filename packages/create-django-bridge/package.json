@@ -1,11 +1,11 @@
 {
-  "name": "create-django-render",
+  "name": "create-django-bridge",
   "type": "module",
   "version": "0.3.0",
   "description": "Create a new Django + React project with a single command",
   "repository": "https://github.com/django-bridge/django-bridge",
   "bin": {
-    "create-django-render": "index.js"
+    "create-django-bridge": "index.js"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --out-dir dist"

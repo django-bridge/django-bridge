@@ -85,7 +85,7 @@ export default function GetNameView({ form }) {
 
 Let’s step through this code one line at a time:
 
-- First, we import the ``<Form>`` component from Django Bridge and `CSRFTokenContext` from our project’s ``contexts`` module (this is provided by the ``create-django-render`` project template)
+- First, we import the ``<Form>`` component from Django Bridge and `CSRFTokenContext` from our project’s ``contexts`` module (this is provided by the ``create-django-bridge`` project template)
 
 - Next, we define a function view component called ``GetNameView`` that takes a form as a prop
 
