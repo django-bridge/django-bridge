@@ -1,5 +1,5 @@
 {
-  "name": "@django-bridge/core",
+  "name": "@django-bridge/react",
   "version": "0.1.0",
   "description": "The simple way to build Django applications with modern React frontends",
   "repository": "https://github.com/django-bridge/django-bridge",
