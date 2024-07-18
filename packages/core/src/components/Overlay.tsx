@@ -12,11 +12,11 @@ import {
   useNavigationController,
 } from "../navigation";
 import Browser from "./Browser";
-import { DjangoRenderResponse, Message } from "../fetch";
+import { DjangoBridgeResponse, Message } from "../fetch";
 
 export interface OverlayProps {
   config: Config;
-  initialResponse: DjangoRenderResponse;
+  initialResponse: DjangoBridgeResponse;
   initialPath: string;
   parentNavigationContoller: NavigationController;
   render: (content: ReactNode) => ReactNode;

@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from "react";
 
 import Browser from "./components/Browser";
-import { Message, DjangoRenderResponse, djangoGet } from "./fetch";
+import { Message, DjangoBridgeResponse, djangoGet } from "./fetch";
 import { Frame, useNavigationController } from "./navigation";
 import { DirtyFormScope } from "./dirtyform";
 import Link, { BuildLinkElement, buildLinkElement } from "./components/Link";
@@ -12,7 +12,7 @@ import Overlay from "./components/Overlay";
 
 export interface AppProps {
   config: Config;
-  initialResponse: DjangoRenderResponse | JSON;
+  initialResponse: DjangoBridgeResponse | JSON;
 }
 
 export function App({ config, initialResponse }: AppProps): ReactElement {
@@ -45,7 +45,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   // Overlay state
   const [overlay, setOverlay] = React.useState<{
     render(content: ReactNode): ReactNode;
-    initialResponse: DjangoRenderResponse;
+    initialResponse: DjangoBridgeResponse;
     initialPath: string;
   } | null>(null);
   const [overlayCloseRequested, setOverlayCloseRequested] =
@@ -87,7 +87,7 @@ export function App({ config, initialResponse }: AppProps): ReactElement {
   const navigationController = useNavigationController(
     null,
     config.unpack,
-    initialResponse as DjangoRenderResponse,
+    initialResponse as DjangoBridgeResponse,
     initialPath,
     {
       onNavigation,
@@ -198,7 +198,7 @@ export { DirtyFormContext, DirtyFormMarker } from "./dirtyform";
 export type { DirtyForm } from "./dirtyform";
 export { type NavigationController } from "./navigation";
 export type { Frame } from "./navigation";
-export type { DjangoRenderResponse as Response };
+export type { DjangoBridgeResponse as Response };
 export { Link, BuildLinkElement, buildLinkElement };
 export type { Message };
 export { Config };

@@ -6,7 +6,7 @@ sidebar_position: 9
 
 **WORK IN PROGRESS: This is just a stub for now**
 
-Django Render supports opening any URL in an overlay/modal using the ``openOverlay`` function.
+Django Bridge supports opening any URL in an overlay/modal using the ``openOverlay`` function.
 
 For example:
 

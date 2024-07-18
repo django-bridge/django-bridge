@@ -3,7 +3,7 @@ from django.views.generic.base import ContextMixin, View
 from .response import Response
 
 
-class DjangoRenderMixin:
+class DjangoBridgeMixin:
     """A mixin that can be used to render a view with a React component."""
 
     title = None
@@ -30,7 +30,7 @@ class DjangoRenderMixin:
         )
 
 
-class DjangoRenderView(DjangoRenderMixin, ContextMixin, View):
+class DjangoBridgeView(DjangoBridgeMixin, ContextMixin, View):
     """
     A class-based view that can be used to render views with React.
     """

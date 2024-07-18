@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { djangoGet, djangoPost, DjangoRenderResponse, Message } from "./fetch";
+import { djangoGet, djangoPost, DjangoBridgeResponse, Message } from "./fetch";
 
 let nextFrameId = 1;
 
@@ -25,7 +25,7 @@ export interface NavigationController {
   currentFrame: Frame;
   isLoading: boolean;
   handleResponse: (
-    response: DjangoRenderResponse,
+    response: DjangoBridgeResponse,
     path: string,
     pushState?: boolean,
     neverReload?: boolean
@@ -39,7 +39,7 @@ export interface NavigationController {
 export function useNavigationController(
   parent: NavigationController | null,
   unpack: (data: Record<string, unknown>) => Record<string, unknown>,
-  initialResponse: DjangoRenderResponse,
+  initialResponse: DjangoBridgeResponse,
   initialPath: string,
   callbacks: {
     onNavigation?: (
@@ -128,7 +128,7 @@ export function useNavigationController(
 
   const handleResponse = useCallback(
     (
-      response: DjangoRenderResponse,
+      response: DjangoBridgeResponse,
       path: string,
       pushState = true,
       neverReload = false
@@ -204,7 +204,7 @@ export function useNavigationController(
 
   const fetch = useCallback(
     async (
-      fetcher: () => Promise<DjangoRenderResponse>,
+      fetcher: () => Promise<DjangoBridgeResponse>,
       url: string,
       pushState: boolean,
       neverReload = false

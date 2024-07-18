@@ -1,4 +1,4 @@
-name: Django Render CI
+name: Django Bridge CI
 
 on:
   push:

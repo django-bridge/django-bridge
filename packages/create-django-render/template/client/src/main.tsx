@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import * as DjangoRender from "@django-render/core";
+import * as DjangoBridge from "@django-render/core";
 import "./index.css";
 
 import HomeView from "./views/Home";
@@ -11,7 +11,7 @@ import ServerRenderedFieldDef from "./adapters/ServerRenderedField";
 import TextInputDef from "./adapters/widgets/TextInput";
 import SelectDef from "./adapters/widgets/Select";
 
-const config = new DjangoRender.Config();
+const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Home", HomeView);
@@ -33,6 +33,6 @@ const initialResponse = JSON.parse(
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <DjangoRender.App config={config} initialResponse={initialResponse} />
+    <DjangoBridge.App config={config} initialResponse={initialResponse} />
   </React.StrictMode>
 );
