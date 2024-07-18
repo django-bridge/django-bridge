@@ -3,8 +3,8 @@ from django.utils.module_loading import autodiscover_modules
 
 
 class DjangoBridgeAppConfig(AppConfig):
-    label = "django_render"
-    name = "django_render"
+    label = "django_bridge"
+    name = "django_bridge"
     verbose_name = "Django Bridge"
     default_auto_field = "django.db.models.BigAutoField"
 

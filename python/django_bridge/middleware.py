@@ -71,7 +71,7 @@ class DjangoBridgeMiddleware:
             # Wrap the response with our bootstrap template
             new_response = render(
                 request,
-                "django_render/bootstrap.html",
+                "django_bridge/bootstrap.html",
                 {
                     "initial_response": json.loads(response.content.decode("utf-8")),
                     "js": js,

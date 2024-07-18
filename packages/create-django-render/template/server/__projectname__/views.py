@@ -1,4 +1,4 @@
-from django_render.response import Response
+from django_bridge.response import Response
 
 
 def home(request):

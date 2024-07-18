@@ -1,12 +1,12 @@
 *.pyc
 /build
 /dist
-/django_render.egg-info
+/django_bridge.egg-info
 /.coverage
 /htmlcov
 /.tox
 /venv
 /site
-/test_django_render.db
+/test_django_bridge.db
 /test-static
 /test-media
