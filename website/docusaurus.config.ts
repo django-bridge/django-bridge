@@ -110,7 +110,7 @@ const config: Config = {
             },
             {
               label: "PyPI",
-              href: "https://pypi.org/project/djrender/",
+              href: "https://pypi.org/project/django-bridge/",
             },
             {
               label: "npm",

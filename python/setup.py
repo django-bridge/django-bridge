@@ -10,7 +10,7 @@ with open(path.join(this_directory, "../README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="djrender",
+    name="django-bridge",
     version=__version__,
     description="The simple way to build Django applications with modern React frontends",
     long_description=long_description,
