@@ -17,7 +17,7 @@ The ``MessagesContext`` also provides a ``pushMessage`` function that you can us
 Here’s an example component that will render the messages using a React component:
 
 ```jsx
-import { MessagesContext } from "@django-bridge/core";
+import { MessagesContext } from "@django-bridge/react";
 
 export function Messages() {
  const { messages } = React.useContext(MessagesContext);
@@ -61,7 +61,7 @@ This function takes an object containing a “level” key which can either be �
 For example, here's how you could generate a message when a user clicks a button:
 
 ```jsx
-import { MessagesContext } from "@django-bridge/core";
+import { MessagesContext } from "@django-bridge/react";
 
 export function MessageButton() {
  const { pushMessage } = React.useContext(MessagesContext);

@@ -67,6 +67,6 @@ jobs:
         run: |
           yarn install
       - run: |
-          cd packages/core
+          cd packages/react
           yarn install
           yarn run check-types
