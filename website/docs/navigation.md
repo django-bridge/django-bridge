@@ -6,7 +6,7 @@ sidebar_position: 5
 
 ## The ``<Link>`` component
 
-Django Render includes a ``<Link>`` built-in component that extends the HTML ``<a>`` tag to provide client-side navigation between views.
+Django Bridge includes a ``<Link>`` built-in component that extends the HTML ``<a>`` tag to provide client-side navigation between views.
 
 For example:
 

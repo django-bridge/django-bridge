@@ -47,7 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_render.middleware.DjangoRenderMiddleware",
+    "django_render.middleware.DjangoBridgeMiddleware",
 ]
 
 ROOT_URLCONF = "__projectname__.urls"
@@ -126,7 +126,7 @@ if os.environ.get("VITE_BUNDLE_DIR"):
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Django Render settings
+# Django Bridge settings
 
 DJANGO_RENDER = {
     "VITE_BUNDLE_DIR": os.environ.get("VITE_BUNDLE_DIR"),

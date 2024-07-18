@@ -4,11 +4,11 @@ sidebar_position: 10
 
 # Python objects in React
 
-Django Render has built-in support for converting Python objects into JavaScript objects so they can be used by React.
+Django Bridge has built-in support for converting Python objects into JavaScript objects so they can be used by React.
 
 To use this, we need to define two adapters, one which converts Python class into a JSON representation, the other which constructs a JavaScript object from that JSON.
 
-In Python, Django Render will look for an ``adapters.py`` file in each installed application and load any adapters it defines. In JavaScript, you need to register adapters using the ``Config.addAdapter`` function.
+In Python, Django Bridge will look for an ``adapters.py`` file in each installed application and load any adapters it defines. In JavaScript, you need to register adapters using the ``Config.addAdapter`` function.
 
 For example, here is an adapter to convert Django's ``TextInput`` widget:
 
@@ -31,7 +31,7 @@ register(TextInputAdapter(), forms.TextInput)
 
 Let’s step through this code one line at a time:
 
-- First, we import the Django forms framework and the ``Adapter`` class and ``register`` function from Django Render
+- First, we import the Django forms framework and the ``Adapter`` class and ``register`` function from Django Bridge
 
 - Next, we define a class called ``TextInputAdapter`` that inherits from ``Adapter``
 
@@ -70,10 +70,10 @@ The only part of this class that is important to get right is the parameters to 
 
 In this example, we've added ``render()`` method to demonstrate that how you can use these classes. You can define any methods you like on the class.
 
-To register the adapter, use the ``addAdapter`` method on your config object in ``main.tsx``. The first parameter must match the value of ``js_constructor`` on the Python adapter as this is how Django Render will know which JavaScript adapter to use. The second parameter is the class to use:
+To register the adapter, use the ``addAdapter`` method on your config object in ``main.tsx``. The first parameter must match the value of ``js_constructor`` on the Python adapter as this is how Django Bridge will know which JavaScript adapter to use. The second parameter is the class to use:
 
 ```tsx
-const config = new DjangoRender.Config();
+const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Home", HomeView);

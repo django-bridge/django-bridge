@@ -10,7 +10,7 @@ from django.templatetags.static import static
 from .response import BaseResponse, RedirectResponse, ReloadResponse
 
 
-class DjangoRenderMiddleware:
+class DjangoBridgeMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -23,9 +23,9 @@ class DjangoRenderMiddleware:
         if response.status_code == 301:
             return response
 
-        # If the request was made by Django Render
+        # If the request was made by Django Bridge
         # (using `fetch()`, rather than a regular browser request)
-        if request.META.get("HTTP_X_REQUESTED_WITH") == "DjangoRender":
+        if request.META.get("HTTP_X_REQUESTED_WITH") == "DjangoBridge":
             if isinstance(response, BaseResponse):
                 return response
 
@@ -33,11 +33,11 @@ class DjangoRenderMiddleware:
                 return RedirectResponse(response["Location"])
 
             else:
-                # Response couldn't be converted into a Django Render response. Reload the page
+                # Response couldn't be converted into a Django Bridge response. Reload the page
                 return ReloadResponse()
 
         # Regular browser request
-        # If the response is a Django Render response, wrap it in our bootstrap template
+        # If the response is a Django Bridge response, wrap it in our bootstrap template
         # to load the React SPA and render the response data.
         if isinstance(response, BaseResponse):
             VITE_BUNDLE_DIR = settings.DJANGO_RENDER.get("VITE_BUNDLE_DIR")

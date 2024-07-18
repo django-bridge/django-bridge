@@ -90,7 +90,7 @@ async function init() {
   console.log(`  poetry install`);
   console.log(`  poetry run python manage.py runserver`);
   console.log();
-  console.log(`Then visit your new Django Render app on http://localhost:8000`);
+  console.log(`Then visit your new Django Bridge app on http://localhost:8000`);
 }
 
 function formatTargetDir(targetDir: string | undefined) {

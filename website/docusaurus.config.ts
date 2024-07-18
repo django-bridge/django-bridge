@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Django Render - Django / React application framework",
+  title: "Django Bridge - Django / React application framework",
   tagline:
     "The simple way to build Django applications with modern React frontends",
   favicon: "img/favicon.ico",
@@ -54,7 +54,7 @@ const config: Config = {
     image: "img/social-card.jpg",
     navbar: {
       logo: {
-        alt: "Django Render",
+        alt: "Django Bridge",
         src: "img/django-render-text.svg",
         width: 120,
       },

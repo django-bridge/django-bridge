@@ -6,7 +6,7 @@ sidebar_position: 8
 
 When building web applications, you will likely need to send users one-time notifications (also known as “flash messages”) after certain events take place (like creating/updating/deleting something).
 
-Django provides [a module](https://docs.djangoproject.com/en/5.0/ref/contrib/messages/) for generating these messages from Python and Django Render makes these messages available to React components with a context called ``MessagesContext``.
+Django provides [a module](https://docs.djangoproject.com/en/5.0/ref/contrib/messages/) for generating these messages from Python and Django Bridge makes these messages available to React components with a context called ``MessagesContext``.
 
 Messages can have one of three levels: Success, Warning and Error. Their contents can be either plain text or HTML.
 

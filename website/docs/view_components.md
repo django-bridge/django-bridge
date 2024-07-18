@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Writing View Components
 
-Django Render applications use React components to render the frontend.
+Django Bridge applications use React components to render the frontend.
 We call these components "View Components" to distinguish them from regular UI components, but there is nothing technically special about them.
 
 ## A simple view component
@@ -19,7 +19,7 @@ export default function CurrentTimeView({ time }) {
 
 Let’s step through this code one line at a time:
 
-- First, we define a function component that takes one prop, the time. Because in the Python code this was a ``datetime`` object, this will be converted to a ``Date`` object by Django Render
+- First, we define a function component that takes one prop, the time. Because in the Python code this was a ``datetime`` object, this will be converted to a ``Date`` object by Django Bridge
 
   Note that the name of this function doesn’t matter. We will assign it a name that the Django view can use when we register it in the next step
 

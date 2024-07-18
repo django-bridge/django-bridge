@@ -8,7 +8,7 @@ sidebar_position: 11
 
 As your views are regular Django views, we recommend using [Django's built-in test framework](https://docs.djangoproject.com/en/5.0/topics/testing/overview/).
 
-The main difference from a regular Django view test us you need to pass an extra header to make Django Render return JSON: ``X-Requested-With: DjangoRender``. Without this, Django Render will replace the response with a HTML bootstrap response.
+The main difference from a regular Django view test us you need to pass an extra header to make Django Bridge return JSON: ``X-Requested-With: DjangoBridge``. Without this, Django Bridge will replace the response with a HTML bootstrap response.
 
 Here's an example of how you can test the ``current_datetime`` view in the [Writing Views](/docs/views) document:
 
@@ -23,7 +23,7 @@ class CurrentDateTimeViewTestCase(TestCase):
         pass # Set up test data here.
 
     def test_get(self):
-        response = self.client.get(reverse("current-datetime"), HTTP_X_REQUESTED_WITH="DjangoRender")
+        response = self.client.get(reverse("current-datetime"), HTTP_X_REQUESTED_WITH="DjangoBridge")
 
         self.assertEqual(response.status_code, 200)
         props = response.json()
@@ -47,7 +47,7 @@ class GetNameViewTestCase(TestCase):
         response = self.client.post(
             reverse("get-name"),
             {"name": "Test"},
-            HTTP_X_REQUESTED_WITH="DjangoRender"
+            HTTP_X_REQUESTED_WITH="DjangoBridge"
         )
 
         self.assertRedirects(response, "/thanks/")

@@ -18,7 +18,7 @@ function HomepageHeader() {
       <div className="container">
         <Heading as="h1" className="hero__title">
           {<Logo width={400} />}
-          <span className={styles.visuallyhidden}>Django Render</span>
+          <span className={styles.visuallyhidden}>Django Bridge</span>
         </Heading>
         <p className={styles.heroSubtitle}>
           The simple way to build <b>Django</b> applications with modern{" "}
@@ -147,7 +147,7 @@ def form(request):
   }`}</CodeBlock>
                 </TabItem>
                 <TabItem value="main" label="main.jsx">
-                  <CodeBlock language="jsx">{`const config = new DjangoRender.Config();
+                  <CodeBlock language="jsx">{`const config = new DjangoBridge.Config();
 
 // Add your views here
 config.addView("Form", FormView);
@@ -159,7 +159,7 @@ const initialResponse = JSON.parse(
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <DjangoRender.App
+    <DjangoBridge.App
       config={config}
       initialResponse={initialResponse}
     />

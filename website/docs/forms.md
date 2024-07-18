@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Forms
 
-Django Render applications can use Django’s built-in forms framework for creating forms and implementing application logic and validation.
+Django Bridge applications can use Django’s built-in forms framework for creating forms and implementing application logic and validation.
 
 ## How they work
 
@@ -15,9 +15,9 @@ When a user submits a form, it’s submitted in the standard encodings that Djan
 
 Validation is all performed by Django and the logic doesn’t have to be repeated in JavaScript. When a validation error occurs, the view and form are re-rendered with the validation errors rendered in the form.
 
-## Building a form with Django Render
+## Building a form with Django Bridge
 
-In this section, we will build a simple form that takes a users name. Note that this is the same example used by [Django documentation](https://docs.djangoproject.com/en/5.0/topics/forms/#building-a-form-in-django) and has been adapted for Django Render.
+In this section, we will build a simple form that takes a users name. Note that this is the same example used by [Django documentation](https://docs.djangoproject.com/en/5.0/topics/forms/#building-a-form-in-django) and has been adapted for Django Bridge.
 
 ### The form class
 
@@ -60,7 +60,7 @@ def get_name(request):
 ```
 
 Note that this view is almost exactly the same as what you would implement for a [regular Django application](https://docs.djangoproject.com/en/5.0/topics/forms/#the-view).
-The only difference is the last line has changed from using Django’s ``render()`` shortcut which renders a template to using Django Render’s ``Response`` class.
+The only difference is the last line has changed from using Django’s ``render()`` shortcut which renders a template to using Django Bridge’s ``Response`` class.
 
 ### The React component
 
@@ -85,7 +85,7 @@ export default function GetNameView({ form }) {
 
 Let’s step through this code one line at a time:
 
-- First, we import the ``<Form>`` component from Django Render and `CSRFTokenContext` from our project’s ``contexts`` module (this is provided by the ``create-django-render`` project template)
+- First, we import the ``<Form>`` component from Django Bridge and `CSRFTokenContext` from our project’s ``contexts`` module (this is provided by the ``create-django-render`` project template)
 
 - Next, we define a function view component called ``GetNameView`` that takes a form as a prop
 

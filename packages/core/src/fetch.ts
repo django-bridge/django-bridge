@@ -44,7 +44,7 @@ interface NetworkErrorResponse {
   status: "network-error";
 }
 
-export type DjangoRenderResponse =
+export type DjangoBridgeResponse =
   | ReloadResponse
   | RedirectResponse
   | RenderResponse
@@ -55,12 +55,12 @@ export type DjangoRenderResponse =
 export async function djangoGet(
   url: string,
   overlay: boolean
-): Promise<DjangoRenderResponse> {
+): Promise<DjangoBridgeResponse> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
+  const headers: HeadersInit = { "X-Requested-With": "DjangoBridge" };
   if (overlay) {
-    headers["X-DjangoRender-Overlay"] = "true";
+    headers["X-DjangoBridge-Overlay"] = "true";
   }
 
   try {
@@ -76,24 +76,24 @@ export async function djangoGet(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-DjangoRender-Status")) {
+  if (!response.headers.get("X-DjangoBridge-Status")) {
     return {
       status: "reload",
     };
   }
-  return response.json() as Promise<DjangoRenderResponse>;
+  return response.json() as Promise<DjangoBridgeResponse>;
 }
 
 export async function djangoPost(
   url: string,
   data: FormData,
   overlay: boolean
-): Promise<DjangoRenderResponse> {
+): Promise<DjangoBridgeResponse> {
   let response: Response;
 
-  const headers: HeadersInit = { "X-Requested-With": "DjangoRender" };
+  const headers: HeadersInit = { "X-Requested-With": "DjangoBridge" };
   if (overlay) {
-    headers["X-DjangoRender-Overlay"] = "true";
+    headers["X-DjangoBridge-Overlay"] = "true";
   }
 
   try {
@@ -113,10 +113,10 @@ export async function djangoPost(
       status: "server-error",
     };
   }
-  if (!response.headers.get("X-DjangoRender-Status")) {
+  if (!response.headers.get("X-DjangoBridge-Status")) {
     return {
       status: "reload",
     };
   }
-  return response.json() as Promise<DjangoRenderResponse>;
+  return response.json() as Promise<DjangoBridgeResponse>;
 }

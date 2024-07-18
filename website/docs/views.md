@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Writing Views
 
-Django Render applications use Django’s views and URL routing for all backend application logic.
+Django Bridge applications use Django’s views and URL routing for all backend application logic.
 The only difference from a regular Django application is the response type.
 
 If you’re unfamiliar with Django views, they are Python functions that take a web request and return a web response.
@@ -35,6 +35,6 @@ Let’s step through this code one line at a time:
 
 ## Adding views to your URL config
 
-All Django projects contain a URL configuration file (usually called ``urls.py``in the project folder) that defines what views to run at what URLs. There are no differences in how the URL dispatcher works in a Django Render application, and you can even mix React-rendered views with template-rendered views.
+All Django projects contain a URL configuration file (usually called ``urls.py``in the project folder) that defines what views to run at what URLs. There are no differences in how the URL dispatcher works in a Django Bridge application, and you can even mix React-rendered views with template-rendered views.
 
 See Django's [URL dispatcher](https://docs.djangoproject.com/en/5.0/topics/http/urls/) documentation for instructions on how to add views to your URL configuration.

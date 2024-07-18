@@ -6,12 +6,12 @@ sidebar_position: 2
 
 ## Trying it out
 
-Have a look at our [demo project](https://demo.django-render.org) to get an idea of how Django Render works.
+Have a look at our [demo project](https://demo.django-render.org) to get an idea of how Django Bridge works.
 
 You can find the source code to this demo on GitHub: [https://github.com/kaedroho/djangopress](https://github.com/kaedroho/djangopress).
 It’s permissively licensed so you can copy it to get started.
 
-## Starting new Django Render application
+## Starting new Django Bridge application
 
 In this section, we will show how to scaffold a new Django/React application on your local machine.
 
@@ -23,7 +23,7 @@ Run the following command in your command line:
 npm create django-render@latest
 ```
 
-This command will install and execute [`create-django-render`](https://www.npmjs.com/package/create-django-render), the official Django Render project scaffolding tool.
+This command will install and execute [`create-django-render`](https://www.npmjs.com/package/create-django-render), the official Django Bridge project scaffolding tool.
 
 ### Running the new project with Docker Compose
 
@@ -31,7 +31,7 @@ The root folder contains a ``docker-compose.yml`` file  and ``Makefile`` contain
 
 To create the Docker environment, run ``make setup``. Once that's finished, run ``make start`` to boot it up.
 
-Your new Django Render project should be running on [localhost:8000](http://localhost:8000)!
+Your new Django Bridge project should be running on [localhost:8000](http://localhost:8000)!
 
 ### Running the new project without Docker Compose
 
@@ -57,11 +57,11 @@ poetry run python manage.py createsuperuser
 poetry run python manage.py runserver
 ```
 
-Your new Django Render project should be running on [localhost:8000](http://localhost:8000)!
+Your new Django Bridge project should be running on [localhost:8000](http://localhost:8000)!
 
-## Adding React and Django Render to an existing Django application
+## Adding React and Django Bridge to an existing Django application
 
-In this section, we will show how to install Django Render into an existing Django application.
+In this section, we will show how to install Django Bridge into an existing Django application.
 
 ### Installing the Python package
 
@@ -92,13 +92,13 @@ INSTALLED_APPS = [
 ]
 ```
 
-Add the ``DjangoRenderMiddleware`` class to ``MIDDLEWARE``:
+Add the ``DjangoBridgeMiddleware`` class to ``MIDDLEWARE``:
 
 ```python
 MIDDLEWARE = [
     # …
 
-    "django_render.middleware.DjangoRenderMiddleware",
+    "django_render.middleware.DjangoBridgeMiddleware",
 ]
 ```
 

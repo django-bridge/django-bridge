@@ -37,7 +37,7 @@ DJANGO_RENDER = {
 
 Global context processors are mapped to React contexts, so their data can be retrieved in the view component, or any component called by a view using React’s [``useContext``](https://react.dev/reference/react/useContext) hook.
 
-Firstly, you need to create the contexts and register them with your Django Render ``Config``.
+Firstly, you need to create the contexts and register them with your Django Bridge ``Config``.
 If you used the template to generate your application, this object is located in ``client/src/main.tsx``.
 
 To register the context, call ``Config.addContextProvider``. For example, here's how to register an empty context to take the user details:
