@@ -14,10 +14,10 @@
     <a href="https://opensource.org/licenses/BSD-3-Clause">
         <img src="https://img.shields.io/badge/license-BSD-blue.svg" alt="License" />
     </a>
-    <a href="https://pypi.python.org/pypi/djrender/">
-        <img src="https://img.shields.io/pypi/v/djrender.svg" alt="Version" />
+    <a href="https://pypi.python.org/pypi/django-bridge/">
+        <img src="https://img.shields.io/pypi/v/django-bridge.svg" alt="Version" />
     </a>
-    <a href="https://pypi.python.org/pypi/djrender/">
+    <a href="https://pypi.python.org/pypi/django-bridge/">
         <img src="https://img.shields.io/badge/Documentation-blue" alt="Documentation" />
     </a>
 </p>

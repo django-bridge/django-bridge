@@ -65,10 +65,10 @@ In this section, we will show how to install Django Bridge into an existing Djan
 
 ### Installing the Python package
 
-First, install the [``djrender`` PyPI package](https://pypi.org/project/djrender/) into your Django project using your favourite Python packaging tool. For example, with ``pip`` run:
+First, install the [``django-bridge`` PyPI package](https://pypi.org/project/django-bridge/) into your Django project using your favourite Python packaging tool. For example, with ``pip`` run:
 
 ```sh
-pip install djrender
+pip install django-bridge
 ```
 
 ### Configuring Django settings
