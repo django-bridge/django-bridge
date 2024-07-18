@@ -102,10 +102,10 @@ MIDDLEWARE = [
 ]
 ```
 
-Add the ``DJANGO_RENDER`` setting:
+Add the ``DJANGO_BRIDGE`` setting:
 
 ```python
-DJANGO_RENDER = {
+DJANGO_BRIDGE = {
     "CONTEXT_PROVIDERS": {},
     "VITE_DEVSERVER_URL": "http://localhost:5173/static",
 }
@@ -114,8 +114,8 @@ DJANGO_RENDER = {
 In your production settings, set the ``VITE_BUNDLE_DIR`` to the location of the Vite bundle on the filesystem, and add this to ``STATICFILES_DIRS`` as well:
 
 ```python
-DJANGO_RENDER[“VITE_BUNDLE_DIR”] = # Location of the vite bundle
-STATICFILES_DIRS = [DJANGO_RENDER["VITE_BUNDLE_DIR"]]
+DJANGO_BRIDGE[“VITE_BUNDLE_DIR”] = # Location of the vite bundle
+STATICFILES_DIRS = [DJANGO_BRIDGE["VITE_BUNDLE_DIR"]]
 ```
 
 ### Scaffolding the frontend

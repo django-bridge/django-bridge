@@ -23,6 +23,6 @@ npm install
 npm run dev
 ```
 
-Django is configured (using the `DJANGO_RENDER['VITE_DEVSERVER_URL']` setting) to make Django Bridge fetch frontend code from the Vite devserver.
+Django is configured (using the `DJANGO_BRIDGE['VITE_DEVSERVER_URL']` setting) to make Django Bridge fetch frontend code from the Vite devserver.
 
-In production, you should build the frontend code with `npm run build` and set the `DJANGO_RENDER['VITE_BUNDLE_DIR']` to the location of the folder that contains `.vite` and `assets` folders that Vite created.
+In production, you should build the frontend code with `npm run build` and set the `DJANGO_BRIDGE['VITE_BUNDLE_DIR']` to the location of the folder that contains `.vite` and `assets` folders that Vite created.

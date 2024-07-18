@@ -23,10 +23,10 @@ def user(request):
    }
 ```
 
-To register it, add the dotted path to the function to the ``CONTEXT_PROVIDERS`` key in your  ``DJANGO_RENDER`` settings:
+To register it, add the dotted path to the function to the ``CONTEXT_PROVIDERS`` key in your  ``DJANGO_BRIDGE`` settings:
 
 ```python
-DJANGO_RENDER = {
+DJANGO_BRIDGE = {
    ...
    "CONTEXT_PROVIDERS": {
        "user": "myapp.context_providers.user",

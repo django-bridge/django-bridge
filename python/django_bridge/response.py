@@ -74,7 +74,7 @@ class Response(BaseResponse):
             "props": props,
             "context": {
                 name: import_string(provider)(self.request)
-                for name, provider in settings.DJANGO_RENDER.get(
+                for name, provider in settings.DJANGO_BRIDGE.get(
                     "CONTEXT_PROVIDERS", {}
                 ).items()
             },
