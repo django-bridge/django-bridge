@@ -11,7 +11,7 @@ Django Bridge includes a ``<Link>`` built-in component that extends the HTML ``<
 For example:
 
 ```jsx
-import { Link } from "@django-render/core";
+import { Link } from "@django-bridge/core";
 
 export default function Page() {
   return <Link href="/dashboard">Dashboard</Link>
@@ -29,7 +29,7 @@ You can also trigger client-side navigation with the ``navigate()`` function tha
 For example, we can call this function from the ``onClick`` handler of a ``<button>``:
 
 ```jsx
-import { Link, NavigationContext } from "@django-render/core";
+import { Link, NavigationContext } from "@django-bridge/core";
 
 export default function Page() {
   const { navigate } = useContext(NavigationContext);
