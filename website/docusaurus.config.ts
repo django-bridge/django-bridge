@@ -16,10 +16,8 @@ const config: Config = {
 
   trailingSlash: true,
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "kaedroho", // Usually your GitHub org/user name.
-  projectName: "django-render", // Usually your repo name.
+  organizationName: "django-bridge",
+  projectName: "django-bridge",
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -40,7 +38,7 @@ const config: Config = {
           sidebarCollapsible: false,
           sidebarPath: "./sidebars.ts",
           editUrl:
-            "https://github.com/kaedroho/django-render/tree/main/website/",
+            "https://github.com/django-bridge/django-bridge/tree/main/website/",
         },
         blog: false,
         theme: {
@@ -66,13 +64,13 @@ const config: Config = {
           label: "docs",
         },
         {
-          href: "https://github.com/kaedroho/django-render/discussions",
+          href: "https://github.com/django-bridge/django-bridge/discussions",
           position: "right",
           label: "discuss",
         },
         {
           "aria-label": "GitHub Repository",
-          href: "https://github.com/kaedroho/django-render",
+          href: "https://github.com/django-bridge/django-bridge",
           className: "navbar--github-link",
           position: "right",
         },
@@ -95,7 +93,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub Discussions",
-              href: "https://github.com/kaedroho/django-render/discussions",
+              href: "https://github.com/django-bridge/django-bridge/discussions",
             },
             {
               label: "Twitter",
@@ -108,7 +106,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/kaedroho/django-render",
+              href: "https://github.com/django-bridge/django-bridge",
             },
             {
               label: "PyPI",

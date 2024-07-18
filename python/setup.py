@@ -20,8 +20,8 @@ setup(
     url="https://django-bridge.org",
     project_urls={
         "Documentation": "https://django-bridge.org/docs/",
-        "Source": "https://github.com/kaedroho/django-render/",
-        "Tracker": "https://github.com/kaedroho/django-render/issues",
+        "Source": "https://github.com/django-bridge/django-bridge/",
+        "Tracker": "https://github.com/django-bridge/django-bridge/issues",
     },
     packages=find_packages(),
     include_package_data=True,
