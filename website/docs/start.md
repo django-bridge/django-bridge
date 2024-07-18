@@ -20,10 +20,10 @@ Make sure you have an up-to-date version of [Node.js](https://nodejs.org/) insta
 Run the following command in your command line:
 
 ```sh
-npm create django-render@latest
+npm create django-bridge@latest
 ```
 
-This command will install and execute [`create-django-render`](https://www.npmjs.com/package/create-django-render), the official Django Bridge project scaffolding tool.
+This command will install and execute [`create-django-bridge`](https://www.npmjs.com/package/create-django-bridge), the official Django Bridge project scaffolding tool.
 
 ### Running the new project with Docker Compose
 
@@ -120,14 +120,14 @@ STATICFILES_DIRS = [DJANGO_BRIDGE["VITE_BUNDLE_DIR"]]
 
 ### Scaffolding the frontend
 
-The easiest way to set up a new frontend would be to use the ``create-django-render`` script to create a new project and copy the ``client`` folder into your existing project.
+The easiest way to set up a new frontend would be to use the ``create-django-bridge`` script to create a new project and copy the ``client`` folder into your existing project.
 
 Make sure you have an up-to-date version of [Node.js](https://nodejs.org/) installed and your current working directory is the one where you intend to create a project.
 
 Run the following command in your command line:
 
 ```sh
-npm create django-render@latest
+npm create django-bridge@latest
 ```
 
 Give the new project the same name as your existing application as the scaffolding too will put that name in various parts of the code.
