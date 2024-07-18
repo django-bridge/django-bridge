@@ -28,7 +28,7 @@ Django Bridge applications use Django’s built-in URL routing and views, allowi
 
 The package contains a Django middleware and a small (11KB) frontend library that handles the data fetching and adapting Python objects into JavaScript.
 
-Find out more in our [Introduction](https://django-render.org/docs/introduction)
+Find out more in our [Introduction](https://django-bridge.org/docs/introduction)
 
 ## Key Features
 

@@ -17,9 +17,9 @@ setup(
     long_description_content_type="text/markdown",
     author="Karl Hobley",
     author_email="karl@kaed.uk",
-    url="https://django-render.org",
+    url="https://django-bridge.org",
     project_urls={
-        "Documentation": "https://django-render.org/docs/",
+        "Documentation": "https://django-bridge.org/docs/",
         "Source": "https://github.com/kaedroho/django-render/",
         "Tracker": "https://github.com/kaedroho/django-render/issues",
     },
