@@ -43,7 +43,7 @@ Find out more in our [Introduction](https://django-bridge.org/docs/introduction)
 Have a look at our demo project to see Django Bridge in action!
 
 Live Demo: [demo.django-render.org](https://demo.django-render.org)
-Source code: [github.com/kaedroho/djangopress](https://github.com/kaedroho/djangopress)
+Source code: [github.com/django-bridge/django-react-cms](https://github.com/django-bridge/django-react-cms)
 
 ## Support
 
