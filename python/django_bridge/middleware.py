@@ -40,8 +40,8 @@ class DjangoBridgeMiddleware:
         # If the response is a Django Bridge response, wrap it in our bootstrap template
         # to load the React SPA and render the response data.
         if isinstance(response, BaseResponse):
-            VITE_BUNDLE_DIR = settings.DJANGO_RENDER.get("VITE_BUNDLE_DIR")
-            VITE_DEVSERVER_URL = settings.DJANGO_RENDER.get("VITE_DEVSERVER_URL")
+            VITE_BUNDLE_DIR = settings.DJANGO_BRIDGE.get("VITE_BUNDLE_DIR")
+            VITE_DEVSERVER_URL = settings.DJANGO_BRIDGE.get("VITE_DEVSERVER_URL")
             if VITE_BUNDLE_DIR:
                 # Production - Use asset manifest to find URLs to bundled JS/CSS
                 asset_manifest = json.loads(
@@ -65,7 +65,7 @@ class DjangoBridgeMiddleware:
 
             else:
                 raise ImproperlyConfigured(
-                    "DJANGO_RENDER['VITE_BUNDLE_DIR'] (production) or DJANGO_RENDER['VITE_DEVSERVER_URL'] (development) must be set"
+                    "DJANGO_BRIDGE['VITE_BUNDLE_DIR'] (production) or DJANGO_BRIDGE['VITE_DEVSERVER_URL'] (development) must be set"
                 )
 
             # Wrap the response with our bootstrap template

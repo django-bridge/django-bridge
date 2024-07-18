@@ -128,7 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django Bridge settings
 
-DJANGO_RENDER = {
+DJANGO_BRIDGE = {
     "VITE_BUNDLE_DIR": os.environ.get("VITE_BUNDLE_DIR"),
     "VITE_DEVSERVER_URL": os.environ.get(
         "VITE_DEVSERVER_URL", "http://localhost:5173/static"
