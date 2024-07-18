@@ -8,8 +8,8 @@
 
 <p align="center">
     <br>
-    <a href="https://github.com/kaedroho/django-render/actions">
-        <img src="https://github.com/kaedroho/django-render/workflows/Django%20Bridge%20CI/badge.svg" alt="Build Status" />
+    <a href="https://github.com/django-bridge/django-bridge/actions">
+        <img src="https://github.com/django-bridge/django-bridge/workflows/Django%20Bridge%20CI/badge.svg" alt="Build Status" />
     </a>
     <a href="https://opensource.org/licenses/BSD-3-Clause">
         <img src="https://img.shields.io/badge/license-BSD-blue.svg" alt="License" />
@@ -47,4 +47,4 @@ Source code: [github.com/kaedroho/djangopress](https://github.com/kaedroho/djang
 
 ## Support
 
-For support, please reach out to us on [GitHub discussions](https://github.com/kaedroho/django-render/discussions)
+For support, please reach out to us on [GitHub discussions](https://github.com/django-bridge/django-bridge/discussions)
