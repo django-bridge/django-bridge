@@ -1,5 +1,5 @@
 {
-  "name": "@django-render/root",
+  "name": "@django-bridge/root",
   "version": "1.0.0",
   "private": true,
   "workspaces": [

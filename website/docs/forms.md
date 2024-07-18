@@ -67,7 +67,7 @@ The only difference is the last line has changed from using Django’s ``render(
 Here is a React component that can render this form:
 
 ```jsx
-import { Form } from "@django-render/core";
+import { Form } from "@django-bridge/core";
 import { CSRFTokenContext } from "./contexts";
 
 export default function GetNameView({ form }) {

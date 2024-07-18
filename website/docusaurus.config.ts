@@ -116,7 +116,7 @@ const config: Config = {
             },
             {
               label: "npm",
-              href: "https://www.npmjs.com/package/@django-render/core",
+              href: "https://www.npmjs.com/package/@django-bridge/core",
             },
           ],
         },

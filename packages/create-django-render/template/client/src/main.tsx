@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import * as DjangoBridge from "@django-render/core";
+import * as DjangoBridge from "@django-bridge/core";
 import "./index.css";
 
 import HomeView from "./views/Home";
