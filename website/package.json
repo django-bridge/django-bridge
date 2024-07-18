@@ -1,5 +1,5 @@
 {
-  "name": "django-render",
+  "name": "django-bridge",
   "version": "0.0.0",
   "private": true,
   "scripts": {
