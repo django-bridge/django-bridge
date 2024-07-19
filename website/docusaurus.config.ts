@@ -53,7 +53,7 @@ const config: Config = {
     navbar: {
       logo: {
         alt: "Django Bridge",
-        src: "img/django-render-text.svg",
+        src: "img/django-bridge-text.svg",
         width: 120,
       },
       items: [
@@ -130,7 +130,7 @@ const config: Config = {
     {
       src: "https://plausible.io/js/script.js",
       defer: true,
-      "data-domain": "django-render.org",
+      "data-domain": "django-bridge.org",
     },
   ],
   plugins: [

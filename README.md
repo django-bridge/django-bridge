@@ -1,8 +1,8 @@
 <h1 align="center">
     <picture>
-        <source media="(prefers-color-scheme: light)" srcset="website/static/img/django-render-text-black.svg">
-        <source media="(prefers-color-scheme: dark)" srcset="website/static/img/django-render-text.svg">
-        <img width="350" src="website/static/img/django-render-text-black.svg" alt="Django Bridge">
+        <source media="(prefers-color-scheme: light)" srcset="website/static/img/django-bridge-text-black.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="website/static/img/django-bridge-text.svg">
+        <img width="350" src="website/static/img/django-bridge-text-black.svg" alt="Django Bridge">
     </picture>
 </h1>
 

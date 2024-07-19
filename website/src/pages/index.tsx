@@ -3,7 +3,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
-import Logo from "@site/static/img/django-render-text.svg";
+import Logo from "@site/static/img/django-bridge-text.svg";
 import ReactLogo from "@site/static/img/react-logo-white.svg";
 import CodeBlock from "@theme/CodeBlock";
 import Tabs from "@theme/Tabs";
