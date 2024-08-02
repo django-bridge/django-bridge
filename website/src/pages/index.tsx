@@ -21,7 +21,7 @@ function HomepageHeader() {
           <span className={styles.visuallyhidden}>Django Bridge</span>
         </Heading>
         <p className={styles.heroSubtitle}>
-          The simple way to build <b>Django</b> applications with modern{" "}
+          The quick and easy way to create{" "}
           <b style={{ whiteSpace: "nowrap" }}>
             <ReactLogo
               style={{
@@ -33,7 +33,7 @@ function HomepageHeader() {
             />
             React
           </b>{" "}
-          frontends
+          frontends for Django applications
         </p>
         <div className={styles.buttons}>
           <Link
