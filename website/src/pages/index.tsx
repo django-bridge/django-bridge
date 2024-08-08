@@ -21,7 +21,7 @@ function HomepageHeader() {
           <span className={styles.visuallyhidden}>Django Bridge</span>
         </Heading>
         <p className={styles.heroSubtitle}>
-          The quick and easy way to create{" "}
+          The quick and easy way to build{" "}
           <b style={{ whiteSpace: "nowrap" }}>
             <ReactLogo
               style={{
