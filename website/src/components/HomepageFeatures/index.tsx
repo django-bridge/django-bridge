@@ -9,21 +9,19 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "Rapid development",
+    title: "Ready for action",
     description: (
       <>
-        A simple and ready-to-use framework for building SaaS and internal
-        applications with Django and React. Supports Storybook and Vite
-        hot-reloading for productive frontend development.
+        Ship your next product fast with the most productive backend framework,
+        access to the React ecosystem, and iterate quickly with Vite hot-reloading.
       </>
     ),
   },
   {
-    title: "Seamless Django integration",
+    title: "Batteries included",
     description: (
       <>
-        Use Django's forms, messages, session authentication, and more within
-        React. Also supports mixing-and-matching with template-rendered views.
+        Render Django forms with React. Build modals with Django Views. Authenticate users with <a href="https://docs.allauth.org/en/latest/" rel="nofollow">allauth</a>.
       </>
     ),
   },
@@ -31,9 +29,7 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Eliminate unnecessary round-trips to the server by using Django views
-        instead of generic APIs. Django Bridge adds only ~11KB to your bundle
-        size.
+        Django Bridge adds only ~11KB to your bundle size and encourages as few server round-trips as possible, it also works great with plain React.
       </>
     ),
   },
