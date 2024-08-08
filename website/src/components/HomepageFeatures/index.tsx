@@ -13,7 +13,8 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Ship your next product fast with the most productive backend framework,
-        access to the React ecosystem, and iterate quickly with Vite hot-reloading.
+        access to the React ecosystem, and iterate quickly with Vite
+        hot-reloading.
       </>
     ),
   },
@@ -21,7 +22,12 @@ const FeatureList: FeatureItem[] = [
     title: "Batteries included",
     description: (
       <>
-        Render Django forms with React. Build modals with Django Views. Authenticate users with <a href="https://docs.allauth.org/en/latest/" rel="nofollow">allauth</a>.
+        Render Django forms with React. Build modals with Django Views.
+        Authenticate users with{" "}
+        <a href="https://docs.allauth.org/en/latest/" rel="nofollow">
+          allauth
+        </a>
+        .
       </>
     ),
   },
@@ -29,7 +35,8 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Django Bridge adds only ~11KB to your bundle size and encourages as few server round-trips as possible, it also works great with plain React.
+        Django Bridge adds only ~11KB to your bundle size and encourages as few
+        server round-trips as possible, it also works great with plain React.
       </>
     ),
   },
