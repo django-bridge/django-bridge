@@ -21,7 +21,7 @@ function HomepageHeader() {
           <span className={styles.visuallyhidden}>Django Bridge</span>
         </Heading>
         <p className={styles.heroSubtitle}>
-          The quick and easy way to build{" "}
+          A simple and productive way to build apps with <b>Django</b> and{" "}
           <b style={{ whiteSpace: "nowrap" }}>
             <ReactLogo
               style={{
@@ -32,8 +32,7 @@ function HomepageHeader() {
               }}
             />
             React
-          </b>{" "}
-          frontends for Django applications
+          </b>
         </p>
         <div className={styles.buttons}>
           <Link
@@ -63,23 +62,31 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <section className={styles.section}>
-          <h2>Build your application backend with Django</h2>
-          <div className={styles.container}>
-            <div className={styles.column}>
-              <p>
-                Use Django's URL routing and views to fetch data for your
-                frontend and implement application logic.
-              </p>
-              <p>
-                Views can return anything JSON-serializable. You can create
-                [adapters](/docs/python2react) to serialize any Python object
-                (like forms, for example)
-              </p>
-            </div>
-            <div className={styles.column}>
-              <Tabs>
-                <TabItem value="views" label="views.py">
-                  <CodeBlock language="python">{`from django_bridge import Response
+          <h2>Build your application logic in Django</h2>
+          <p>
+            Build your backend like a regular Django app using Django views,
+            forms and URL routing.
+          </p>
+          <p>
+            You can put as much logic as you like into views, as it stays on the
+            server it won't add bloat to your application and you also have
+            direct access to the database.
+          </p>
+          <p>
+            Most Django extensions work without changes (for example, you can
+            use the amazing{" "}
+            <a href="https://docs.allauth.org/en/latest/" rel="nofollow">
+              Django allauth
+            </a>{" "}
+            extension to implement federated authentication).
+          </p>
+          <p>
+            Instead of HTML, the views return JSON describing what the frontend
+            should render. Anything JSON-serialisable can be returned. You can
+            register <a href="/docs/python2react/">JavaScript adapters</a> to
+            convert non-JSON serialisable objects, such as forms.
+          </p>
+          <CodeBlock language="python">{`from django_bridge import Response
 
 def form(request):
     form = MyForm(request.POST or None)
@@ -92,40 +99,24 @@ def form(request):
         "form": form,
     })
   `}</CodeBlock>
-                </TabItem>
-                <TabItem value="urls" label="urls.py">
-                  <CodeBlock language="python">{`urlpatterns = [
-    path("form", views.form),
-]`}</CodeBlock>
-                </TabItem>
-              </Tabs>
-            </div>
-          </div>
         </section>
         <section className={styles.section}>
           <h2>Render the frontend with React</h2>
-          <div className={styles.container}>
-            <div className={styles.column}>
-              <p>
-                Build fully client-rendered single page applications without all
-                the complexity.
-              </p>
-              <p>
-                All application logic is implemented on the server and React is
-                only used for presentation, so frontends are light.
-              </p>
-              <p>
-                You can use any styling system, or component library that you
-                like.
-              </p>
-              <p>
-                Supports Vite.js, and Storybook. Next.js support coming soon!
-              </p>
-            </div>
-            <div className={styles.column}>
-              <Tabs>
-                <TabItem value="view" label="Form.jsx">
-                  <CodeBlock language="jsx">{`function FormView({ action_url, form }) {
+          <p>
+            The JSON response from the server is fed into the props of a React
+            component to render it.
+          </p>
+          <p>
+            <a href="/docs/global_context/">Global context providers</a> can be
+            created to make global data such as URLs, CSRF Tokens or info about
+            the user available as React contexts.
+          </p>
+          <p>
+            It's unopinionated about how you build your frontend, so you can use
+            any React component library or styling framework that you like.
+          </p>
+          <p>Supports Vite.js, and Storybook. Next.js support coming soon!</p>
+          <CodeBlock language="jsx">{`function FormView({ action_url, form }) {
     const { csrfToken } = useContext(CSRFTokenContext);
 
     return (
@@ -145,30 +136,6 @@ def form(request):
       </Layout>
     );
   }`}</CodeBlock>
-                </TabItem>
-                <TabItem value="main" label="main.jsx">
-                  <CodeBlock language="jsx">{`const config = new DjangoBridge.Config();
-
-// Add your views here
-config.addView("Form", FormView);
-
-const rootElement = document.getElementById("root");
-const initialResponse = JSON.parse(
-  document.getElementById("initial-response").textContent
-);
-
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <DjangoBridge.App
-      config={config}
-      initialResponse={initialResponse}
-    />
-  </React.StrictMode>
-);`}</CodeBlock>
-                </TabItem>
-              </Tabs>
-            </div>
-          </div>
         </section>
       </main>
     </Layout>
