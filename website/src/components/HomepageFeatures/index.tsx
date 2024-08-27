@@ -12,22 +12,19 @@ const FeatureList: FeatureItem[] = [
     title: "Ready for action",
     description: (
       <>
-        Ship your next product fast with the most productive backend framework,
-        access to the React ecosystem, and iterate quickly with Vite
-        hot-reloading.
+        Ship your next product fast with the most productive backend framework
+        and access to the React ecosystem of frontend components. Iterate
+        quickly with Vite hot-reloading and Storybook.
       </>
     ),
   },
   {
-    title: "Batteries included",
+    title: "Simple, familiar, compatible",
     description: (
       <>
-        Render Django forms with React. Build modals with Django Views.
-        Authenticate users with{" "}
-        <a href="https://docs.allauth.org/en/latest/" rel="nofollow">
-          allauth
-        </a>
-        .
+        Build single-page-applications that are powered by standard Django views
+        and forms. Provides minimal frontend tooling that works with all React
+        component and styling libraries.
       </>
     ),
   },
@@ -35,8 +32,10 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Django Bridge adds only ~11KB to your bundle size and encourages as few
-        server round-trips as possible, it also works great with plain React.
+        Specialised backend views are easier to optimise than generic
+        APIs/GraphQL and provide all the data a page needs in a single
+        round-trip. Keep your frontend small and light by keeping routing,
+        business logic, and state management on the server.
       </>
     ),
   },
