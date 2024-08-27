@@ -43,7 +43,6 @@
 
 .heroSubtitle {
   font-size: 1.2rem;
-  max-width: 550px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2em;
@@ -67,6 +66,7 @@
   max-width: 1040px;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px;
 }
 
 .container {
