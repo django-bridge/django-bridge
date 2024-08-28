@@ -12,9 +12,8 @@ const FeatureList: FeatureItem[] = [
     title: "Ready for action",
     description: (
       <>
-        Ship your next product fast with the most productive backend framework
-        and access to the React ecosystem of frontend components. Iterate
-        quickly with Vite hot-reloading and Storybook.
+        Ship your next product fast with the most productive backend framework.
+        Iterate your frontend quickly with hot-reloading.
       </>
     ),
   },
@@ -22,9 +21,9 @@ const FeatureList: FeatureItem[] = [
     title: "Simple, familiar, compatible",
     description: (
       <>
-        Build single-page-applications that are powered by standard Django views
-        and forms. Provides minimal frontend tooling that works with all React
-        component and styling libraries.
+        Build modern single-page-applications that are powered by standard
+        Django views and forms. Includes minimal frontend tooling that works
+        with all React component and styling libraries.
       </>
     ),
   },
@@ -32,10 +31,9 @@ const FeatureList: FeatureItem[] = [
     title: "Lightweight and fast",
     description: (
       <>
-        Specialised backend views are easier to optimise than generic
-        APIs/GraphQL and provide all the data a page needs in a single
-        round-trip. Keep your frontend small and light by keeping routing,
-        business logic, and state management on the server.
+        Keep your frontend lean by putting all app logic in Django views. Django
+        views are easier to optimise than generic APIs/GraphQL and provide all
+        the data a page needs in a single round-trip.
       </>
     ),
   },

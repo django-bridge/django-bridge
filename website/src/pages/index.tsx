@@ -6,8 +6,6 @@ import Heading from "@theme/Heading";
 import Logo from "@site/static/img/django-bridge-text.svg";
 import ReactLogo from "@site/static/img/react-logo-white.svg";
 import CodeBlock from "@theme/CodeBlock";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
 
 import styles from "./index.module.css";
 import Link from "@docusaurus/Link";
