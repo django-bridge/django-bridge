@@ -18,12 +18,12 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: "Simple, familiar, compatible",
+    title: "Familiar and compatible",
     description: (
       <>
-        Build modern single-page-applications that are powered by standard
-        Django views and forms. Includes minimal frontend tooling that works
-        with all React component and styling libraries.
+        Build modern SPAs that are powered by standard Django views and forms.
+        Compatible with common React development practises, component libraries
+        and styling frameworks.
       </>
     ),
   },
